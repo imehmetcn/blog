@@ -2,220 +2,145 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Plus, Edit, Trash2, Eye, Calendar, User } from 'lucide-react'
-import { formatDistanceToNow } from 'date-fns'
-import { tr } from 'date-fns/locale'
+import { Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react'
 
-// Mock data - gerçek uygulamada database'den gelecek
-const mockPosts = [
-  {
-    id: 1,
-    title: "Blog Sitemize Hoş Geldiniz",
-    excerpt: "Yeni blog sitemizde sizlerle düşüncelerimi, deneyimlerimi ve ilginç konuları paylaşacağım.",
-    status: "published",
-    createdAt: new Date('2024-01-15'),
-    slug: "blog-sitemize-hos-geldiniz"
-  },
-  {
-    id: 2,
-    title: "Teknoloji ve Yaşam",
-    excerpt: "Modern teknolojinin günlük yaşamımıza etkilerini ve bu değişime nasıl adapte olabileceğimizi konuşuyoruz.",
-    status: "published",
-    createdAt: new Date('2024-01-10'),
-    slug: "teknoloji-ve-yasam"
-  },
-  {
-    id: 3,
-    title: "Taslak Yazı",
-    excerpt: "Bu yazı henüz tamamlanmadı...",
-    status: "draft",
-    createdAt: new Date('2024-01-05'),
-    slug: "taslak-yazi"
-  }
-]
-
-export default function Dashboard() {
-  const [posts, setPosts] = useState(mockPosts)
-  const [filter, setFilter] = useState('all')
-
-  const filteredPosts = posts.filter(post => {
-    if (filter === 'all') return true
-    return post.status === filter
+export default function LoginPage() {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
   })
+  const [showPassword, setShowPassword] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleDelete = (id: number) => {
-    if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
-      setPosts(posts.filter(post => post.id !== id))
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+
+    // Basit authentication - gerçek uygulamada güvenli olmalı
+    if (formData.username === 'admin' && formData.password === 'admin123') {
+      // Başarılı giriş - gerçek dashboard'a yönlendir
+      window.location.href = '/admin/dashboard'
+    } else {
+      setError('Kullanıcı adı veya şifre hatalı!')
     }
+    
+    setIsLoading(false)
   }
 
-  const getStatusBadge = (status: string) => {
-    const styles = {
-      published: 'bg-green-100 text-green-800',
-      draft: 'bg-yellow-100 text-yellow-800'
-    }
-    
-    const labels = {
-      published: 'Yayında',
-      draft: 'Taslak'
-    }
-    
-    return (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${styles[status as keyof typeof styles]}`}>
-        {labels[status as keyof typeof labels]}
-      </span>
-    )
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex justify-between items-center">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+      
+      {/* Floating Elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary-200 rounded-full opacity-20 animate-float"></div>
+      <div className="absolute bottom-20 right-10 w-16 h-16 bg-blue-200 rounded-full opacity-20 animate-float-delayed"></div>
+      <div className="absolute top-1/2 right-1/4 w-12 h-12 bg-indigo-200 rounded-full opacity-20 animate-float-slow"></div>
+
+      <div className="relative w-full max-w-md">
+        {/* Back to Home */}
+        <Link 
+          href="/" 
+          className="inline-flex items-center text-gray-600 hover:text-primary-600 mb-8 transition-colors group"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+          Ana Sayfaya Dön
+        </Link>
+
+        {/* Login Card */}
+        <div className="glass-effect rounded-2xl shadow-2xl p-8 card-hover">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary-600 to-blue-600 rounded-full mb-4">
+              <Lock className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-3xl font-bold gradient-text mb-2">Dashboard Girişi</h1>
+            <p className="text-gray-600">Yönetim paneline erişmek için giriş yapın</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+                {error}
+              </div>
+            )}
+
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-              <p className="text-gray-600 mt-1">Blog yazılarınızı yönetin</p>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
+                Kullanıcı Adı
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Kullanıcı adınızı girin"
+                  required
+                />
+              </div>
             </div>
-            <div className="flex space-x-4">
-              <Link href="/" className="btn-secondary">
-                Siteyi Görüntüle
-              </Link>
-              <Link href="/dashboard/new" className="btn-primary">
-                <Plus className="w-4 h-4 mr-2" />
-                Yeni Yazı
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Toplam Yazı</h3>
-            <p className="text-3xl font-bold text-primary-600">{posts.length}</p>
-          </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Yayında</h3>
-            <p className="text-3xl font-bold text-green-600">
-              {posts.filter(p => p.status === 'published').length}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Şifre
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Şifrenizi girin"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                  Giriş Yapılıyor...
+                </div>
+              ) : (
+                'Giriş Yap'
+              )}
+            </button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <p className="text-center text-sm text-gray-600">
+              Demo için: <span className="font-medium">admin / admin123</span>
             </p>
           </div>
-          
-          <div className="bg-white p-6 rounded-lg shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Taslak</h3>
-            <p className="text-3xl font-bold text-yellow-600">
-              {posts.filter(p => p.status === 'draft').length}
-            </p>
-          </div>
         </div>
-
-        {/* Filters */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-          <div className="flex space-x-4">
-            <button
-              onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                filter === 'all' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Tümü ({posts.length})
-            </button>
-            <button
-              onClick={() => setFilter('published')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                filter === 'published' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Yayında ({posts.filter(p => p.status === 'published').length})
-            </button>
-            <button
-              onClick={() => setFilter('draft')}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                filter === 'draft' ? 'bg-primary-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Taslak ({posts.filter(p => p.status === 'draft').length})
-            </button>
-          </div>
-        </div>
-
-        {/* Posts List */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b">
-                <tr>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900">Başlık</th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900">Durum</th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-900">Tarih</th>
-                  <th className="text-right py-4 px-6 font-semibold text-gray-900">İşlemler</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredPosts.map((post) => (
-                  <tr key={post.id} className="border-b hover:bg-gray-50">
-                    <td className="py-4 px-6">
-                      <div>
-                        <h4 className="font-medium text-gray-900">{post.title}</h4>
-                        <p className="text-sm text-gray-600 mt-1 line-clamp-1">{post.excerpt}</p>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      {getStatusBadge(post.status)}
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex justify-end space-x-2">
-                        {post.status === 'published' && (
-                          <Link
-                            href={`/blog/${post.slug}`}
-                            className="p-2 text-gray-600 hover:text-primary-600 transition-colors"
-                            title="Görüntüle"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </Link>
-                        )}
-                        <Link
-                          href={`/dashboard/edit/${post.id}`}
-                          className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Link>
-                        <button
-                          onClick={() => handleDelete(post.id)}
-                          className="p-2 text-gray-600 hover:text-red-600 transition-colors"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {filteredPosts.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 mb-4">Henüz yazı bulunmuyor.</p>
-            <Link href="/dashboard/new" className="btn-primary">
-              İlk Yazınızı Oluşturun
-            </Link>
-          </div>
-        )}
-      </main>
+      </div>
     </div>
   )
 }
