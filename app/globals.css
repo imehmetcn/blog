@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .prose-custom {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:text-gray-900 prose-p:text-gray-700;
+    @apply prose-a:text-primary-600 hover:prose-a:text-primary-700;
+    @apply prose-strong:text-gray-900 prose-code:text-primary-600;
+    @apply prose-pre:bg-gray-900 prose-pre:text-gray-100;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition-colors;
+  }
+}
