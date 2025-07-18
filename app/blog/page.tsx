@@ -35,18 +35,18 @@ export default function BlogPage() {
                   className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden animate-fade-in-up border border-white/10 hover:border-white/20"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="p-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="px-3 py-1 bg-primary-500/20 text-primary-300 text-sm font-medium rounded-full border border-primary-400/30">
+                  <div className="p-4 sm:p-6 md:p-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="px-3 py-1 bg-primary-500/20 text-primary-300 text-xs sm:text-sm font-medium rounded-full border border-primary-400/30 w-fit">
                         {post.category}
                       </span>
-                      <div className="flex items-center text-sm text-gray-400">
-                        <Calendar className="w-4 h-4 mr-2" />
+                      <div className="flex items-center text-xs sm:text-sm text-gray-400">
+                        <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
                         {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
                       </div>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 hover:text-blue-300 transition-colors">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 hover:text-blue-300 transition-colors leading-tight">
                       <Link href={`/blog/${post.slug}`}>
                         {post.title}
                       </Link>

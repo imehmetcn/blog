@@ -75,6 +75,38 @@
     background-image: radial-gradient(circle, rgba(0,0,0,0.1) 1px, transparent 1px);
     background-size: 20px 20px;
   }
+
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    .bg-grid-pattern {
+      background-size: 15px 15px;
+    }
+    
+    .animate-float {
+      animation: float 4s ease-in-out infinite;
+    }
+    
+    .animate-float-delayed {
+      animation: float 4s ease-in-out infinite 1s;
+    }
+    
+    .animate-float-slow {
+      animation: float 5s ease-in-out infinite 0.5s;
+    }
+  }
+
+  /* Touch improvements */
+  @media (hover: none) and (pointer: coarse) {
+    .card-hover:hover {
+      transform: none;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .btn-primary:hover,
+    .btn-secondary:hover {
+      transform: none;
+    }
+  }
 }
 
 @keyframes fadeInUp {
