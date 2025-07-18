@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
 import { Calendar, User, ArrowRight, Search, Tag } from 'lucide-react'
-import { getBlogPosts, getCategories, getTags } from '@/lib/blog-data'
+import { getBlogPosts, getCategories, getTags } from '../../lib/blog-data'
 
 export default function BlogPage() {
   const blogPosts = getBlogPosts()

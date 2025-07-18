@@ -4,7 +4,7 @@ import { formatDistanceToNow, format } from 'date-fns'
 import { tr } from 'date-fns/locale'
 import { Calendar, User, ArrowLeft, Share2, Heart, MessageCircle, Tag } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import { getBlogPost, getBlogPosts } from '@/lib/blog-data'
+import { getBlogPost, getBlogPosts } from '../../../lib/blog-data'
 
 interface BlogPostPageProps {
   params: {
