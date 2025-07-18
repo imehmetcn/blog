@@ -19,13 +19,13 @@ export default function HomePage() {
           {/* Moving Gradient Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-shift"></div>
           <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 via-transparent to-indigo-900/50 animate-gradient-shift-reverse"></div>
-          
+
           {/* Mesh Gradient Overlay */}
           <div className="absolute inset-0 opacity-30">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-500/20 via-transparent to-blue-500/20 animate-pulse"></div>
-            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-purple-500/20 via-transparent to-pink-500/20 animate-pulse" style={{animationDelay: '1s'}}></div>
+            <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-purple-500/20 via-transparent to-pink-500/20 animate-pulse" style={{ animationDelay: '1s' }}></div>
           </div>
-          
+
           {/* Floating Particles */}
           <div className="absolute inset-0">
             <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
@@ -37,14 +37,14 @@ export default function HomePage() {
             <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-yellow-300/20 rounded-full opacity-30 animate-float"></div>
             <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-green-300/30 rounded-full opacity-40 animate-float-delayed"></div>
           </div>
-          
+
           {/* Grid Pattern */}
           <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         </div>
 
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
-        
+
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
@@ -55,7 +55,7 @@ export default function HomePage() {
                 Yeni yazılar her hafta
               </span>
             </div>
-            
+
             {/* Main Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4">
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
@@ -66,14 +66,14 @@ export default function HomePage() {
                 Düşünce Dünyama
               </span>
             </h1>
-            
+
             {/* Subtitle */}
             <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-4">
-              Bu blogda <span className="text-blue-300 font-semibold">teknoloji</span>, 
-              <span className="text-purple-300 font-semibold"> yaşam</span> ve 
+              Bu blogda <span className="text-blue-300 font-semibold">teknoloji</span>,
+              <span className="text-purple-300 font-semibold"> yaşam</span> ve
               <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4">
               <Link href="/blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
@@ -84,7 +84,7 @@ export default function HomePage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
               </Link>
-              
+
               <Link href="/hakkimda" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
                 <div className="flex items-center justify-center">
                   Hakkımda Daha Fazla
@@ -117,8 +117,8 @@ export default function HomePage() {
             <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
-      </section>     
- {/* Featured Section */}
+      </section>
+      {/* Featured Section */}
       <section className="bg-gradient-to-b from-slate-900 to-gray-900 py-16 md:py-24 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -126,7 +126,7 @@ export default function HomePage() {
           <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium mb-6 border border-white/20">
@@ -241,7 +241,7 @@ export default function HomePage() {
                 <h5 className="text-2xl font-bold">BiomysticY</h5>
               </div>
               <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
-                Teknoloji, yaşam ve kişisel deneyimlerimi paylaştığım blog. 
+                Teknoloji, yaşam ve kişisel deneyimlerimi paylaştığım blog.
                 Düşüncelerimi özgürce ifade ettiğim dijital alanım.
               </p>
               <div className="flex space-x-4">

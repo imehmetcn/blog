@@ -61,9 +61,9 @@ export default function HakkimdaPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             <div className="space-y-8">
-              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
-                <h3 className="text-2xl font-bold text-white mb-4">Hikayem</h3>
-                <p className="text-gray-300 leading-relaxed">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10">
+                <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">Hikayem</h3>
+                <p className="text-gray-200 leading-relaxed text-sm sm:text-base">
                   Teknoloji dünyasına olan tutkum çocukluktan beri var. Yazılım geliştirme, 
                   web teknolojileri ve dijital dünyada yaşanan gelişmeleri takip etmeyi seviyorum. 
                   Bu blogda deneyimlerimi, öğrendiklerimi ve düşüncelerimi sizlerle paylaşıyorum.
