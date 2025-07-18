@@ -1,34 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { ArrowLeft, Mail, Send, MessageCircle, Globe } from 'lucide-react'
+import { Mail, MessageCircle, Send, Github, Twitter, MapPin, Clock } from 'lucide-react'
 
-export default function Contact() {
+export default function IletisimPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
-
-    // Gerçek uygulamada burada form gönderimi yapılacak
+    // Form submission logic here
     console.log('Form submitted:', formData)
-    
-    // Simulated submission
-    setTimeout(() => {
-      alert('Mesajınız gönderildi! En kısa sürede size dönüş yapacağım.')
-      setFormData({ name: '', email: '', subject: '', message: '' })
-      setIsSubmitting(false)
-    }, 1000)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -36,193 +25,170 @@ export default function Contact() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <Link 
-            href="/"
-            className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Ana Sayfaya Dön
-          </Link>
-          
-          <h1 className="text-4xl font-bold text-gray-900">
-            İletişim
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Benimle iletişime geçmek için aşağıdaki formu kullanabilirsiniz.
-          </p>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-blue-900/20"></div>
+          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
-      </header>
 
-      {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Contact Form */}
-          <div className="bg-white rounded-lg shadow-sm p-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Mesaj Gönder</h2>
-            
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                  Adınız *
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="Adınızı girin"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  E-posta *
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="E-posta adresinizi girin"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                  Konu
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                >
-                  <option value="">Konu seçin</option>
-                  <option value="genel">Genel Soru</option>
-                  <option value="yazı">Yazı Hakkında</option>
-                  <option value="işbirliği">İşbirliği Teklifi</option>
-                  <option value="geri-bildirim">Geri Bildirim</option>
-                  <option value="diğer">Diğer</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                  Mesajınız *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  placeholder="Mesajınızı buraya yazın..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Gönderiliyor...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center">
-                    <Send className="w-4 h-4 mr-2" />
-                    Mesajı Gönder
-                  </div>
-                )}
-              </button>
-            </form>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">İletişim</span>
+            </h1>
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              Benimle iletişime geçin, sorularınızı sorun veya sadece merhaba deyin
+            </p>
           </div>
+        </div>
+      </section>
 
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <div className="bg-white rounded-lg shadow-sm p-8">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">İletişim Bilgileri</h2>
-              
-              <div className="space-y-6">
-                <div className="flex items-start">
-                  <Mail className="w-6 h-6 text-primary-600 mr-4 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">E-posta</h3>
-                    <p className="text-gray-600">
-                      En hızlı iletişim yolu e-posta göndermektir. 
-                      Genellikle 24 saat içinde yanıtlarım.
-                    </p>
+      {/* Contact Content */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-3 gap-12">
+            {/* Contact Info */}
+            <div className="lg:col-span-1 space-y-8">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-6">İletişim Bilgileri</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-primary-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Mail className="w-6 h-6 text-primary-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-1">E-posta</h4>
+                      <p className="text-gray-300">biomysticy@example.com</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <MessageCircle className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-1">Sosyal Medya</h4>
+                      <p className="text-gray-300">Twitter, GitHub üzerinden</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-6 h-6 text-purple-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-medium mb-1">Yanıt Süresi</h4>
+                      <p className="text-gray-300">24-48 saat içinde</p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <MessageCircle className="w-6 h-6 text-primary-600 mr-4 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Geri Bildirim</h3>
-                    <p className="text-gray-600">
-                      Yazılarım hakkında düşüncelerinizi, eleştirilerinizi 
-                      ve önerilerinizi paylaşabilirsiniz.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start">
-                  <Globe className="w-6 h-6 text-primary-600 mr-4 mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">Eski Blog</h3>
-                    <p className="text-gray-600 mb-2">
-                      Daha önceki yazılarıma eski blog adresimden ulaşabilirsiniz.
-                    </p>
-                    <a 
-                      href="https://biomysticy.blogspot.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-600 hover:text-primary-700 font-medium"
-                    >
-                      biomysticy.blogspot.com
+                <div className="mt-8 pt-8 border-t border-white/10">
+                  <h4 className="text-white font-medium mb-4">Sosyal Medya</h4>
+                  <div className="flex space-x-4">
+                    <a href="#" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                      <Github className="w-5 h-5 text-white" />
+                    </a>
+                    <a href="#" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                      <Twitter className="w-5 h-5 text-white" />
+                    </a>
+                    <a href="#" className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                      <Mail className="w-5 h-5 text-white" />
                     </a>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-primary-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                Sıkça Sorulan Sorular
-              </h3>
-              <div className="space-y-4 text-sm">
-                <div>
-                  <h4 className="font-medium text-gray-900">Ne kadar sürede yanıt veriyorsunuz?</h4>
-                  <p className="text-gray-600">Genellikle 24-48 saat içinde yanıtlarım.</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">Misafir yazı kabul ediyor musunuz?</h4>
-                  <p className="text-gray-600">Kaliteli içerikler için açığım, detayları konuşabiliriz.</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900">İşbirliği yapıyor musunuz?</h4>
-                  <p className="text-gray-600">Uygun projeler için işbirliğine açığım.</p>
-                </div>
+            {/* Contact Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-6">Mesaj Gönder</h3>
+                
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="name" className="block text-white font-medium mb-2">
+                        Adınız
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        placeholder="Adınızı girin"
+                        required
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="email" className="block text-white font-medium mb-2">
+                        E-posta
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        placeholder="E-posta adresinizi girin"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="subject" className="block text-white font-medium mb-2">
+                      Konu
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                      placeholder="Mesajınızın konusu"
+                      required
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-white font-medium mb-2">
+                      Mesajınız
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      rows={6}
+                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors resize-none"
+                      placeholder="Mesajınızı buraya yazın..."
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-primary-600 to-blue-600 hover:from-primary-700 hover:to-blue-700 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center justify-center space-x-2"
+                  >
+                    <Send className="w-5 h-5" />
+                    <span>Mesajı Gönder</span>
+                  </button>
+                </form>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </section>
     </div>
   )
 }

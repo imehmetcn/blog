@@ -20,29 +20,29 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
       {/* Header */}
-      <div className="bg-white border-b">
+      <div className="bg-gradient-to-r from-slate-900 via-purple-900/30 to-slate-900 border-b border-white/10 pt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link 
             href="/blog" 
-            className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium mb-6 group"
+            className="inline-flex items-center text-blue-300 hover:text-white font-medium mb-6 group"
           >
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Tüm Yazılara Dön
           </Link>
 
           <div className="mb-6">
-            <span className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full">
+            <span className="px-4 py-2 bg-white/10 backdrop-blur-md text-white text-sm font-medium rounded-full border border-white/20">
               {post.category}
             </span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
             {post.title}
           </h1>
 
-          <div className="flex flex-wrap items-center gap-6 text-gray-600">
+          <div className="flex flex-wrap items-center gap-6 text-gray-300">
             <div className="flex items-center">
               <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
                 <span className="text-white font-bold">B</span>
@@ -67,9 +67,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <article className="prose prose-lg max-w-none p-8 md:p-12">
-            <ReactMarkdown className="prose-custom">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10">
+          <article className="prose prose-lg max-w-none p-8 md:p-12 prose-invert">
+            <ReactMarkdown className="prose-custom text-gray-200">
               {post.content}
             </ReactMarkdown>
           </article>

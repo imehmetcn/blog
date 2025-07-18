@@ -9,15 +9,15 @@ export default function BlogPage() {
   const categories = getCategories()
   const tags = getTags()
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
       {/* Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="bg-gradient-to-r from-slate-900 via-purple-900/50 to-slate-900 border-b border-white/10 pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
               Blog Yazıları
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               Düşüncelerim, deneyimlerim ve ilginç bulduğum konular hakkında yazılar
             </p>
           </div>
@@ -32,21 +32,21 @@ export default function BlogPage() {
               {blogPosts.map((post, index) => (
                 <article
                   key={post.id}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden animate-fade-in-up"
+                  className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-300 overflow-hidden animate-fade-in-up border border-white/10 hover:border-white/20"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="p-8">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full">
+                      <span className="px-3 py-1 bg-primary-500/20 text-primary-300 text-sm font-medium rounded-full border border-primary-400/30">
                         {post.category}
                       </span>
-                      <div className="flex items-center text-sm text-gray-500">
+                      <div className="flex items-center text-sm text-gray-400">
                         <Calendar className="w-4 h-4 mr-2" />
                         {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
                       </div>
                     </div>
 
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 hover:text-primary-600 transition-colors">
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 hover:text-blue-300 transition-colors">
                       <Link href={`/blog/${post.slug}`}>
                         {post.title}
                       </Link>

@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <header className="glass-effect sticky top-0 z-50 border-b border-white/20">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4 md:py-6">
             <div className="flex items-center space-x-4">
@@ -22,37 +22,37 @@ export default function HomePage() {
                 <span className="text-white font-bold text-lg">B</span>
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold gradient-text">BiomysticY</h1>
-                <p className="text-gray-600 text-sm hidden sm:block">Kişisel Blog & Düşünceler</p>
+                <h1 className="text-2xl md:text-3xl font-bold text-white">BiomysticY</h1>
+                <p className="text-white/70 text-sm hidden sm:block">Kişisel Blog & Düşünceler</p>
               </div>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-gray-700 hover:text-primary-600 transition-all duration-200 font-medium relative group">
+              <Link href="/" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
                 Ana Sayfa
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
               </Link>
-              <Link href="/blog" className="text-gray-700 hover:text-primary-600 transition-all duration-200 font-medium relative group">
+              <Link href="/blog" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
                 Blog
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
               </Link>
-              <Link href="/hakkimda" className="text-gray-700 hover:text-primary-600 transition-all duration-200 font-medium relative group">
+              <Link href="/hakkimda" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
                 Hakkımda
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
               </Link>
-              <Link href="/iletisim" className="text-gray-700 hover:text-primary-600 transition-all duration-200 font-medium relative group">
+              <Link href="/iletisim" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
                 İletişim
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-200 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
               </Link>
-              <div className="flex items-center space-x-3 ml-6 pl-6 border-l border-gray-200">
-                <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+              <div className="flex items-center space-x-3 ml-6 pl-6 border-l border-white/20">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   <Github className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   <Twitter className="w-5 h-5" />
                 </a>
-                <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+                <a href="#" className="text-white/70 hover:text-white transition-colors">
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
@@ -61,7 +61,7 @@ export default function HomePage() {
             {/* Mobile menu button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-white"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -69,28 +69,28 @@ export default function HomePage() {
 
           {/* Mobile Navigation */}
           {mobileMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 py-4 animate-fade-in-up">
+            <div className="md:hidden border-t border-white/20 py-4 animate-fade-in-up bg-black/40 backdrop-blur-md">
               <nav className="flex flex-col space-y-4">
-                <Link href="/" className="text-gray-700 hover:text-primary-600 transition-colors font-medium px-2 py-1">
+                <Link href="/" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
                   Ana Sayfa
                 </Link>
-                <Link href="/blog" className="text-gray-700 hover:text-primary-600 transition-colors font-medium px-2 py-1">
+                <Link href="/blog" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
                   Blog
                 </Link>
-                <Link href="/hakkimda" className="text-gray-700 hover:text-primary-600 transition-colors font-medium px-2 py-1">
+                <Link href="/hakkimda" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
                   Hakkımda
                 </Link>
-                <Link href="/iletisim" className="text-gray-700 hover:text-primary-600 transition-colors font-medium px-2 py-1">
+                <Link href="/iletisim" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
                   İletişim
                 </Link>
-                <div className="flex items-center space-x-4 px-2 pt-4 border-t border-gray-200">
-                  <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+                <div className="flex items-center space-x-4 px-2 pt-4 border-t border-white/20">
+                  <a href="#" className="text-white/70 hover:text-white transition-colors">
                     <Github className="w-5 h-5" />
                   </a>
-                  <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+                  <a href="#" className="text-white/70 hover:text-white transition-colors">
                     <Twitter className="w-5 h-5" />
                   </a>
-                  <a href="#" className="text-gray-600 hover:text-primary-600 transition-colors">
+                  <a href="#" className="text-white/70 hover:text-white transition-colors">
                     <Mail className="w-5 h-5" />
                   </a>
                 </div>
@@ -207,15 +207,22 @@ export default function HomePage() {
         </div>
       </section>     
  {/* Featured Section */}
-      <section className="bg-white py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="bg-gradient-to-b from-slate-900 to-gray-900 py-16 md:py-24 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium mb-6 border border-white/20">
               <TrendingUp className="w-4 h-4 mr-2" />
               Öne Çıkan İçerikler
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Son Yazılar</h3>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Son Yazılar</h3>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               En güncel düşüncelerim ve deneyimlerim burada
             </p>
           </div>
@@ -224,14 +231,14 @@ export default function HomePage() {
             {mockPosts.map((post, index) => (
               <article
                 key={post.id}
-                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl overflow-hidden card-hover border border-gray-100 animate-fade-in-up"
+                className="group bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden card-hover border border-white/10 hover:border-white/20 animate-fade-in-up transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Image placeholder */}
-                <div className="h-48 bg-gradient-to-br from-primary-400 to-blue-500 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-black/20"></div>
+                <div className="h-48 bg-gradient-to-br from-primary-500 to-blue-600 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/30"></div>
                   <div className="absolute bottom-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary-700 text-sm font-medium rounded-full">
+                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-sm font-medium rounded-full border border-white/30">
                       Blog
                     </span>
                   </div>
@@ -241,30 +248,30 @@ export default function HomePage() {
                 </div>
 
                 <div className="p-6 md:p-8">
-                  <h4 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 group-hover:text-primary-600 transition-colors leading-tight">
+                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight">
                     {post.title}
                   </h4>
 
-                  <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
+                  <p className="text-gray-300 mb-6 leading-relaxed line-clamp-3">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center text-sm text-gray-500 mb-6 space-x-4">
+                  <div className="flex items-center text-sm text-gray-400 mb-6 space-x-4">
                     <div className="flex items-center">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
                         <span className="text-white text-xs font-bold">B</span>
                       </div>
-                      <span className="font-medium">{post.author}</span>
+                      <span className="font-medium text-white">{post.author}</span>
                     </div>
                     <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2 text-primary-500" />
+                      <Calendar className="w-4 h-4 mr-2 text-blue-400" />
                       {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
                     </div>
                   </div>
 
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold group/link transition-all duration-200 hover:gap-3"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group/link transition-all duration-200 hover:gap-3"
                   >
                     Devamını Oku
                     <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform" />
@@ -275,9 +282,9 @@ export default function HomePage() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/blog" className="btn-primary">
+            <Link href="/blog" className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-lg transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-105">
               Tüm Yazıları Görüntüle
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-5 h-5 ml-3" />
             </Link>
           </div>
         </div>

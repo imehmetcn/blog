@@ -1,128 +1,112 @@
-import Link from 'next/link'
-import { ArrowLeft, Mail, Globe, Heart } from 'lucide-react'
+import { Github, Twitter, Mail, MapPin, Calendar, Heart } from 'lucide-react'
 
-export default function About() {
+export default function HakkimdaPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <Link 
-            href="/"
-            className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Ana Sayfaya Dön
-          </Link>
-          
-          <h1 className="text-4xl font-bold text-gray-900">
-            Hakkımda
-          </h1>
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-blue-900/20"></div>
+          <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl"></div>
         </div>
-      </header>
 
-      {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-lg shadow-sm p-8">
-          <div className="prose-custom">
-            <div className="text-center mb-12">
-              <div className="w-32 h-32 bg-gradient-to-br from-primary-400 to-primary-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <span className="text-4xl font-bold text-white">B</span>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="animate-fade-in-up">
+            <div className="w-32 h-32 bg-gradient-to-br from-primary-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
+              <span className="text-white text-4xl font-bold">B</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Merhaba, Ben <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">BiomysticY</span>
+            </h1>
+            
+            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+              Teknoloji tutkunu bir yazılım geliştirici ve blog yazarı
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <MapPin className="w-4 h-4 mr-2" />
+                Türkiye
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">BiomysticY</h2>
-              <p className="text-xl text-gray-600">Blog Yazarı & İçerik Üreticisi</p>
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <Calendar className="w-4 h-4 mr-2" />
+                2024'ten beri
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <Heart className="w-4 h-4 mr-2" />
+                Yazmayı seviyorum
+              </div>
             </div>
 
-            <div className="space-y-8">
-              <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Merhaba!</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Bu blog sayfasında sizlerle düşüncelerimi, deneyimlerimi ve ilginç bulduğum konuları 
-                  paylaşıyorum. Teknolojiden günlük yaşama, kişisel gelişimden sosyal konulara kadar 
-                  geniş bir yelpazede yazılar bulabilirsiniz.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Amacım, okuduğunuz her yazıda size yeni bir bakış açısı sunmak ve belki de 
-                  düşüncelerinizi tetikleyecek konulara değinmek. Her yazımda samimi ve içten 
-                  olmaya özen gösteriyorum.
-                </p>
-              </section>
-
-              <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">Neler Yazıyorum?</h3>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Teknoloji</h4>
-                    <p className="text-gray-600 text-sm">
-                      Güncel teknoloji trendleri, dijital dönüşüm ve teknolojinin yaşamımıza etkileri
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Kişisel Gelişim</h4>
-                    <p className="text-gray-600 text-sm">
-                      Öz gelişim, motivasyon ve yaşam kalitesini artırmaya yönelik düşünceler
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Güncel Konular</h4>
-                    <p className="text-gray-600 text-sm">
-                      Toplumsal olaylar, gündem ve sosyal medya üzerine yorumlar
-                    </p>
-                  </div>
-                  
-                  <div className="bg-gray-50 p-6 rounded-lg">
-                    <h4 className="font-semibold text-gray-900 mb-2">Yaşam</h4>
-                    <p className="text-gray-600 text-sm">
-                      Günlük yaşam deneyimleri, gözlemler ve kişisel hikayeler
-                    </p>
-                  </div>
-                </div>
-              </section>
-
-              <section>
-                <h3 className="text-2xl font-semibold text-gray-900 mb-4">İletişim</h3>
-                <p className="text-gray-700 leading-relaxed mb-6">
-                  Yazılarım hakkında düşüncelerinizi, sorularınızı veya önerilerinizi 
-                  benimle paylaşmaktan çekinmeyin. Her geri bildirim benim için değerli.
-                </p>
-                
-                <div className="flex flex-wrap gap-4">
-                  <Link 
-                    href="/iletisim"
-                    className="inline-flex items-center btn-primary"
-                  >
-                    <Mail className="w-4 h-4 mr-2" />
-                    İletişime Geç
-                  </Link>
-                  
-                  <a 
-                    href="https://biomysticy.blogspot.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center btn-secondary"
-                  >
-                    <Globe className="w-4 h-4 mr-2" />
-                    Eski Blog
-                  </a>
-                </div>
-              </section>
-
-              <section className="bg-primary-50 p-6 rounded-lg">
-                <div className="flex items-center mb-4">
-                  <Heart className="w-6 h-6 text-primary-600 mr-2" />
-                  <h3 className="text-xl font-semibold text-gray-900">Teşekkür</h3>
-                </div>
-                <p className="text-gray-700">
-                  Bu blogu okuduğunuz ve zamanınızı ayırdığınız için teşekkür ederim. 
-                  Sizlerin desteği ve ilgisi beni yazmaya devam etmeye motive ediyor.
-                </p>
-              </section>
+            <div className="flex justify-center space-x-6">
+              <a href="#" className="w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors border border-white/20">
+                <Github className="w-6 h-6 text-white" />
+              </a>
+              <a href="#" className="w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors border border-white/20">
+                <Twitter className="w-6 h-6 text-white" />
+              </a>
+              <a href="#" className="w-12 h-12 bg-white/10 backdrop-blur-md hover:bg-white/20 rounded-xl flex items-center justify-center transition-colors border border-white/20">
+                <Mail className="w-6 h-6 text-white" />
+              </a>
             </div>
           </div>
         </div>
-      </main>
+      </section>
+
+      {/* About Content */}
+      <section className="py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-4">Hikayem</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Teknoloji dünyasına olan tutkum çocukluktan beri var. Yazılım geliştirme, 
+                  web teknolojileri ve dijital dünyada yaşanan gelişmeleri takip etmeyi seviyorum. 
+                  Bu blogda deneyimlerimi, öğrendiklerimi ve düşüncelerimi sizlerle paylaşıyorum.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-4">İlgi Alanlarım</h3>
+                <div className="flex flex-wrap gap-3">
+                  {['JavaScript', 'React', 'Next.js', 'Node.js', 'TypeScript', 'Tailwind CSS', 'Blog Yazarlığı', 'Teknoloji'].map((skill) => (
+                    <span key={skill} className="px-3 py-1 bg-primary-500/20 text-primary-300 rounded-full text-sm border border-primary-500/30">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-8">
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-4">Neden Blog Yazıyorum?</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Öğrendiğim şeyleri paylaşmak, deneyimlerimi aktarmak ve teknoloji 
+                  dünyasındaki gelişmeleri yorumlamak için yazıyorum. Aynı zamanda 
+                  yazma sürecinin kendimi geliştirmeme yardımcı olduğunu düşünüyorum.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
+                <h3 className="text-2xl font-bold text-white mb-4">İletişim</h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  Benimle iletişime geçmek isterseniz, sosyal medya hesaplarımdan 
+                  veya e-posta yoluyla ulaşabilirsiniz. Sorularınızı, önerilerinizi 
+                  ve geri bildirimlerinizi bekliyorum.
+                </p>
+                <a href="/iletisim" className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                  İletişim sayfasına git →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
