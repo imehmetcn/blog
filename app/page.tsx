@@ -3,105 +3,17 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Menu, X, Github, Twitter, Mail, Star, TrendingUp, BookOpen } from 'lucide-react'
-import { useState } from 'react'
+import { Calendar, ArrowRight, Star, TrendingUp, BookOpen, Github, Twitter, Mail } from 'lucide-react'
 import { getBlogPosts } from '../lib/blog-data'
 
 export default function HomePage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const mockPosts = getBlogPosts().slice(0, 3)
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4 md:py-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-blue-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">B</span>
-              </div>
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white">BiomysticY</h1>
-                <p className="text-white/70 text-sm hidden sm:block">Kişisel Blog & Düşünceler</p>
-              </div>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
-                Ana Sayfa
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link href="/blog" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
-                Blog
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link href="/hakkimda" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
-                Hakkımda
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link href="/iletisim" className="text-white/90 hover:text-white transition-all duration-200 font-medium relative group">
-                İletişim
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <div className="flex items-center space-x-3 ml-6 pl-6 border-l border-white/20">
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white/70 hover:text-white transition-colors">
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
-            </nav>
-
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors text-white"
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <div className="md:hidden border-t border-white/20 py-4 animate-fade-in-up bg-black/40 backdrop-blur-md">
-              <nav className="flex flex-col space-y-4">
-                <Link href="/" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
-                  Ana Sayfa
-                </Link>
-                <Link href="/blog" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
-                  Blog
-                </Link>
-                <Link href="/hakkimda" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
-                  Hakkımda
-                </Link>
-                <Link href="/iletisim" className="text-white/90 hover:text-white transition-colors font-medium px-2 py-1">
-                  İletişim
-                </Link>
-                <div className="flex items-center space-x-4 px-2 pt-4 border-t border-white/20">
-                  <a href="#" className="text-white/70 hover:text-white transition-colors">
-                    <Github className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-white/70 hover:text-white transition-colors">
-                    <Twitter className="w-5 h-5" />
-                  </a>
-                  <a href="#" className="text-white/70 hover:text-white transition-colors">
-                    <Mail className="w-5 h-5" />
-                  </a>
-                </div>
-              </nav>
-            </div>
-          )}
-        </div>
-      </header>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
         {/* Animated Background */}
         <div className="absolute inset-0 w-full h-full">
           {/* Moving Gradient Background */}
@@ -145,7 +57,7 @@ export default function HomePage() {
             </div>
             
             {/* Main Heading */}
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4">
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
                 Hoş Geldiniz
               </span>
@@ -156,44 +68,44 @@ export default function HomePage() {
             </h1>
             
             {/* Subtitle */}
-            <p className="text-xl sm:text-2xl md:text-3xl text-gray-200 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-4">
               Bu blogda <span className="text-blue-300 font-semibold">teknoloji</span>, 
               <span className="text-purple-300 font-semibold"> yaşam</span> ve 
               <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
             </p>
             
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-              <Link href="/blog" className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-                <div className="flex items-center">
-                  <BookOpen className="w-6 h-6 mr-3" />
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4">
+              <Link href="/blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+                <div className="flex items-center justify-center">
+                  <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
                   Yazıları Keşfet
-                  <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
               </Link>
               
-              <Link href="/hakkimda" className="group relative px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
-                <div className="flex items-center">
+              <Link href="/hakkimda" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
+                <div className="flex items-center justify-center">
                   Hakkımda Daha Fazla
-                  <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-2xl mx-auto">
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">50+</div>
-                <div className="text-white/80 font-medium">Yazı</div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-2xl mx-auto px-4">
+              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">50+</div>
+                <div className="text-white/80 font-medium text-sm sm:text-base">Yazı</div>
               </div>
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">1K+</div>
-                <div className="text-white/80 font-medium">Okuyucu</div>
+              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">1K+</div>
+                <div className="text-white/80 font-medium text-sm sm:text-base">Okuyucu</div>
               </div>
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 col-span-2 md:col-span-1">
-                <div className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">2024</div>
-                <div className="text-white/80 font-medium">Başlangıç</div>
+              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 sm:col-span-2 md:col-span-1">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">2024</div>
+                <div className="text-white/80 font-medium text-sm sm:text-base">Başlangıç</div>
               </div>
             </div>
           </div>
@@ -227,7 +139,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
             {mockPosts.map((post, index) => (
               <article
                 key={post.id}
@@ -235,28 +147,28 @@ export default function HomePage() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Image placeholder */}
-                <div className="h-48 bg-gradient-to-br from-primary-500 to-blue-600 relative overflow-hidden">
+                <div className="h-40 sm:h-48 bg-gradient-to-br from-primary-500 to-blue-600 relative overflow-hidden">
                   <div className="absolute inset-0 bg-black/30"></div>
-                  <div className="absolute bottom-4 left-4">
-                    <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-sm font-medium rounded-full border border-white/30">
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
+                    <span className="px-2 sm:px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium rounded-full border border-white/30">
                       Blog
                     </span>
                   </div>
-                  <div className="absolute top-4 right-4">
-                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                  <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
                   </div>
                 </div>
 
-                <div className="p-6 md:p-8">
-                  <h4 className="text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight">
+                <div className="p-4 sm:p-6 md:p-8">
+                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight">
                     {post.title}
                   </h4>
 
-                  <p className="text-gray-300 mb-6 leading-relaxed line-clamp-3">
+                  <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed line-clamp-3 text-sm sm:text-base">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center text-sm text-gray-400 mb-6 space-x-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 space-y-2 sm:space-y-0 sm:space-x-4">
                     <div className="flex items-center">
                       <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
                         <span className="text-white text-xs font-bold">B</span>
@@ -300,13 +212,13 @@ export default function HomePage() {
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Haftalık bültenimize abone olun ve yeni içeriklerden ilk siz haberdar olun.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="E-posta adresiniz"
-                className="flex-1 px-6 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white/50 focus:outline-none"
+                className="flex-1 px-4 sm:px-6 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white/50 focus:outline-none text-sm sm:text-base"
               />
-              <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap">
+              <button className="bg-white text-primary-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap text-sm sm:text-base">
                 Abone Ol
               </button>
             </div>

@@ -10,18 +10,18 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4 md:py-6">
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-blue-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-lg">B</span>
+        <div className="flex justify-between items-center py-3 sm:py-4 md:py-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary-600 to-blue-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-sm sm:text-lg">B</span>
             </div>
             <div>
               <Link href="/">
-                <h1 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-200 transition-colors">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white hover:text-blue-200 transition-colors">
                   BiomysticY
                 </h1>
               </Link>
-              <p className="text-white/70 text-sm hidden sm:block">Kişisel Blog & Düşünceler</p>
+              <p className="text-white/70 text-xs sm:text-sm hidden sm:block">Kişisel Blog & Düşünceler</p>
             </div>
           </div>
 

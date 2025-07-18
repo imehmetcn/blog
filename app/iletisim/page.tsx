@@ -27,7 +27,7 @@ export default function IletisimPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-blue-900/20"></div>
           <div className="absolute top-20 right-20 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -36,10 +36,10 @@ export default function IletisimPage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6 px-4">
               <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">İletişim</span>
             </h1>
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed px-4">
               Benimle iletişime geçin, sorularınızı sorun veya sadece merhaba deyin
             </p>
           </div>
@@ -47,9 +47,9 @@ export default function IletisimPage() {
       </section>
 
       {/* Contact Content */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
             {/* Contact Info */}
             <div className="lg:col-span-1 space-y-8">
               <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
@@ -110,9 +110,9 @@ export default function IletisimPage() {
                 <h3 className="text-2xl font-bold text-white mb-6">Mesaj Gönder</h3>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-white font-medium mb-2">
+                      <label htmlFor="name" className="block text-white font-medium mb-2 text-sm sm:text-base">
                         Adınız
                       </label>
                       <input
@@ -121,14 +121,14 @@ export default function IletisimPage() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors text-sm sm:text-base"
                         placeholder="Adınızı girin"
                         required
                       />
                     </div>
                     
                     <div>
-                      <label htmlFor="email" className="block text-white font-medium mb-2">
+                      <label htmlFor="email" className="block text-white font-medium mb-2 text-sm sm:text-base">
                         E-posta
                       </label>
                       <input
@@ -137,7 +137,7 @@ export default function IletisimPage() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors text-sm sm:text-base"
                         placeholder="E-posta adresinizi girin"
                         required
                       />

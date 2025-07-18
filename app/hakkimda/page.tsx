@@ -4,7 +4,7 @@ export default function HakkimdaPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      <section className="relative pt-24 sm:pt-32 pb-16 sm:pb-20 overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-transparent to-blue-900/20"></div>
@@ -14,15 +14,15 @@ export default function HakkimdaPage() {
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="animate-fade-in-up">
-            <div className="w-32 h-32 bg-gradient-to-br from-primary-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-              <span className="text-white text-4xl font-bold">B</span>
+            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-primary-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-2xl">
+              <span className="text-white text-2xl sm:text-4xl font-bold">B</span>
             </div>
             
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 px-4">
               Merhaba, Ben <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">BiomysticY</span>
             </h1>
             
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed px-4">
               Teknoloji tutkunu bir yazılım geliştirici ve blog yazarı
             </p>
 
@@ -57,9 +57,9 @@ export default function HakkimdaPage() {
       </section>
 
       {/* About Content */}
-      <section className="py-20">
+      <section className="py-12 sm:py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             <div className="space-y-8">
               <div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10">
                 <h3 className="text-2xl font-bold text-white mb-4">Hikayem</h3>

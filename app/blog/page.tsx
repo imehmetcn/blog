@@ -12,23 +12,23 @@ export default function BlogPage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900">
       {/* Header */}
       <div className="bg-gradient-to-r from-slate-900 via-purple-900/50 to-slate-900 border-b border-white/10 pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent mb-4">
               Blog Yazıları
             </h1>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto px-4">
               Düşüncelerim, deneyimlerim ve ilginç bulduğum konular hakkında yazılar
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-3">
-            <div className="grid gap-8">
+            <div className="grid gap-6 sm:gap-8">
               {blogPosts.map((post, index) => (
                 <article
                   key={post.id}
