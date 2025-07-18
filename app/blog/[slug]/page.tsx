@@ -1,70 +1,20 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { formatDistanceToNow } from 'date-fns'
+import { formatDistanceToNow, format } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, User, ArrowLeft } from 'lucide-react'
+import { Calendar, User, ArrowLeft, Share2, Heart, MessageCircle, Tag } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import { getBlogPost, getBlogPosts } from '@/lib/blog-data'
 
-// Mock data - gerçek uygulamada database'den gelecek
-const mockPosts = [
-  {
-    id: 1,
-    title: "Blog Sitemize Hoş Geldiniz",
-    excerpt: "Yeni blog sitemizde sizlerle düşüncelerimi, deneyimlerimi ve ilginç konuları paylaşacağım.",
-    content: `# Blog Sitemize Hoş Geldiniz
-
-Merhaba değerli okuyucular!
-
-Bu yeni blog sitemde sizlerle **düşüncelerimi**, deneyimlerimi ve ilginç bulduğum konuları paylaşacağım. 
-
-## Neler Bulacaksınız?
-
-- Teknoloji hakkında yazılar
-- Kişisel deneyimler
-- Güncel konular üzerine düşünceler
-- Ve daha fazlası...
-
-Umarım bu yazıları okurken keyif alırsınız. Yorumlarınızı ve geri bildirimlerinizi bekliyorum!
-
-> "Bilgi paylaştıkça çoğalır." - Anonim
-
-Herkese iyi okumalar!`,
-    createdAt: new Date('2024-01-15'),
-    author: "BiomysticY",
-    slug: "blog-sitemize-hos-geldiniz"
-  },
-  {
-    id: 2,
-    title: "Teknoloji ve Yaşam",
-    excerpt: "Modern teknolojinin günlük yaşamımıza etkilerini ve bu değişime nasıl adapte olabileceğimizi konuşuyoruz.",
-    content: `# Teknoloji ve Yaşam
-
-Modern teknoloji hayatımızı nasıl etkiliyor? Bu sorunun cevabını aramaya devam ediyoruz.
-
-## Dijital Dönüşüm
-
-Günümüzde dijital dönüşüm sadece şirketleri değil, bireyleri de etkiliyor. 
-
-### Avantajlar
-- Hızlı iletişim
-- Kolay bilgi erişimi
-- Uzaktan çalışma imkanları
-
-### Dezavantajlar
-- Dijital bağımlılık
-- Gizlilik endişeleri
-- Sosyal izolasyon
-
-Bu dengeyi nasıl kuracağız? Bu konuda düşüncelerinizi merak ediyorum.`,
-    createdAt: new Date('2024-01-10'),
-    author: "BiomysticY",
-    slug: "teknoloji-ve-yasam"
+interface BlogPostPageProps {
+  params: {
+    slug: string
   }
-]
+}
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
-  const post = mockPosts.find(p => p.slug === params.slug)
-  
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const post = getBlogPost(params.slug)
+
   if (!post) {
     notFound()
   }
@@ -72,60 +22,144 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="bg-white border-b">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link 
-            href="/"
-            className="inline-flex items-center text-primary-600 hover:text-primary-700 mb-4"
+            href="/blog" 
+            className="inline-flex items-center text-primary-600 hover:text-primary-700 font-medium mb-6 group"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Ana Sayfaya Dön
+            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+            Tüm Yazılara Dön
           </Link>
-          
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+
+          <div className="mb-6">
+            <span className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full">
+              {post.category}
+            </span>
+          </div>
+
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             {post.title}
           </h1>
-          
-          <div className="flex items-center text-gray-600 space-x-6">
+
+          <div className="flex flex-wrap items-center gap-6 text-gray-600">
             <div className="flex items-center">
-              <User className="w-5 h-5 mr-2" />
-              {post.author}
+              <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
+                <span className="text-white font-bold">B</span>
+              </div>
+              <div>
+                <div className="font-medium text-gray-900">{post.author}</div>
+                <div className="text-sm text-gray-500">Yazar</div>
+              </div>
             </div>
+
             <div className="flex items-center">
-              <Calendar className="w-5 h-5 mr-2" />
-              {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
+              <Calendar className="w-4 h-4 mr-2" />
+              <span>{format(post.createdAt, 'dd MMMM yyyy', { locale: tr })}</span>
+            </div>
+
+            <div className="flex items-center">
+              <span className="text-sm">{post.readTime} okuma</span>
             </div>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <article className="bg-white rounded-lg shadow-sm p-8">
-          <div className="prose-custom">
-            <ReactMarkdown>{post.content}</ReactMarkdown>
-          </div>
-        </article>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <article className="prose prose-lg max-w-none p-8 md:p-12">
+            <ReactMarkdown className="prose-custom">
+              {post.content}
+            </ReactMarkdown>
+          </article>
 
-        {/* Navigation */}
-        <div className="mt-12 flex justify-between">
-          <Link 
-            href="/"
-            className="btn-secondary"
-          >
-            ← Tüm Yazılar
-          </Link>
-          
-          <div className="text-right">
-            <p className="text-sm text-gray-600 mb-2">Bu yazıyı beğendiniz mi?</p>
-            <div className="space-x-2">
-              <button className="text-2xl hover:scale-110 transition-transform">👍</button>
-              <button className="text-2xl hover:scale-110 transition-transform">❤️</button>
-              <button className="text-2xl hover:scale-110 transition-transform">🔥</button>
+          {/* Tags */}
+          <div className="px-8 md:px-12 pb-8">
+            <div className="border-t border-gray-200 pt-8">
+              <h3 className="text-lg font-semibold mb-4 flex items-center">
+                <Tag className="w-5 h-5 mr-2" />
+                Etiketler
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-4 py-2 bg-primary-100 text-primary-700 rounded-full hover:bg-primary-200 transition-colors cursor-pointer"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="px-8 md:px-12 pb-8">
+            <div className="border-t border-gray-200 pt-8">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <button className="flex items-center space-x-2 text-gray-600 hover:text-red-500 transition-colors">
+                    <Heart className="w-5 h-5" />
+                    <span>Beğen</span>
+                  </button>
+                  <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-500 transition-colors">
+                    <MessageCircle className="w-5 h-5" />
+                    <span>Yorum Yap</span>
+                  </button>
+                </div>
+                <button className="flex items-center space-x-2 text-gray-600 hover:text-green-500 transition-colors">
+                  <Share2 className="w-5 h-5" />
+                  <span>Paylaş</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </main>
+
+        {/* Author Bio */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
+          <div className="flex items-start space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+              <span className="text-white text-xl font-bold">B</span>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">BiomysticY</h3>
+              <p className="text-gray-600 leading-relaxed">
+                Teknoloji, yaşam ve kişisel gelişim konularında yazılar yazan bir blog yazarı. 
+                Deneyimlerimi ve öğrendiklerimi sizlerle paylaşmayı seviyorum.
+              </p>
+              <div className="flex space-x-4 mt-4">
+                <a href="#" className="text-primary-600 hover:text-primary-700 transition-colors">
+                  Tüm Yazıları
+                </a>
+                <a href="#" className="text-primary-600 hover:text-primary-700 transition-colors">
+                  İletişim
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Related Posts */}
+        <div className="mt-12">
+          <h3 className="text-2xl font-bold text-gray-900 mb-8">İlgili Yazılar</h3>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Bu kısım diğer blog yazıları eklendikten sonra doldurulacak */}
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <h4 className="text-lg font-semibold mb-2">Yakında...</h4>
+              <p className="text-gray-600">Daha fazla içerik yakında eklenecek.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
+}
+
+export async function generateStaticParams() {
+  const posts = getBlogPosts()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
 }

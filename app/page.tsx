@@ -6,30 +6,11 @@ import { tr } from 'date-fns/locale'
 import { Calendar, User, ArrowRight, Menu, X, Github, Twitter, Mail, Star, TrendingUp, BookOpen } from 'lucide-react'
 import { useState } from 'react'
 
-// Mock data - gerçek uygulamada database'den gelecek
-const mockPosts = [
-  {
-    id: 1,
-    title: "Blog Sitemize Hoş Geldiniz",
-    excerpt: "Yeni blog sitemizde sizlerle düşüncelerimi, deneyimlerimi ve ilginç konuları paylaşacağım.",
-    content: "Bu ilk yazımda...",
-    createdAt: new Date('2024-01-15'),
-    author: "BiomysticY",
-    slug: "blog-sitemize-hos-geldiniz"
-  },
-  {
-    id: 2,
-    title: "Teknoloji ve Yaşam",
-    excerpt: "Modern teknolojinin günlük yaşamımıza etkilerini ve bu değişime nasıl adapte olabileceğimizi konuşuyoruz.",
-    content: "Teknoloji hızla gelişiyor...",
-    createdAt: new Date('2024-01-10'),
-    author: "BiomysticY",
-    slug: "teknoloji-ve-yasam"
-  }
-]
+import { getBlogPosts } from '@/lib/blog-data'
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const mockPosts = getBlogPosts().slice(0, 3) // Son 3 yazıyı göster
 
   return (
     <div className="min-h-screen">
