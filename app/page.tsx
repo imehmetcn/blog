@@ -3,17 +3,17 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Star, TrendingUp, BookOpen, Github, Twitter, Mail } from 'lucide-react'
+import { Calendar, ArrowRight, Star, TrendingUp, BookOpen, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
 import { getBlogPosts } from '../lib/blog-data'
 
 export default function HomePage() {
-  const mockPosts = getBlogPosts().slice(0, 3)
+  const mockPosts = getBlogPosts().slice(0, 6) // Daha fazla post gösterelim
 
   return (
     <div className="min-h-screen">
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
+      {/* Hero & About Combined Section */}
+      <section id="hakkimda" className="relative min-h-screen overflow-hidden">
         {/* Animated Background */}
         <div className="absolute inset-0 w-full h-full">
           {/* Moving Gradient Background */}
@@ -46,8 +46,9 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in-up">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col justify-center">
+          {/* Hero Content */}
+          <div className="text-center animate-fade-in-up">
             {/* Badge */}
             <div className="mb-8">
               <span className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-sm font-medium text-white border border-white/20 shadow-lg">
@@ -59,11 +60,11 @@ export default function HomePage() {
             {/* Main Heading */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4">
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                Hoş Geldiniz
+                Merhaba Ben BiomysticY
               </span>
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Düşünce Dünyama
+                Düşünce Dünyama Hoşgeldiniz
               </span>
             </h1>
 
@@ -74,8 +75,33 @@ export default function HomePage() {
               <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
             </p>
 
+            {/* Profile Avatar */}
+            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-primary-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-2xl">
+              <span className="text-white text-2xl sm:text-4xl font-bold">B</span>
+            </div>
+
+            {/* Profile Info */}
+            <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto">
+              Teknoloji tutkunu bir yazılım geliştirici ve blog yazarı
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4 mb-8">
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <MapPin className="w-4 h-4 mr-2" />
+                Türkiye
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <Calendar className="w-4 h-4 mr-2" />
+                2024'ten beri
+              </div>
+              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
+                <Heart className="w-4 h-4 mr-2" />
+                Yazmayı seviyorum
+              </div>
+            </div>
+
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
               <Link href="/blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
                 <div className="flex items-center justify-center">
                   <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
@@ -85,41 +111,29 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
               </Link>
 
-              <Link href="/hakkimda" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
+              <a href="#blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
                 <div className="flex items-center justify-center">
-                  Hakkımda Daha Fazla
+                  Yazıları Gör
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </Link>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-2xl mx-auto px-4">
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">50+</div>
-                <div className="text-white/80 font-medium text-sm sm:text-base">Yazı</div>
-              </div>
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">1K+</div>
-                <div className="text-white/80 font-medium text-sm sm:text-base">Okuyucu</div>
-              </div>
-              <div className="text-center backdrop-blur-sm bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 hover:bg-white/10 transition-all duration-300 sm:col-span-2 md:col-span-1">
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">2024</div>
-                <div className="text-white/80 font-medium text-sm sm:text-base">Başlangıç</div>
-              </div>
+              </a>
             </div>
           </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
-            <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+
+
+          {/* Scroll Indicator */}
+          <div className="flex justify-center mt-12 absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <a href="#blog" className="animate-bounce">
+              <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
+                <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+              </div>
+            </a>
           </div>
         </div>
       </section>
       {/* Featured Section */}
-      <section className="bg-gradient-to-b from-slate-900 to-gray-900 py-16 md:py-24 relative overflow-hidden">
+      <section id="blog" className="bg-gradient-to-b from-slate-900 to-gray-900 py-16 md:py-24 relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="absolute inset-0">
@@ -193,101 +207,45 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Link href="/blog" className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-lg transition-all duration-300 border border-white/30 hover:border-white/50 hover:scale-105">
-              Tüm Yazıları Görüntüle
-              <ArrowRight className="w-5 h-5 ml-3" />
-            </Link>
-          </div>
+
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="bg-gradient-to-r from-primary-600 to-blue-600 py-16 md:py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="animate-fade-in-up">
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Yeni Yazılardan Haberdar Olun
-            </h3>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Haftalık bültenimize abone olun ve yeni içeriklerden ilk siz haberdar olun.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="E-posta adresiniz"
-                className="flex-1 px-4 sm:px-6 py-3 rounded-lg border-0 focus:ring-2 focus:ring-white/50 focus:outline-none text-sm sm:text-base"
-              />
-              <button className="bg-white text-primary-600 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors whitespace-nowrap text-sm sm:text-base">
-                Abone Ol
-              </button>
-            </div>
-            <p className="text-sm text-blue-200 mt-4">
-              Spam göndermiyoruz. İstediğiniz zaman abonelikten çıkabilirsiniz.
-            </p>
-          </div>
-        </div>
-      </section>
+
+
+
+
+
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="lg:col-span-2">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-blue-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">B</span>
-                </div>
-                <h5 className="text-2xl font-bold">BiomysticY</h5>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            {/* Logo & Name */}
+            <div className="flex items-center space-x-3 mb-4 md:mb-0">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-blue-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">B</span>
               </div>
-              <p className="text-gray-400 mb-6 max-w-md leading-relaxed">
-                Teknoloji, yaşam ve kişisel deneyimlerimi paylaştığım blog.
-                Düşüncelerimi özgürce ifade ettiğim dijital alanım.
-              </p>
-              <div className="flex space-x-4">
-                <a href="#" className="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="w-10 h-10 bg-gray-800 hover:bg-primary-600 rounded-lg flex items-center justify-center transition-colors">
-                  <Mail className="w-5 h-5" />
-                </a>
-              </div>
+              <h5 className="text-xl font-bold">BiomysticY</h5>
             </div>
 
-            <div>
-              <h5 className="text-lg font-semibold mb-6">Sayfalar</h5>
-              <ul className="space-y-3">
-                <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">Ana Sayfa</Link></li>
-                <li><Link href="/blog" className="text-gray-400 hover:text-white transition-colors">Blog</Link></li>
-                <li><Link href="/hakkimda" className="text-gray-400 hover:text-white transition-colors">Hakkımda</Link></li>
-                <li><Link href="/iletisim" className="text-gray-400 hover:text-white transition-colors">İletişim</Link></li>
-              </ul>
+            {/* Social Links */}
+            <div className="flex items-center space-x-4 mb-4 md:mb-0">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Github className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <Mail className="w-5 h-5" />
+              </a>
             </div>
 
-            <div>
-              <h5 className="text-lg font-semibold mb-6">Kategoriler</h5>
-              <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Teknoloji</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Yaşam</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Kişisel</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Düşünceler</a></li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-400 text-sm">
-                &copy; 2024 BiomysticY. Tüm hakları saklıdır.
-              </p>
-              <div className="flex space-x-6 mt-4 md:mt-0">
-                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Gizlilik Politikası</a>
-                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">Kullanım Şartları</a>
-              </div>
-            </div>
+            {/* Copyright */}
+            <p className="text-gray-400 text-sm text-center md:text-right">
+              &copy; 2024 BiomysticY
+            </p>
           </div>
         </div>
       </footer>

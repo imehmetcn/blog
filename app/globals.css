@@ -5,10 +5,11 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px; /* Navbar yüksekliği için */
   }
   
   body {
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-gradient-to-b from-slate-900 to-gray-900 text-white;
   }
 }
 
@@ -155,4 +156,23 @@
 .animate-gradient-shift-reverse {
   background-size: 200% 200%;
   animation: gradient-shift-reverse 10s ease-in-out infinite;
+}/* Scrol
+lbar gizleme */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Firefox için */
+html {
+  scrollbar-width: none;
+}
+
+/* IE ve Edge için */
+body {
+  -ms-overflow-style: none;
 }
