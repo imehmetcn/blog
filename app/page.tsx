@@ -13,7 +13,7 @@ export default function HomePage() {
     <div className="min-h-screen">
 
       {/* Hero & About Combined Section */}
-      <section id="hakkimda" className="relative min-h-screen overflow-hidden">
+      <section id="hakkimda" className="relative min-h-screen overflow-hidden md:pt-20">
         {/* Animated Background */}
         <div className="absolute inset-0 w-full h-full">
           {/* Moving Gradient Background */}
@@ -46,7 +46,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col justify-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen md:min-h-[calc(100vh-5rem)] flex flex-col justify-center">
           {/* Hero Content */}
           <div className="text-center animate-fade-in-up">
             {/* Badge */}
@@ -100,24 +100,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4">
-              <Link href="/blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
-                <div className="flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 mr-2 sm:mr-3" />
-                  Yazıları Keşfet
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity"></div>
-              </Link>
 
-              <a href="#blog" className="group relative w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md hover:bg-white/20 text-white rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 border border-white/30 hover:border-white/50">
-                <div className="flex items-center justify-center">
-                  Yazıları Gör
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 sm:ml-3 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </a>
-            </div>
           </div>
 
 

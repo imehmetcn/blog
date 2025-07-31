@@ -25,13 +25,13 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <nav className="flex items-center space-x-2">
-              <a 
-                href="#hakkimda" 
+              <Link 
+                href="/" 
                 className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-2xl text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <Home className="w-5 h-5" />
                 <span>Ana Sayfa</span>
-              </a>
+              </Link>
               <a 
                 href="#blog" 
                 className="flex items-center space-x-2 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium"
@@ -60,22 +60,22 @@ export default function Navbar() {
           <div className="px-4 py-4">
             <nav className="flex justify-center items-center space-x-4">
               {/* Ana Sayfa - Active */}
-              <a 
-                href="#hakkimda" 
+              <Link 
+                href="/" 
                 className="flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <Home className="w-5 h-5 text-white" />
                 <span className="text-white text-sm font-medium">Ana Sayfa</span>
-              </a>
+              </Link>
               
               {/* Keşfet */}
-              <a 
+              <Link 
                 href="/blog" 
                 className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 border border-white/20"
               >
                 <BookOpen className="w-5 h-5 text-white" />
                 <span className="text-white text-sm font-medium">Keşfet</span>
-              </a>
+              </Link>
             </nav>
           </div>
         </div>
