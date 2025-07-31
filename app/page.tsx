@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Star, TrendingUp, BookOpen, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
+import { Calendar, ArrowRight, Star, TrendingUp, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
 import { getBlogPosts } from '../lib/blog-data'
 
 export default function HomePage() {
@@ -75,15 +75,7 @@ export default function HomePage() {
               <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
             </p>
 
-            {/* Profile Avatar */}
-            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-br from-primary-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-2xl">
-              <span className="text-white text-2xl sm:text-4xl font-bold">B</span>
-            </div>
 
-            {/* Profile Info */}
-            <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed max-w-3xl mx-auto">
-              Teknoloji tutkunu bir yazılım geliştirici ve blog yazarı
-            </p>
 
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
