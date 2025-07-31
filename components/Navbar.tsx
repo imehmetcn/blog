@@ -32,23 +32,29 @@ export default function Navbar() {
                 <Home className="w-5 h-5" />
                 <span>Ana Sayfa</span>
               </Link>
-              <a 
-                href="#blog" 
+              <Link 
+                href="/blog" 
                 className="flex items-center space-x-2 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium"
               >
                 <BookOpen className="w-5 h-5" />
                 <span>Blog</span>
-              </a>
+              </Link>
             </nav>
 
             {/* CTA Button */}
             <div className="flex items-center space-x-4">
-              <a 
-                href="#blog" 
+              <Link 
+                href="/admin" 
+                className="bg-orange-600/20 backdrop-blur-md text-orange-300 px-4 py-2 rounded-lg font-medium hover:bg-orange-600/30 transition-all duration-300 border border-orange-500/30 text-sm"
+              >
+                Admin
+              </Link>
+              <Link 
+                href="/blog" 
                 className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
               >
                 Yazıları Keşfet
-              </a>
+              </Link>
             </div>
           </div>
         </div>

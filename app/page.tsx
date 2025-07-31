@@ -135,12 +135,21 @@ export default function HomePage() {
                 className="group bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden card-hover border border-white/10 hover:border-white/20 animate-fade-in-up transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                {/* Image placeholder */}
-                <div className="h-40 sm:h-48 bg-gradient-to-br from-primary-500 to-blue-600 relative overflow-hidden">
+                {/* Banner Image */}
+                <div className="h-40 sm:h-48 relative overflow-hidden">
+                  {post.image ? (
+                    <img 
+                      src={post.image} 
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-primary-500 to-blue-600"></div>
+                  )}
                   <div className="absolute inset-0 bg-black/30"></div>
                   <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
                     <span className="px-2 sm:px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium rounded-full border border-white/30">
-                      Blog
+                      {post.category}
                     </span>
                   </div>
                   <div className="absolute top-3 sm:top-4 right-3 sm:right-4">

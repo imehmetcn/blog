@@ -9,6 +9,7 @@ export interface BlogPost {
   category: string
   tags: string[]
   readTime: string
+  image?: string // Banner resmi için
 }
 
 // Eski Blogspot sitenizden aktarılan blog yazıları
@@ -40,7 +41,8 @@ Yorumlarınızı ve geri bildirimlerinizi bekliyorum!`,
     slug: "blog-sitemize-hos-geldiniz",
     category: "Genel",
     tags: ["hoşgeldin", "blog", "yeni"],
-    readTime: "3 dk"
+    readTime: "3 dk",
+    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop"
   },
   
   // Buraya eski Blogspot yazılarınızı ekleyeceğiz
@@ -64,19 +66,34 @@ Yazının tam içeriği buraya gelecek...`,
 ]
 
 export function getBlogPosts() {
+  // Client-side'da localStorage'dan veri al
+  if (typeof window !== 'undefined') {
+    const savedPosts = localStorage.getItem('blogPosts')
+    if (savedPosts) {
+      const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
+        ...post,
+        createdAt: new Date(post.createdAt)
+      }))
+      return [...parsedPosts, ...blogPosts].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+    }
+  }
+  
   return blogPosts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
 }
 
 export function getBlogPost(slug: string) {
-  return blogPosts.find(post => post.slug === slug)
+  const allPosts = getBlogPosts()
+  return allPosts.find(post => post.slug === slug)
 }
 
 export function getCategories() {
-  const categories = blogPosts.map(post => post.category)
+  const allPosts = getBlogPosts()
+  const categories = allPosts.map(post => post.category)
   return [...new Set(categories)]
 }
 
 export function getTags() {
-  const tags = blogPosts.flatMap(post => post.tags)
+  const allPosts = getBlogPosts()
+  const tags = allPosts.flatMap(post => post.tags)
   return [...new Set(tags)]
 }
