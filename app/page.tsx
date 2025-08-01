@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Star, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
+import { Calendar, ArrowRight, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
 import { getBlogPosts, BlogPost } from '../lib/blog-data'
 
 export default function HomePage() {
@@ -39,7 +39,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero & About Combined Section */}
-      <section id="hakkimda" className="relative min-h-screen overflow-hidden md:pt-20">
+      <section id="hakkimda" className="relative min-h-screen overflow-hidden pt-16 md:pt-20">
         {/* Animated Background */}
         <div className="absolute inset-0 w-full h-full">
           {/* Moving Gradient Background */}
@@ -53,7 +53,7 @@ export default function HomePage() {
           </div>
 
           {/* Floating Particles */}
-          <div className="absolute inset-0">
+          <div className="absolute inset-0 hidden sm:block">
             <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
             <div className="absolute top-40 right-20 w-1 h-1 bg-blue-300 rounded-full opacity-40 animate-float-delayed"></div>
             <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-purple-300 rounded-full opacity-50 animate-float-slow"></div>
@@ -72,56 +72,48 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen md:min-h-[calc(100vh-5rem)] flex flex-col justify-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col justify-center">
           {/* Hero Content */}
           <div className="text-center animate-fade-in-up">
-            {/* Badge */}
-            <div className="mb-8">
-              <span className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md rounded-full text-sm font-medium text-white border border-white/20 shadow-lg">
-                <Star className="w-4 h-4 mr-2 text-yellow-400" />
-                Yeni yazılar her hafta
-              </span>
-            </div>
+
 
             {/* Main Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 sm:mb-8 leading-tight px-4">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-tight px-2 sm:px-4">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent block mb-2 sm:mb-0">
                 Merhaba Ben BiomysticY
               </span>
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent block">
                 Düşünce Dünyama Hoşgeldiniz
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 max-w-4xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-4">
-              Bu blogda <span className="text-blue-300 font-semibold">teknoloji</span>,
-              <span className="text-purple-300 font-semibold"> yaşam</span> ve
-              <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-200 max-w-4xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed font-light px-2 sm:px-4">
+              Blogumda <span className="text-blue-300 font-semibold">kişisel deneyimlerimi</span> paylaşıyorum.
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
-                <MapPin className="w-4 h-4 mr-2" />
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 px-2">
+              <div className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 text-xs sm:text-sm">
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Türkiye
               </div>
-              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
-                <Calendar className="w-4 h-4 mr-2" />
+              <div className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 text-xs sm:text-sm">
+                <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 2024'ten beri
               </div>
-              <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
-                <Heart className="w-4 h-4 mr-2" />
+              <div className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 text-xs sm:text-sm">
+                <Heart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                 Yazmayı seviyorum
               </div>
             </div>
           </div>
 
           {/* Scroll Indicator */}
-          <div className="flex justify-center mt-12 absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="flex justify-center mt-8 sm:mt-12 absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2">
             <a href="#blog" className="animate-bounce">
-              <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
-                <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
+              <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
+                <div className="w-0.5 h-2 sm:w-1 sm:h-3 bg-white/70 rounded-full mt-1.5 sm:mt-2 animate-pulse"></div>
               </div>
             </a>
           </div>
