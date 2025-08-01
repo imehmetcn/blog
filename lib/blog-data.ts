@@ -30,18 +30,6 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
     console.error('Blog posts fetch error:', error)
   }
   
-  // Fallback: localStorage'dan veri al
-  if (typeof window !== 'undefined') {
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
-        ...post,
-        createdAt: new Date(post.createdAt)
-      }))
-      return parsedPosts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-    }
-  }
-  
   return []
 }
 
@@ -58,18 +46,6 @@ export async function getBlogPost(slug: string): Promise<BlogPost | null> {
     }
   } catch (error) {
     console.error('Blog post fetch error:', error)
-  }
-  
-  // Fallback: localStorage'dan veri al
-  if (typeof window !== 'undefined') {
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
-        ...post,
-        createdAt: new Date(post.createdAt)
-      }))
-      return parsedPosts.find(post => post.slug === slug) || null
-    }
   }
   
   return null

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getBlogPosts } from '../../../../lib/blog-data'
+import { prisma } from '@/lib/prisma'
 
 // GET - ID veya slug ile post getir
 export async function GET(
@@ -7,12 +7,30 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const posts = await getBlogPosts()
+    let post = null
     
-    // Önce ID ile ara, sonra slug ile ara
-    let post = posts.find(p => p.id.toString() === params.id)
+    // Önce ID ile ara (sayısal ise)
+    if (!isNaN(Number(params.id))) {
+      post = await prisma.post.findUnique({
+        where: { id: parseInt(params.id) },
+        include: {
+          author: {
+            select: { username: true }
+          }
+        }
+      })
+    }
+    
+    // ID ile bulunamadıysa slug ile ara
     if (!post) {
-      post = posts.find(p => p.slug === params.id)
+      post = await prisma.post.findUnique({
+        where: { slug: params.id },
+        include: {
+          author: {
+            select: { username: true }
+          }
+        }
+      })
     }
     
     if (!post) {
@@ -22,7 +40,23 @@ export async function GET(
       )
     }
 
-    return NextResponse.json(post)
+    // Frontend için format düzenle
+    const formattedPost = {
+      id: post.id,
+      title: post.title,
+      slug: post.slug,
+      content: post.content,
+      category: post.category,
+      tags: post.tags,
+      readTime: post.readTime,
+      image: post.image,
+      contentImages: post.contentImages,
+      status: post.status,
+      createdAt: post.createdAt,
+      author: post.author.username
+    }
+
+    return NextResponse.json(formattedPost)
   } catch (error) {
     console.error('Post getirme hatası:', error)
     return NextResponse.json(
@@ -49,22 +83,6 @@ export async function PUT(
       )
     }
 
-    // Mevcut postları yükle
-    const posts = await getBlogPosts()
-    
-    // Önce ID ile ara, sonra slug ile ara
-    let postIndex = posts.findIndex(p => p.id.toString() === params.id)
-    if (postIndex === -1) {
-      postIndex = posts.findIndex(p => p.slug === params.id)
-    }
-    
-    if (postIndex === -1) {
-      return NextResponse.json(
-        { error: 'Post bulunamadı' },
-        { status: 404 }
-      )
-    }
-
     // Slug oluştur
     const slug = title
       .toLowerCase()
@@ -72,25 +90,40 @@ export async function PUT(
       .replace(/\s+/g, '-')
 
     // Post'u güncelle
-    const updatedPost = {
-      ...posts[postIndex],
-      title,
-      content,
-      slug,
-      status: status || 'draft',
-      readTime: Math.ceil(content.split(' ').length / 200) + ' dk',
-      contentImages: contentImages || [],
-      updatedAt: new Date()
+    const updatedPost = await prisma.post.update({
+      where: { id: parseInt(params.id) },
+      data: {
+        title,
+        content,
+        slug,
+        status: status || 'draft',
+        readTime: Math.ceil(content.split(' ').length / 200) + ' dk',
+        contentImages: contentImages || []
+      },
+      include: {
+        author: {
+          select: { username: true }
+        }
+      }
+    })
+
+    // Frontend için format düzenle
+    const formattedPost = {
+      id: updatedPost.id,
+      title: updatedPost.title,
+      slug: updatedPost.slug,
+      content: updatedPost.content,
+      category: updatedPost.category,
+      tags: updatedPost.tags,
+      readTime: updatedPost.readTime,
+      image: updatedPost.image,
+      contentImages: updatedPost.contentImages,
+      status: updatedPost.status,
+      createdAt: updatedPost.createdAt,
+      author: updatedPost.author.username
     }
 
-    posts[postIndex] = updatedPost
-
-    // localStorage'a kaydet (geçici çözüm)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('blogPosts', JSON.stringify(posts))
-    }
-
-    return NextResponse.json(updatedPost)
+    return NextResponse.json(formattedPost)
   } catch (error) {
     console.error('Post güncelleme hatası:', error)
     return NextResponse.json(
@@ -100,39 +133,30 @@ export async function PUT(
   }
 }
 
-// DELETE - Post sil (ID veya slug ile)
+// DELETE - Post sil
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Mevcut postları yükle
-    const posts = await getBlogPosts()
-    
-    // Önce ID ile ara, sonra slug ile ara
-    let postIndex = posts.findIndex(p => p.id.toString() === params.id)
-    if (postIndex === -1) {
-      postIndex = posts.findIndex(p => p.slug === params.id)
-    }
-    
-    if (postIndex === -1) {
-      return NextResponse.json(
-        { error: 'Post bulunamadı' },
-        { status: 404 }
-      )
-    }
-
     // Post'u sil
-    const deletedPost = posts.splice(postIndex, 1)[0]
-
-    // localStorage'a kaydet (geçici çözüm)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('blogPosts', JSON.stringify(posts))
-    }
+    const deletedPost = await prisma.post.delete({
+      where: { id: parseInt(params.id) },
+      include: {
+        author: {
+          select: { username: true }
+        }
+      }
+    })
 
     return NextResponse.json({ 
       message: 'Post başarıyla silindi',
-      deletedPost 
+      deletedPost: {
+        id: deletedPost.id,
+        title: deletedPost.title,
+        slug: deletedPost.slug,
+        author: deletedPost.author.username
+      }
     })
   } catch (error) {
     console.error('Post silme hatası:', error)
