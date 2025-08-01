@@ -37,10 +37,8 @@ export async function GET() {
     return NextResponse.json(formattedPosts)
   } catch (error) {
     console.error('Posts fetch error:', error)
-    return NextResponse.json(
-      { error: 'Blog yazıları getirilemedi' },
-      { status: 500 }
-    )
+    // Fallback: Boş array döndür
+    return NextResponse.json([])
   }
 }
 

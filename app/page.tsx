@@ -10,8 +10,11 @@ import { getBlogPosts, BlogPost } from '../lib/blog-data'
 export default function HomePage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     const loadPosts = async () => {
       try {
         const allPosts = await getBlogPosts()
@@ -25,6 +28,10 @@ export default function HomePage() {
 
     loadPosts()
   }, [])
+
+  if (!mounted) {
+    return null // Hydration mismatch'i önlemek için
+  }
 
   return (
     <div className="min-h-screen">
