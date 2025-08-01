@@ -9,8 +9,17 @@ import { tr } from 'date-fns/locale'
 export default function AdminDashboard() {
   const [posts, setPosts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
+    // Authentication kontrolü
+    const authStatus = localStorage.getItem('isAuthenticated')
+    if (authStatus !== 'true') {
+      window.location.href = '/login'
+      return
+    }
+    setIsAuthenticated(true)
+
     // localStorage'dan blog postlarını yükle
     const savedPosts = localStorage.getItem('blogPosts')
     if (savedPosts) {
@@ -22,6 +31,14 @@ export default function AdminDashboard() {
     }
     setLoading(false)
   }, [])
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yönlendiriliyor...</div>
+      </div>
+    )
+  }
   const [filter, setFilter] = useState('all')
 
   const filteredPosts = posts.filter(post => {
@@ -39,7 +56,8 @@ export default function AdminDashboard() {
 
   const handleLogout = () => {
     if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
-      window.location.href = '/dashboard'
+      localStorage.removeItem('isAuthenticated')
+      window.location.href = '/login'
     }
   }
 

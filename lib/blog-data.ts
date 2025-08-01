@@ -16,8 +16,22 @@ export interface BlogPost {
 // Statik blog yazıları (şimdilik boş, sadece dinamik yazılar kullanılacak)
 export const blogPosts: BlogPost[] = []
 
-export function getBlogPosts() {
-  // Client-side'da localStorage'dan veri al
+// Client-side için API çağrıları
+export async function getBlogPosts(): Promise<BlogPost[]> {
+  try {
+    const response = await fetch('/api/posts')
+    if (response.ok) {
+      const posts = await response.json()
+      return posts.map((post: any) => ({
+        ...post,
+        createdAt: new Date(post.createdAt)
+      }))
+    }
+  } catch (error) {
+    console.error('Blog posts fetch error:', error)
+  }
+  
+  // Fallback: localStorage'dan veri al
   if (typeof window !== 'undefined') {
     const savedPosts = localStorage.getItem('blogPosts')
     if (savedPosts) {
@@ -25,16 +39,40 @@ export function getBlogPosts() {
         ...post,
         createdAt: new Date(post.createdAt)
       }))
-      return [...parsedPosts, ...blogPosts].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      return parsedPosts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
     }
   }
   
-  return blogPosts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+  return []
 }
 
-export function getBlogPost(slug: string) {
-  const allPosts = getBlogPosts()
-  return allPosts.find(post => post.slug === slug)
+export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  try {
+    const response = await fetch(`/api/posts/${slug}`)
+    if (response.ok) {
+      const post = await response.json()
+      return {
+        ...post,
+        createdAt: new Date(post.createdAt)
+      }
+    }
+  } catch (error) {
+    console.error('Blog post fetch error:', error)
+  }
+  
+  // Fallback: localStorage'dan veri al
+  if (typeof window !== 'undefined') {
+    const savedPosts = localStorage.getItem('blogPosts')
+    if (savedPosts) {
+      const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
+        ...post,
+        createdAt: new Date(post.createdAt)
+      }))
+      return parsedPosts.find(post => post.slug === slug) || null
+    }
+  }
+  
+  return null
 }
 
 export function getCategories() {

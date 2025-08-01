@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon } from 'lucide-react'
 
@@ -15,6 +15,25 @@ export default function NewPostPage() {
     contentImages: [] as string[] // İçerik resimleri
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    // Authentication kontrolü
+    const authStatus = localStorage.getItem('isAuthenticated')
+    if (authStatus !== 'true') {
+      window.location.href = '/login'
+      return
+    }
+    setIsAuthenticated(true)
+  }, [])
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yönlendiriliyor...</div>
+      </div>
+    )
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

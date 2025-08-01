@@ -109,14 +109,14 @@ export default function HomePage() {
             </div>
           </div>
 
-            {/* Scroll Indicator */}
-            <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
-              <a href="#blog" className="animate-bounce">
-                <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
-                  <div className="w-0.5 h-2 sm:w-1 sm:h-3 bg-white/70 rounded-full mt-1.5 sm:mt-2 animate-pulse"></div>
-                </div>
-              </a>
-            </div>
+          {/* Scroll Indicator */}
+          <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
+            <a href="#blog" className="animate-bounce">
+              <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
+                <div className="w-0.5 h-2 sm:w-1 sm:h-3 bg-white/70 rounded-full mt-1.5 sm:mt-2 animate-pulse"></div>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
 
