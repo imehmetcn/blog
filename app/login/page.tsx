@@ -4,8 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Lock, User, Eye, EyeOff, ArrowLeft } from 'lucide-react'
+import { useToast } from '../../components/ToastContainer'
 
 export default function LoginPage() {
+  const { showSuccess, showError } = useToast()
   const router = useRouter()
   const [formData, setFormData] = useState({
     username: '',
@@ -36,12 +38,17 @@ export default function LoginPage() {
         localStorage.setItem('isAuthenticated', 'true')
         // Navbar'ı güncellemek için custom event tetikle
         window.dispatchEvent(new Event('authChange'))
-        router.push('/panel')
+        showSuccess('Hoş Geldiniz!', 'Giriş başarılı, yönlendiriliyorsunuz...')
+        setTimeout(() => {
+          router.push('/panel')
+        }, 1500)
       } else {
         setError(data.error || 'Giriş başarısız!')
+        showError('Giriş Başarısız', data.error || 'Kullanıcı adı veya şifre hatalı!')
       }
     } catch (error) {
       setError('Bir hata oluştu. Lütfen tekrar deneyin.')
+      showError('Bağlantı Hatası', 'Bir hata oluştu. Lütfen tekrar deneyin.')
     }
     
     setIsLoading(false)

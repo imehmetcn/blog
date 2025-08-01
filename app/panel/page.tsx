@@ -5,8 +5,10 @@ import Link from 'next/link'
 import { Plus, Edit, Trash2, Eye, Calendar, LogOut, Home } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
+import { useToast } from '../../components/ToastContainer'
 
 export default function AdminPanel() {
+  const { showSuccess, showError } = useToast()
   const [posts, setPosts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -66,13 +68,13 @@ export default function AdminPanel() {
         if (response.ok) {
           const updatedPosts = posts.filter(post => post.id !== id)
           setPosts(updatedPosts)
-          alert('Blog yazısı başarıyla silindi!')
+          showSuccess('Başarılı!', 'Blog yazısı başarıyla silindi')
         } else {
-          alert('Blog yazısı silinemedi!')
+          showError('Hata!', 'Blog yazısı silinemedi!')
         }
       } catch (error) {
         console.error('Silme hatası:', error)
-        alert('Bir hata oluştu!')
+        showError('Bağlantı Hatası', 'Bir hata oluştu!')
       }
     }
   }

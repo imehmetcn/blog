@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon, Trash2 } from 'lucide-react'
+import { useToast } from '../../../../components/ToastContainer'
 
 export default function EditPostPage() {
+  const { showSuccess, showError } = useToast()
   const params = useParams()
   const router = useRouter()
   const postId = params.id as string
@@ -77,15 +79,17 @@ export default function EditPostPage() {
       })
 
       if (response.ok) {
-        alert('Yazı başarıyla güncellendi!')
-        router.push('/panel')
+        showSuccess('Başarılı!', 'Yazı başarıyla güncellendi')
+        setTimeout(() => {
+          router.push('/panel')
+        }, 1500)
       } else {
         const error = await response.json()
-        alert('Yazı güncellenemedi: ' + (error.error || 'Bilinmeyen hata'))
+        showError('Hata!', 'Yazı güncellenemedi: ' + (error.error || 'Bilinmeyen hata'))
       }
     } catch (error) {
       console.error('API hatası:', error)
-      alert('Bir hata oluştu! Lütfen tekrar deneyin.')
+      showError('Bağlantı Hatası', 'Bir hata oluştu! Lütfen tekrar deneyin.')
     }
     setIsLoading(false)
   }
@@ -102,14 +106,16 @@ export default function EditPostPage() {
       })
 
       if (response.ok) {
-        alert('Yazı başarıyla silindi!')
-        router.push('/panel')
+        showSuccess('Başarılı!', 'Yazı başarıyla silindi')
+        setTimeout(() => {
+          router.push('/panel')
+        }, 1500)
       } else {
-        alert('Yazı silinemedi!')
+        showError('Hata!', 'Yazı silinemedi!')
       }
     } catch (error) {
       console.error('Silme hatası:', error)
-      alert('Bir hata oluştu!')
+      showError('Bağlantı Hatası', 'Bir hata oluştu!')
     }
     setIsDeleting(false)
   }
@@ -127,7 +133,7 @@ export default function EditPostPage() {
     if (file) {
       // Dosya boyutu kontrolü (5MB = 5 * 1024 * 1024 bytes)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Dosya boyutu 5MB\'dan büyük olamaz!')
+        showError('Dosya Çok Büyük', 'Dosya boyutu 5MB\'dan büyük olamaz!')
         return
       }
 
@@ -137,7 +143,7 @@ export default function EditPostPage() {
         
         // Base64 boyutu kontrolü (yaklaşık 1.5MB sınırı)
         if (result.length > 2 * 1024 * 1024) {
-          alert('Resim çok büyük! Lütfen daha küçük bir resim seçin.')
+          showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
           return
         }
 

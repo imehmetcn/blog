@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon } from 'lucide-react'
+import { useToast } from '../../../components/ToastContainer'
 
 export default function NewPostPage() {
+  const { showSuccess, showError } = useToast()
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -56,15 +58,17 @@ export default function NewPostPage() {
       if (response.ok) {
         const newPost = await response.json()
         console.log('Yeni yazı kaydedildi:', newPost)
-        alert('Yazı başarıyla kaydedildi!')
-        window.location.href = '/panel'
+        showSuccess('Başarılı!', 'Yazı başarıyla kaydedildi')
+        setTimeout(() => {
+          window.location.href = '/panel'
+        }, 1500)
       } else {
         const error = await response.json()
-        alert('Yazı kaydedilemedi: ' + (error.error || 'Bilinmeyen hata'))
+        showError('Hata!', 'Yazı kaydedilemedi: ' + (error.error || 'Bilinmeyen hata'))
       }
     } catch (error) {
       console.error('API hatası:', error)
-      alert('Bir hata oluştu! Lütfen tekrar deneyin.')
+      showError('Bağlantı Hatası', 'Bir hata oluştu! Lütfen tekrar deneyin.')
     }
     setIsLoading(false)
   }
@@ -82,7 +86,7 @@ export default function NewPostPage() {
     if (file) {
       // Dosya boyutu kontrolü (5MB = 5 * 1024 * 1024 bytes)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Dosya boyutu 5MB\'dan büyük olamaz!')
+        showError('Dosya Çok Büyük', 'Dosya boyutu 5MB\'dan büyük olamaz!')
         return
       }
 
@@ -92,7 +96,7 @@ export default function NewPostPage() {
         
         // Base64 boyutu kontrolü (yaklaşık 1.5MB sınırı)
         if (result.length > 2 * 1024 * 1024) {
-          alert('Resim çok büyük! Lütfen daha küçük bir resim seçin.')
+          showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
           return
         }
 
