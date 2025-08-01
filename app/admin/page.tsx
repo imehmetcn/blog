@@ -6,23 +6,40 @@ import { optimizeImage, validateImageFile } from '../../lib/image-utils'
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react'
 
 export default function AdminPage() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [isEditing, setIsEditing] = useState(false)
-  const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
-  const [formData, setFormData] = useState({
-    title: '',
-    excerpt: '',
-    content: ''
-  })
-  const [contentImages, setContentImages] = useState<string[]>([])
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // LocalStorage'dan blog yazılarını yükle
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      setPosts(JSON.parse(savedPosts))
+    setMounted(true)
+
+    // Authentication kontrolü
+    const authStatus = localStorage.getItem('isAuthenticated')
+    if (authStatus !== 'true') {
+      window.location.href = '/login'
+      return
     }
+    setIsAuthenticated(true)
   }, [])
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yükleniyor...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yönlendiriliyor...</div>
+      </div>
+    )
+  }
+
+  // Authentication başarılı, /panel'e yönlendir
+  window.location.href = '/panel'
+  return null
 
   const savePosts = (newPosts: BlogPost[]) => {
     localStorage.setItem('blogPosts', JSON.stringify(newPosts))
@@ -31,7 +48,7 @@ export default function AdminPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     const slug = formData.title
       .toLowerCase()
       .replace(/[^a-z0-9\s]/g, '')
@@ -66,16 +83,16 @@ export default function AdminPage() {
     }
 
     savePosts(updatedPosts)
-    
+
     // Debug: localStorage'ı kontrol et
     console.log('localStorage güncellendi:', {
       totalPosts: updatedPosts.length,
       lastPost: updatedPosts[0],
       lastPostContentImages: updatedPosts[0]?.contentImages
     })
-    
+
     resetForm()
-    
+
     // Diğer sayfaları güncellemeye zorla
     window.dispatchEvent(new Event('storage'))
   }
@@ -108,7 +125,7 @@ export default function AdminPage() {
       console.error('İçerik resmi optimizasyonu hatası:', error)
       alert('Resim işlenirken bir hata oluştu. Lütfen tekrar deneyin.')
     }
-    
+
     // Input'u temizle ki aynı dosya tekrar seçilebilsin
     e.target.value = ''
   }
@@ -128,7 +145,7 @@ export default function AdminPage() {
     if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
       const updatedPosts = posts.filter(post => post.id !== id)
       savePosts(updatedPosts)
-      
+
       // Diğer sayfaları güncellemeye zorla
       window.dispatchEvent(new Event('storage'))
     }
@@ -168,7 +185,7 @@ export default function AdminPage() {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Yazı başlığını girin..."
                   required
@@ -179,7 +196,7 @@ export default function AdminPage() {
                 <label className="block text-white font-medium mb-2">Özet</label>
                 <textarea
                   value={formData.excerpt}
-                  onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   rows={3}
                   placeholder="Yazının kısa özetini girin..."
@@ -193,7 +210,7 @@ export default function AdminPage() {
 
               <div>
                 <label className="block text-white font-medium mb-2">İçerik (Markdown destekli)</label>
-                
+
                 {/* Image Upload for Content */}
                 <div className="mb-4 p-4 bg-white/5 rounded-lg border border-white/10">
                   <div className="flex items-center justify-between mb-2">
@@ -211,7 +228,7 @@ export default function AdminPage() {
                       type="button"
                       onClick={() => {
                         const markdownHelp = `\n\n<!-- Markdown Resim Formatları -->\n![Alt metin](resim-url)\n![Resim başlığı](resim-url "Başlık")\n\n`
-                        setFormData({...formData, content: formData.content + markdownHelp})
+                        setFormData({ ...formData, content: formData.content + markdownHelp })
                       }}
                       className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
                     >
@@ -225,7 +242,7 @@ export default function AdminPage() {
                     <br />
                     🎯 Desteklenen formatlar: JPG, PNG, WebP, GIF (maksimum 5MB).
                   </p>
-                  
+
                   {/* İçerik Resimleri Önizleme */}
                   {contentImages.length > 0 && (
                     <div className="mt-4">
@@ -233,8 +250,8 @@ export default function AdminPage() {
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         {contentImages.map((image, index) => (
                           <div key={index} className="relative">
-                            <img 
-                              src={image} 
+                            <img
+                              src={image}
                               alt={`İçerik resmi ${index + 1}`}
                               className="w-full h-20 object-cover rounded border border-white/20"
                             />
@@ -257,13 +274,13 @@ export default function AdminPage() {
 
                 <textarea
                   value={formData.content}
-                  onChange={(e) => setFormData({...formData, content: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   rows={15}
                   placeholder="# Başlık&#10;&#10;Yazınızın içeriğini buraya yazın...&#10;&#10;## Alt Başlık&#10;&#10;Paragraf metni...&#10;&#10;![Resim açıklaması](resim-url)&#10;&#10;Resim eklemek için yukarıdaki 'İçerik Resmi Ekle' butonunu kullanın."
                   required
                 />
-                
+
                 {/* Markdown Preview */}
                 {formData.content && (
                   <div className="mt-4">
@@ -313,7 +330,7 @@ export default function AdminPage() {
         <div className="bg-white/5 backdrop-blur-md rounded-2xl border border-white/10">
           <div className="p-6">
             <h2 className="text-xl font-bold text-white mb-6">Mevcut Yazılar ({posts.length})</h2>
-            
+
             {posts.length === 0 ? (
               <p className="text-gray-400 text-center py-8">Henüz yazı eklenmemiş.</p>
             ) : (
@@ -331,7 +348,7 @@ export default function AdminPage() {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="flex space-x-2 ml-4">
                         <button
                           onClick={() => editPost(post)}

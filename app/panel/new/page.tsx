@@ -12,13 +12,15 @@ export default function NewPostPage() {
     status: 'draft',
     author: 'BiomysticY',
     readTime: '5 dk',
-    contentImages: [] as string[] // İçerik resimleri
+    contentImages: [] as string[]
   })
   const [isLoading, setIsLoading] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+    
     // Authentication kontrolü
     const authStatus = localStorage.getItem('isAuthenticated')
     if (authStatus !== 'true') {
@@ -28,23 +30,9 @@ export default function NewPostPage() {
     setIsAuthenticated(true)
   }, [])
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-gray-600">Yönlendiriliyor...</div>
-      </div>
-    )
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    // Slug oluştur
-    const slug = formData.title.toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .trim()
 
     // API'ye gönderilecek veri
     const postData = {
@@ -71,7 +59,7 @@ export default function NewPostPage() {
         const newPost = await response.json()
         console.log('Yeni yazı kaydedildi:', newPost)
         alert('Yazı başarıyla kaydedildi!')
-        window.location.href = '/admin/dashboard'
+        window.location.href = '/panel'
       } else {
         const error = await response.json()
         alert('Yazı kaydedilemedi: ' + (error.error || 'Bilinmeyen hata'))
@@ -130,6 +118,22 @@ export default function NewPostPage() {
     })
   }
 
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yükleniyor...</div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-gray-600">Yönlendiriliyor...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -138,7 +142,7 @@ export default function NewPostPage() {
           <div className="flex justify-between items-center">
             <div className="flex items-center space-x-4">
               <Link 
-                href="/admin/dashboard" 
+                href="/panel" 
                 className="p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50"
               >
                 <ArrowLeft className="w-5 h-5" />
@@ -193,8 +197,6 @@ export default function NewPostPage() {
               required
             />
           </div>
-
-
 
           {/* Content Images */}
           <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
@@ -282,7 +284,7 @@ export default function NewPostPage() {
 
               <div className="flex space-x-4">
                 <Link 
-                  href="/admin/dashboard" 
+                  href="/panel" 
                   className="btn-secondary"
                 >
                   İptal

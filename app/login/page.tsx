@@ -34,7 +34,7 @@ export default function LoginPage() {
       if (response.ok) {
         // Login başarılı
         localStorage.setItem('isAuthenticated', 'true')
-        router.push('/admin/dashboard')
+        router.push('/panel')
       } else {
         setError(data.error || 'Giriş başarısız!')
       }
