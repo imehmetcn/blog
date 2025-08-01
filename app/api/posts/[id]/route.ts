@@ -34,12 +34,12 @@ export async function PUT(
 ) {
   try {
     const body = await request.json()
-    const { title, excerpt, content, status, contentImages } = body
+    const { title, content, status, contentImages } = body
 
     // Validation
-    if (!title || !excerpt || !content) {
+    if (!title || !content) {
       return NextResponse.json(
-        { error: 'Başlık, özet ve içerik gereklidir' },
+        { error: 'Başlık ve içerik gereklidir' },
         { status: 400 }
       )
     }
@@ -65,7 +65,6 @@ export async function PUT(
     const updatedPost = {
       ...posts[postIndex],
       title,
-      excerpt,
       content,
       slug,
       status: status || 'draft',

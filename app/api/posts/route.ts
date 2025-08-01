@@ -22,7 +22,6 @@ export async function GET() {
       id: post.id,
       title: post.title,
       slug: post.slug,
-      excerpt: post.excerpt,
       content: post.content,
       category: post.category,
       tags: post.tags,
@@ -60,7 +59,6 @@ export async function POST(request: NextRequest) {
       data: {
         title: data.title,
         slug: slug,
-        excerpt: data.excerpt,
         content: data.content,
         category: data.category || 'Genel',
         tags: data.tags || [],
