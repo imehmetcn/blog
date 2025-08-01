@@ -13,3 +13,7 @@ out/
 
 # Prisma
 node_modules/.prisma/
+
+# Build
+dist/
+build/
