@@ -192,11 +192,6 @@ export default function HomePage() {
                         }`}
                     ></div>
                     <div className="absolute inset-0 bg-black/30"></div>
-                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
-                      <span className="px-2 sm:px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium rounded-full border border-white/30">
-                        {post.category}
-                      </span>
-                    </div>
                     <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex items-center space-x-2">
                       {isAuthenticated && (
                         <Link

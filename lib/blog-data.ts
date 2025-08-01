@@ -47,6 +47,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
+    // API endpoint artık hem ID hem slug kabul ediyor
     const response = await fetch(`/api/posts/${slug}`)
     if (response.ok) {
       const post = await response.json()
