@@ -8,6 +8,15 @@ import { Plus, Edit, Trash2, Save, X } from 'lucide-react'
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
+  const [formData, setFormData] = useState({
+    title: '',
+    excerpt: '',
+    content: ''
+  })
+  const [contentImages, setContentImages] = useState<string[]>([])
 
   useEffect(() => {
     setMounted(true)
@@ -19,6 +28,28 @@ export default function AdminPage() {
       return
     }
     setIsAuthenticated(true)
+
+    // Blog postlarını yükle
+    const loadPosts = () => {
+      const savedPosts = localStorage.getItem('blogPosts')
+      if (savedPosts) {
+        const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
+          ...post,
+          createdAt: new Date(post.createdAt)
+        }))
+        setPosts(parsedPosts)
+      }
+    }
+
+    loadPosts()
+
+    // Storage event listener
+    const handleStorageChange = () => {
+      loadPosts()
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
 
   if (!mounted) {
@@ -38,7 +69,9 @@ export default function AdminPage() {
   }
 
   // Authentication başarılı, /panel'e yönlendir
-  window.location.href = '/panel'
+  if (typeof window !== 'undefined') {
+    window.location.href = '/panel'
+  }
   return null
 
   const savePosts = (newPosts: BlogPost[]) => {

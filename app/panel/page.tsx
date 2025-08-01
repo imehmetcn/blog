@@ -119,25 +119,52 @@ export default function AdminPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-shift"></div>
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 via-transparent to-indigo-900/50 animate-gradient-shift-reverse"></div>
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        
+        {/* Floating Particles */}
+        <div className="absolute inset-0 hidden sm:block">
+          <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
+          <div className="absolute top-40 right-20 w-1 h-1 bg-blue-300 rounded-full opacity-40 animate-float-delayed"></div>
+          <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-purple-300 rounded-full opacity-50 animate-float-slow"></div>
+          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-pink-300 rounded-full opacity-30 animate-float"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-indigo-300 rounded-full opacity-40 animate-float-delayed"></div>
+        </div>
+      </div>
+
       {/* Header */}
-      <header className="glass-effect sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold gradient-text">Blog Yönetim Paneli</h1>
-              <p className="text-gray-600 mt-1">Blog yazılarınızı yönetin</p>
+      <header className="relative z-10 bg-black/20 backdrop-blur-md border-b border-white/10 pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <div className="animate-fade-in-up">
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+                Blog Yönetim Paneli
+              </h1>
+              <p className="text-gray-300 mt-2">Blog yazılarınızı yönetin ve düzenleyin</p>
             </div>
-            <div className="flex space-x-4">
-              <Link href="/" className="btn-secondary flex items-center">
+            <div className="flex flex-wrap gap-3">
+              <Link 
+                href="/" 
+                className="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center shadow-lg hover:shadow-xl"
+              >
                 <Home className="w-4 h-4 mr-2" />
                 Ana Sayfa
               </Link>
-              <Link href="/panel/new" className="btn-primary flex items-center">
+              <Link 
+                href="/panel/new" 
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Yeni Yazı
               </Link>
-              <button onClick={handleLogout} className="btn-secondary flex items-center text-red-600 hover:text-red-700">
+              <button 
+                onClick={handleLogout} 
+                className="bg-red-600/20 backdrop-blur-md text-red-300 px-4 py-2 rounded-xl font-medium hover:bg-red-600/30 transition-all duration-300 border border-red-500/30 flex items-center shadow-lg hover:shadow-xl"
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Çıkış
               </button>
@@ -146,92 +173,94 @@ export default function AdminPanel() {
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
-            <span className="ml-2 text-gray-600">Yükleniyor...</span>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+            <span className="ml-2 text-white">Yükleniyor...</span>
           </div>
         ) : (
           <>
             {/* Welcome Message */}
-            <div className="bg-gradient-to-r from-primary-500 to-blue-600 rounded-xl text-white p-6 mb-8">
-              <h2 className="text-2xl font-bold mb-2">Hoş Geldiniz! 👋</h2>
-              <p className="opacity-90">Blog yönetim panelinize hoş geldiniz. Buradan yazılarınızı oluşturabilir, düzenleyebilir ve yönetebilirsiniz.</p>
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 text-white p-6 mb-8 animate-fade-in-up card-hover">
+              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Hoş Geldiniz! 👋
+              </h2>
+              <p className="text-gray-300">Blog yönetim panelinize hoş geldiniz. Buradan yazılarınızı oluşturabilir, düzenleyebilir ve yönetebilirsiniz.</p>
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white p-6 rounded-xl shadow-lg card-hover border border-gray-100">
+              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Toplam Yazı</h3>
-                    <p className="text-3xl font-bold text-primary-600">{posts.length}</p>
+                    <h3 className="text-lg font-semibold text-white mb-2">Toplam Yazı</h3>
+                    <p className="text-3xl font-bold text-blue-400">{posts.length}</p>
                   </div>
-                  <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                    <Edit className="w-6 h-6 text-primary-600" />
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                    <Edit className="w-6 h-6 text-blue-400" />
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white p-6 rounded-xl shadow-lg card-hover border border-gray-100">
+              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Yayında</h3>
-                    <p className="text-3xl font-bold text-green-600">
+                    <h3 className="text-lg font-semibold text-white mb-2">Yayında</h3>
+                    <p className="text-3xl font-bold text-green-400">
                       {posts.filter(p => p.status === 'published').length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <Eye className="w-6 h-6 text-green-600" />
+                  <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                    <Eye className="w-6 h-6 text-green-400" />
                   </div>
                 </div>
               </div>
               
-              <div className="bg-white p-6 rounded-xl shadow-lg card-hover border border-gray-100">
+              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Taslak</h3>
-                    <p className="text-3xl font-bold text-yellow-600">
+                    <h3 className="text-lg font-semibold text-white mb-2">Taslak</h3>
+                    <p className="text-3xl font-bold text-yellow-400">
                       {posts.filter(p => p.status === 'draft').length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-yellow-600" />
+                  <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                    <Calendar className="w-6 h-6 text-yellow-400" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Filters */}
-            <div className="bg-white p-6 rounded-xl shadow-lg mb-6 border border-gray-100">
+            <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => setFilter('all')}
-                  className={`px-6 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
                     filter === 'all' 
-                      ? 'bg-primary-600 text-white shadow-lg' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform hover:-translate-y-0.5' 
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                   }`}
                 >
                   Tümü ({posts.length})
                 </button>
                 <button
                   onClick={() => setFilter('published')}
-                  className={`px-6 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
                     filter === 'published' 
-                      ? 'bg-primary-600 text-white shadow-lg' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg transform hover:-translate-y-0.5' 
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                   }`}
                 >
                   Yayında ({posts.filter(p => p.status === 'published').length})
                 </button>
                 <button
                   onClick={() => setFilter('draft')}
-                  className={`px-6 py-3 rounded-lg transition-all duration-200 font-medium ${
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
                     filter === 'draft' 
-                      ? 'bg-primary-600 text-white shadow-lg' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg transform hover:-translate-y-0.5' 
+                      : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                   }`}
                 >
                   Taslak ({posts.filter(p => p.status === 'draft').length})
@@ -240,32 +269,38 @@ export default function AdminPanel() {
             </div>
 
             {/* Posts List */}
-            <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
+                  <thead className="bg-white/10 border-b border-white/20">
                     <tr>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-900">Başlık</th>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-900">Durum</th>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-900">Tarih</th>
-                      <th className="text-right py-4 px-6 font-semibold text-gray-900">İşlemler</th>
+                      <th className="text-left py-4 px-6 font-semibold text-white">Başlık</th>
+                      <th className="text-left py-4 px-6 font-semibold text-white">Durum</th>
+                      <th className="text-left py-4 px-6 font-semibold text-white">Tarih</th>
+                      <th className="text-right py-4 px-6 font-semibold text-white">İşlemler</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredPosts.map((post) => (
-                      <tr key={post.id} className="border-b hover:bg-gray-50 transition-colors">
+                    {filteredPosts.map((post, index) => (
+                      <tr key={post.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
                         <td className="py-4 px-6">
                           <div>
-                            <h4 className="font-semibold text-gray-900 mb-1">{post.title}</h4>
-                            <p className="text-sm text-gray-600 line-clamp-1">{post.excerpt}</p>
+                            <h4 className="font-semibold text-white mb-1">{post.title}</h4>
+                            <p className="text-sm text-gray-300 line-clamp-1">{post.excerpt}</p>
                           </div>
                         </td>
                         <td className="py-4 px-6">
-                          {getStatusBadge(post.status)}
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            post.status === 'published' 
+                              ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                              : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                          }`}>
+                            {post.status === 'published' ? 'Yayında' : 'Taslak'}
+                          </span>
                         </td>
                         <td className="py-4 px-6">
-                          <div className="flex items-center text-sm text-gray-600">
-                            <Calendar className="w-4 h-4 mr-2 text-primary-500" />
+                          <div className="flex items-center text-sm text-gray-300">
+                            <Calendar className="w-4 h-4 mr-2 text-blue-400" />
                             {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
                           </div>
                         </td>
@@ -274,7 +309,7 @@ export default function AdminPanel() {
                             {post.status === 'published' && (
                               <Link
                                 href={`/blog/${post.slug}`}
-                                className="p-2 text-gray-600 hover:text-primary-600 transition-colors rounded-lg hover:bg-primary-50"
+                                className="p-2 text-gray-300 hover:text-blue-400 transition-colors rounded-lg hover:bg-blue-500/20"
                                 title="Görüntüle"
                               >
                                 <Eye className="w-4 h-4" />
@@ -282,14 +317,14 @@ export default function AdminPanel() {
                             )}
                             <Link
                               href={`/panel/edit/${post.id}`}
-                              className="p-2 text-gray-600 hover:text-blue-600 transition-colors rounded-lg hover:bg-blue-50"
+                              className="p-2 text-gray-300 hover:text-green-400 transition-colors rounded-lg hover:bg-green-500/20"
                               title="Düzenle"
                             >
                               <Edit className="w-4 h-4" />
                             </Link>
                             <button
                               onClick={() => handleDelete(post.id)}
-                              className="p-2 text-gray-600 hover:text-red-600 transition-colors rounded-lg hover:bg-red-50"
+                              className="p-2 text-gray-300 hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/20"
                               title="Sil"
                             >
                               <Trash2 className="w-4 h-4" />
@@ -304,14 +339,18 @@ export default function AdminPanel() {
             </div>
 
             {!loading && filteredPosts.length === 0 && (
-              <div className="text-center py-12 bg-white rounded-xl shadow-lg border border-gray-100">
+              <div className="text-center py-12 bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
                 <div className="max-w-md mx-auto">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Edit className="w-8 h-8 text-gray-400" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Henüz yazı bulunmuyor</h3>
-                  <p className="text-gray-600 mb-6">İlk blog yazınızı oluşturarak başlayın.</p>
-                  <Link href="/panel/new" className="btn-primary">
+                  <h3 className="text-lg font-semibold text-white mb-2">Henüz yazı bulunmuyor</h3>
+                  <p className="text-gray-300 mb-6">İlk blog yazınızı oluşturarak başlayın.</p>
+                  <Link 
+                    href="/panel/new" 
+                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
                     İlk Yazınızı Oluşturun
                   </Link>
                 </div>

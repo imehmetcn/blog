@@ -76,11 +76,11 @@ export default function HomePage() {
 
             {/* Main Heading */}
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-tight px-2 sm:px-4">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent block mb-2 sm:mb-0">
-                Merhaba Ben Elif
+              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
+                Merhaba Ben BiomysticY
               </span>
-              <br className="hidden sm:block" />
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent block">
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 Düşünce Dünyama Hoşgeldiniz
               </span>
             </h1>
