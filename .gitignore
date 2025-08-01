@@ -1,1 +1,15 @@
 node_modules
+.env
+.env.local
+.env.production.local
+.env.development.local
+
+# Vercel
+.vercel
+
+# Next.js
+.next/
+out/
+
+# Prisma
+node_modules/.prisma/
