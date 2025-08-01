@@ -72,7 +72,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"></div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col justify-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col justify-center py-8 sm:py-12">
           {/* Hero Content */}
           <div className="text-center animate-fade-in-up">
 
@@ -80,7 +80,7 @@ export default function HomePage() {
             {/* Main Heading */}
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-tight px-2 sm:px-4">
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent block mb-2 sm:mb-0">
-                Merhaba Ben BiomysticY
+                Merhaba Ben Elif
               </span>
               <br className="hidden sm:block" />
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent block">
@@ -109,14 +109,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="flex justify-center mt-8 sm:mt-12 absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2">
-            <a href="#blog" className="animate-bounce">
-              <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
-                <div className="w-0.5 h-2 sm:w-1 sm:h-3 bg-white/70 rounded-full mt-1.5 sm:mt-2 animate-pulse"></div>
-              </div>
-            </a>
-          </div>
+            {/* Scroll Indicator */}
+            <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
+              <a href="#blog" className="animate-bounce">
+                <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center cursor-pointer hover:border-white/80 transition-colors">
+                  <div className="w-0.5 h-2 sm:w-1 sm:h-3 bg-white/70 rounded-full mt-1.5 sm:mt-2 animate-pulse"></div>
+                </div>
+              </a>
+            </div>
         </div>
       </section>
 
