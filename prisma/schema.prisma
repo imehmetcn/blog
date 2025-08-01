@@ -29,7 +29,6 @@ model Post {
   id            Int      @id @default(autoincrement())
   title         String
   slug          String   @unique
-  excerpt       String
   content       String
   category      String   @default("Genel")
   tags          String[] @default([])

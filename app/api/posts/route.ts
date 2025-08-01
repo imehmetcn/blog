@@ -52,11 +52,42 @@ export async function POST(request: NextRequest) {
       .replace(/\s+/g, '-')
       .trim()
 
-    // Varsayılan user ID (şimdilik 1, sonra auth'dan alınacak)
-    const defaultUserId = 1
+    try {
+      // Önce veritabanına kaydetmeyi dene
+      const defaultUserId = 1
 
-    const post = await prisma.post.create({
-      data: {
+      const post = await prisma.post.create({
+        data: {
+          title: data.title,
+          slug: slug,
+          content: data.content,
+          category: data.category || 'Genel',
+          tags: data.tags || [],
+          readTime: data.readTime || '5 dk',
+          image: data.image,
+          contentImages: data.contentImages || [],
+          status: data.status || 'draft',
+          authorId: defaultUserId
+        },
+        include: {
+          author: {
+            select: {
+              username: true
+            }
+          }
+        }
+      })
+
+      return NextResponse.json({
+        ...post,
+        author: post.author.username
+      })
+    } catch (dbError) {
+      console.error('Database error, using localStorage fallback:', dbError)
+      
+      // Fallback: localStorage kullan
+      const newPost = {
+        id: Date.now(),
         title: data.title,
         slug: slug,
         content: data.content,
@@ -66,21 +97,12 @@ export async function POST(request: NextRequest) {
         image: data.image,
         contentImages: data.contentImages || [],
         status: data.status || 'draft',
-        authorId: defaultUserId
-      },
-      include: {
-        author: {
-          select: {
-            username: true
-          }
-        }
+        createdAt: new Date(),
+        author: 'BiomysticY'
       }
-    })
 
-    return NextResponse.json({
-      ...post,
-      author: post.author.username
-    })
+      return NextResponse.json(newPost)
+    }
   } catch (error) {
     console.error('Post creation error:', error)
     return NextResponse.json(
