@@ -41,7 +41,7 @@ export default function NewPost() {
         <div className="max-w-6xl mx-auto px-4 py-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <Link 
+              <Link
                 href="/dashboard"
                 className="inline-flex items-center text-primary-600 hover:text-primary-700 mr-6"
               >
@@ -50,7 +50,7 @@ export default function NewPost() {
               </Link>
               <h1 className="text-2xl font-bold text-gray-900">Yeni Yazı</h1>
             </div>
-            
+
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => setIsPreview(!isPreview)}
@@ -59,7 +59,7 @@ export default function NewPost() {
                 <Eye className="w-4 h-4 mr-2" />
                 {isPreview ? 'Düzenle' : 'Önizle'}
               </button>
-              
+
               <button
                 onClick={() => handleSave('draft')}
                 className="btn-secondary"
@@ -67,7 +67,7 @@ export default function NewPost() {
                 <Save className="w-4 h-4 mr-2" />
                 Taslak Kaydet
               </button>
-              
+
               <button
                 onClick={() => handleSave('published')}
                 className="btn-primary"
@@ -118,7 +118,7 @@ export default function NewPost() {
 
                   <div>
                     <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
-                      İçerik * (Markdown desteklenir)
+                      İçerik *
                     </label>
                     <textarea
                       id="content"
@@ -153,7 +153,7 @@ console.log('Merhaba Dünya!');
             <div className="space-y-6">
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Yayın Ayarları</h3>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -200,7 +200,7 @@ console.log('Merhaba Dünya!');
                   Yazar: BiomysticY • Şimdi
                 </div>
               </header>
-              
+
               <div className="prose-custom">
                 {content ? (
                   <ReactMarkdown>{content}</ReactMarkdown>
