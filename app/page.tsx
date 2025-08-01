@@ -4,16 +4,21 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
+import { Calendar, ArrowRight, Github, Twitter, Mail, MapPin, Heart, Edit } from 'lucide-react'
 import { getBlogPosts, BlogPost } from '../lib/blog-data'
 
 export default function HomePage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
   const [mounted, setMounted] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+    
+    // Authentication durumunu kontrol et
+    const authStatus = localStorage.getItem('isAuthenticated')
+    setIsAuthenticated(authStatus === 'true')
     
     const loadPosts = async () => {
       try {
@@ -151,8 +156,8 @@ export default function HomePage() {
             ) : posts.length === 0 ? (
               <div className="col-span-full text-center py-12">
                 <p className="text-gray-400 text-lg">Henüz blog yazısı yok.</p>
-                <Link href="/admin" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
-                  İlk yazınızı oluşturun
+                <Link href="/login" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
+                  Giriş yaparak ilk yazınızı oluşturun
                 </Link>
               </div>
             ) : (
@@ -192,7 +197,16 @@ export default function HomePage() {
                         {post.category}
                       </span>
                     </div>
-                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex items-center space-x-2">
+                      {isAuthenticated && (
+                        <Link
+                          href={`/panel/edit/${post.id}`}
+                          className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/30 transition-all duration-200 opacity-0 group-hover:opacity-100 hover:scale-110"
+                          title="Düzenle"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Link>
+                      )}
                       <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
                     </div>
                   </div>
@@ -202,9 +216,7 @@ export default function HomePage() {
                       {post.title}
                     </h4>
 
-                    <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed line-clamp-3 text-sm sm:text-base">
-                      {post.excerpt}
-                    </p>
+
 
                     <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 space-y-2 sm:space-y-0 sm:space-x-4">
                       <div className="flex items-center">

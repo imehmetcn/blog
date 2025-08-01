@@ -80,6 +80,8 @@ export default function AdminPanel() {
   const handleLogout = () => {
     if (confirm('Çıkış yapmak istediğinizden emin misiniz?')) {
       localStorage.removeItem('isAuthenticated')
+      // Navbar'ı güncellemek için custom event tetikle
+      window.dispatchEvent(new Event('authChange'))
       window.location.href = '/login'
     }
   }
@@ -286,7 +288,6 @@ export default function AdminPanel() {
                         <td className="py-4 px-6">
                           <div>
                             <h4 className="font-semibold text-white mb-1">{post.title}</h4>
-                            <p className="text-sm text-gray-300 line-clamp-1">{post.excerpt}</p>
                           </div>
                         </td>
                         <td className="py-4 px-6">

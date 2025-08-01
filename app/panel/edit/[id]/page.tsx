@@ -2,9 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon, Trash2 } from 'lucide-react'
 
-export default function NewPostPage() {
+export default function EditPostPage() {
+  const params = useParams()
+  const router = useRouter()
+  const postId = params.id as string
+  
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -14,8 +19,10 @@ export default function NewPostPage() {
     contentImages: [] as string[]
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [postFound, setPostFound] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -23,50 +30,88 @@ export default function NewPostPage() {
     // Authentication kontrolü
     const authStatus = localStorage.getItem('isAuthenticated')
     if (authStatus !== 'true') {
-      window.location.href = '/login'
+      router.push('/login')
       return
     }
     setIsAuthenticated(true)
-  }, [])
+
+    // Post verilerini yükle
+    loadPost()
+  }, [postId, router])
+
+  const loadPost = async () => {
+    try {
+      const response = await fetch(`/api/posts/${postId}`)
+      if (response.ok) {
+        const post = await response.json()
+        setFormData({
+          title: post.title,
+          content: post.content,
+          status: post.status || 'draft',
+          author: post.author || 'BiomysticY',
+          readTime: post.readTime || '5 dk',
+          contentImages: post.contentImages || []
+        })
+        setPostFound(true)
+      } else {
+        console.error('Post bulunamadı')
+        setPostFound(false)
+      }
+    } catch (error) {
+      console.error('Post yükleme hatası:', error)
+      setPostFound(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
-    // API'ye gönderilecek veri
-    const postData = {
-      title: formData.title,
-      content: formData.content,
-      category: 'Genel',
-      tags: [],
-      readTime: formData.readTime,
-      contentImages: formData.contentImages,
-      status: formData.status
-    }
-
     try {
-      const response = await fetch('/api/posts', {
-        method: 'POST',
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(postData),
+        body: JSON.stringify(formData),
       })
 
       if (response.ok) {
-        const newPost = await response.json()
-        console.log('Yeni yazı kaydedildi:', newPost)
-        alert('Yazı başarıyla kaydedildi!')
-        window.location.href = '/panel'
+        alert('Yazı başarıyla güncellendi!')
+        router.push('/panel')
       } else {
         const error = await response.json()
-        alert('Yazı kaydedilemedi: ' + (error.error || 'Bilinmeyen hata'))
+        alert('Yazı güncellenemedi: ' + (error.error || 'Bilinmeyen hata'))
       }
     } catch (error) {
       console.error('API hatası:', error)
       alert('Bir hata oluştu! Lütfen tekrar deneyin.')
     }
     setIsLoading(false)
+  }
+
+  const handleDelete = async () => {
+    if (!confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
+      return
+    }
+
+    setIsDeleting(true)
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        alert('Yazı başarıyla silindi!')
+        router.push('/panel')
+      } else {
+        alert('Yazı silinemedi!')
+      }
+    } catch (error) {
+      console.error('Silme hatası:', error)
+      alert('Bir hata oluştu!')
+    }
+    setIsDeleting(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -132,6 +177,31 @@ export default function NewPostPage() {
     )
   }
 
+  if (!postFound) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 w-full h-full">
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-shift"></div>
+          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        </div>
+        
+        <div className="relative z-10 min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold text-white mb-4">Yazı Bulunamadı</h1>
+            <p className="text-gray-300 mb-8">Aradığınız yazı bulunamadı veya silinmiş olabilir.</p>
+            <Link 
+              href="/panel" 
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Panele Dön
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-gray-900 relative overflow-hidden">
       {/* Animated Background */}
@@ -145,8 +215,6 @@ export default function NewPostPage() {
           <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
           <div className="absolute top-40 right-20 w-1 h-1 bg-blue-300 rounded-full opacity-40 animate-float-delayed"></div>
           <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-purple-300 rounded-full opacity-50 animate-float-slow"></div>
-          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-pink-300 rounded-full opacity-30 animate-float"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-2 h-2 bg-indigo-300 rounded-full opacity-40 animate-float-delayed"></div>
         </div>
       </div>
 
@@ -163,9 +231,9 @@ export default function NewPostPage() {
               </Link>
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
-                  Yeni Yazı
+                  Yazıyı Düzenle
                 </h1>
-                <p className="text-gray-300 mt-1">Yeni bir blog yazısı oluşturun</p>
+                <p className="text-gray-300 mt-1">Blog yazısını güncelleyin</p>
               </div>
             </div>
             <div className="flex space-x-4">
@@ -176,6 +244,23 @@ export default function NewPostPage() {
                 <Home className="w-4 h-4 mr-2" />
                 Ana Sayfa
               </Link>
+              <button
+                onClick={handleDelete}
+                disabled={isDeleting}
+                className="bg-red-600/20 backdrop-blur-md text-red-300 px-4 py-2 rounded-xl font-medium hover:bg-red-600/30 transition-all duration-300 border border-red-500/30 flex items-center shadow-lg hover:shadow-xl disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-300 mr-2"></div>
+                    Siliniyor...
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    Sil
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
@@ -301,12 +386,12 @@ export default function NewPostPage() {
                   {isLoading ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Kaydediliyor...
+                      Güncelleniyor...
                     </>
                   ) : (
                     <>
                       <Save className="w-4 h-4 mr-2" />
-                      Kaydet
+                      Güncelle
                     </>
                   )}
                 </button>

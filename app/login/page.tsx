@@ -34,6 +34,8 @@ export default function LoginPage() {
       if (response.ok) {
         // Login başarılı
         localStorage.setItem('isAuthenticated', 'true')
+        // Navbar'ı güncellemek için custom event tetikle
+        window.dispatchEvent(new Event('authChange'))
         router.push('/panel')
       } else {
         setError(data.error || 'Giriş başarısız!')

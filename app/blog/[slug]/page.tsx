@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowLeft } from 'lucide-react'
+import { Calendar, ArrowLeft, Edit } from 'lucide-react'
 import { getBlogPost, BlogPost } from '../../../lib/blog-data'
 
 interface BlogPostPageProps {
@@ -16,8 +16,13 @@ interface BlogPostPageProps {
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
+    // Authentication durumunu kontrol et
+    const authStatus = localStorage.getItem('isAuthenticated')
+    setIsAuthenticated(authStatus === 'true')
+    
     const loadPost = async () => {
       try {
         const foundPost = await getBlogPost(params.slug)
@@ -72,23 +77,36 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             {post.title}
           </h1>
 
-          <div className="flex items-center gap-6 text-gray-300 mb-6">
-            <div className="flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
-                <span className="text-white font-bold text-sm">B</span>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-6 text-gray-300">
+              <div className="flex items-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
+                  <span className="text-white font-bold text-sm">B</span>
+                </div>
+                <div>
+                  <div className="font-medium text-white">{post.author}</div>
+                  <div className="text-sm text-gray-400">Yazar</div>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Calendar className="w-4 h-4 mr-2" />
+                <span>{format(post.createdAt, 'dd MMMM yyyy', { locale: tr })}</span>
               </div>
               <div>
-                <div className="font-medium text-white">{post.author}</div>
-                <div className="text-sm text-gray-400">Yazar</div>
+                <span className="text-sm">{post.readTime} okuma</span>
               </div>
             </div>
-            <div className="flex items-center">
-              <Calendar className="w-4 h-4 mr-2" />
-              <span>{format(post.createdAt, 'dd MMMM yyyy', { locale: tr })}</span>
-            </div>
-            <div>
-              <span className="text-sm">{post.readTime} okuma</span>
-            </div>
+            
+            {isAuthenticated && (
+              <Link
+                href={`/panel/edit/${post.id}`}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl font-medium hover:shadow-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                title="Yazıyı Düzenle"
+              >
+                <Edit className="w-4 h-4 mr-2" />
+                Düzenle
+              </Link>
+            )}
           </div>
 
 

@@ -1,9 +1,45 @@
 'use client'
 
 import Link from 'next/link'
-import { Home, BookOpen } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Home, BookOpen, Settings } from 'lucide-react'
 
 export default function Navbar() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    
+    // Authentication durumunu kontrol et
+    const authStatus = localStorage.getItem('isAuthenticated')
+    setIsAuthenticated(authStatus === 'true')
+    
+    // Storage değişikliklerini dinle
+    const handleStorageChange = () => {
+      const authStatus = localStorage.getItem('isAuthenticated')
+      setIsAuthenticated(authStatus === 'true')
+    }
+    
+    window.addEventListener('storage', handleStorageChange)
+    
+    // Login/logout işlemlerini dinlemek için custom event
+    const handleAuthChange = () => {
+      const authStatus = localStorage.getItem('isAuthenticated')
+      setIsAuthenticated(authStatus === 'true')
+    }
+    
+    window.addEventListener('authChange', handleAuthChange)
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('authChange', handleAuthChange)
+    }
+  }, [])
+
+  if (!mounted) {
+    return null // Hydration mismatch'i önlemek için
+  }
   return (
     <>
       {/* Desktop Navigation */}
@@ -41,14 +77,24 @@ export default function Navbar() {
               </Link>
             </nav>
 
-            {/* CTA Button */}
+            {/* Auth Button */}
             <div className="flex items-center space-x-4">
-              <Link 
-                href="/#blog" 
-                className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
-              >
-                Yazıları Keşfet
-              </Link>
+              {isAuthenticated ? (
+                <Link 
+                  href="/panel" 
+                  className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-medium hover:shadow-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center space-x-2"
+                >
+                  <Settings className="w-5 h-5" />
+                  <span>Panel</span>
+                </Link>
+              ) : (
+                <Link 
+                  href="/login" 
+                  className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
+                >
+                  Giriş Yap
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -84,6 +130,15 @@ export default function Navbar() {
                 <BookOpen className="w-4 h-4" />
                 <span>Blog</span>
               </Link>
+              {isAuthenticated && (
+                <Link 
+                  href="/panel" 
+                  className="flex items-center space-x-1 bg-gradient-to-r from-green-600 to-emerald-600 px-3 py-2 rounded-lg text-white text-sm font-medium"
+                >
+                  <Settings className="w-4 h-4" />
+                  <span>Panel</span>
+                </Link>
+              )}
             </nav>
           </div>
         </div>
