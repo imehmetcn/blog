@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { BlogPost } from '../../lib/blog-data'
+import { optimizeImage, validateImageFile } from '../../lib/image-utils'
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react'
 
 export default function AdminPage() {
@@ -11,12 +12,9 @@ export default function AdminPage() {
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
-    content: '',
-    category: '',
-    tags: '',
-    image: '',
-    imageUrl: ''
+    content: ''
   })
+  const [contentImages, setContentImages] = useState<string[]>([])
 
   useEffect(() => {
     // LocalStorage'dan blog yazılarını yükle
@@ -47,11 +45,18 @@ export default function AdminPage() {
       createdAt: editingPost ? editingPost.createdAt : new Date(),
       author: "BiomysticY",
       slug: slug,
-      category: formData.category,
-      tags: formData.tags.split(',').map(tag => tag.trim()),
+      category: 'Genel',
+      tags: [],
       readTime: Math.ceil(formData.content.split(' ').length / 200) + ' dk',
-      image: formData.image || undefined
+      contentImages: contentImages.length > 0 ? contentImages : undefined
     }
+
+    // Debug: İçerik resimlerini kontrol et
+    console.log('Kaydedilen post:', {
+      title: newPost.title,
+      contentImages: newPost.contentImages,
+      contentImagesCount: contentImages.length
+    })
 
     let updatedPosts
     if (editingPost) {
@@ -61,49 +66,60 @@ export default function AdminPage() {
     }
 
     savePosts(updatedPosts)
+    
+    // Debug: localStorage'ı kontrol et
+    console.log('localStorage güncellendi:', {
+      totalPosts: updatedPosts.length,
+      lastPost: updatedPosts[0],
+      lastPostContentImages: updatedPosts[0]?.contentImages
+    })
+    
     resetForm()
+    
+    // Diğer sayfaları güncellemeye zorla
+    window.dispatchEvent(new Event('storage'))
   }
 
   const resetForm = () => {
-    setFormData({ title: '', excerpt: '', content: '', category: '', tags: '', image: '', imageUrl: '' })
+    setFormData({ title: '', excerpt: '', content: '' })
+    setContentImages([])
     setIsEditing(false)
     setEditingPost(null)
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
+  const handleContentImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      // Dosya boyutu kontrolü (5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Dosya boyutu 5MB\'dan büyük olamaz!')
-        return
-      }
+    if (!file) return
 
-      // Dosya tipi kontrolü
-      if (!file.type.startsWith('image/')) {
-        alert('Lütfen sadece resim dosyası seçin!')
-        return
-      }
-
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const base64String = event.target?.result as string
-        setFormData({...formData, image: base64String, imageUrl: ''})
-      }
-      reader.readAsDataURL(file)
+    // Dosya validasyonu
+    const validation = validateImageFile(file, 5)
+    if (!validation.isValid) {
+      alert(validation.error)
+      return
     }
+
+    try {
+      // İçerik resimleri için optimize et
+      const optimizedBase64 = await optimizeImage(file, 600, 400, 0.7)
+      setContentImages([...contentImages, optimizedBase64])
+    } catch (error) {
+      console.error('İçerik resmi optimizasyonu hatası:', error)
+      alert('Resim işlenirken bir hata oluştu. Lütfen tekrar deneyin.')
+    }
+    
+    // Input'u temizle ki aynı dosya tekrar seçilebilsin
+    e.target.value = ''
   }
 
   const editPost = (post: BlogPost) => {
     setFormData({
       title: post.title,
       excerpt: post.excerpt,
-      content: post.content,
-      category: post.category,
-      tags: post.tags.join(', '),
-      image: post.image || '',
-      imageUrl: post.image?.startsWith('http') ? post.image : ''
+      content: post.content
     })
+    setContentImages(post.contentImages || [])
     setEditingPost(post)
     setIsEditing(true)
   }
@@ -112,6 +128,9 @@ export default function AdminPage() {
     if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
       const updatedPosts = posts.filter(post => post.id !== id)
       savePosts(updatedPosts)
+      
+      // Diğer sayfaları güncellemeye zorla
+      window.dispatchEvent(new Event('storage'))
     }
   }
 
@@ -168,92 +187,107 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-white font-medium mb-2">Banner Resmi</label>
-                <div className="space-y-4">
-                  {/* File Upload */}
-                  <div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-600 file:text-white hover:file:bg-blue-700 file:cursor-pointer"
-                    />
-                    <p className="text-gray-400 text-sm mt-2">
-                      JPG, PNG, WebP formatlarında maksimum 5MB boyutunda resim yükleyebilirsiniz.
-                    </p>
-                  </div>
 
-                  {/* URL Input as Alternative */}
-                  <div>
-                    <label className="block text-gray-300 text-sm mb-2">Veya resim URL'si girin:</label>
-                    <input
-                      type="url"
-                      value={formData.imageUrl || ''}
-                      onChange={(e) => setFormData({...formData, imageUrl: e.target.value, image: e.target.value})}
-                      className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="https://example.com/image.jpg"
-                    />
-                  </div>
 
-                  {/* Image Preview */}
-                  {formData.image && (
-                    <div className="mt-3">
-                      <img 
-                        src={formData.image} 
-                        alt="Önizleme" 
-                        className="w-full h-48 object-cover rounded-lg border border-white/20"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setFormData({...formData, image: '', imageUrl: ''})}
-                        className="mt-2 text-red-400 hover:text-red-300 text-sm transition-colors"
-                      >
-                        Resmi Kaldır
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-medium mb-2">Kategori</label>
-                  <input
-                    type="text"
-                    value={formData.category}
-                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Teknoloji, Yaşam, vb."
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white font-medium mb-2">Etiketler</label>
-                  <input
-                    type="text"
-                    value={formData.tags}
-                    onChange={(e) => setFormData({...formData, tags: e.target.value})}
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="etiket1, etiket2, etiket3"
-                  />
-                </div>
-              </div>
 
               <div>
                 <label className="block text-white font-medium mb-2">İçerik (Markdown destekli)</label>
+                
+                {/* Image Upload for Content */}
+                <div className="mb-4 p-4 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-white font-medium">İçerik Resmi Ekle</h4>
+                    <span className="text-xs text-gray-400">Maksimum 5MB</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleContentImageUpload}
+                      className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-green-600 file:text-white hover:file:bg-green-700 file:cursor-pointer text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const markdownHelp = `\n\n<!-- Markdown Resim Formatları -->\n![Alt metin](resim-url)\n![Resim başlığı](resim-url "Başlık")\n\n`
+                        setFormData({...formData, content: formData.content + markdownHelp})
+                      }}
+                      className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                    >
+                      Yardım
+                    </button>
+                  </div>
+                  <p className="text-gray-400 text-sm mt-2">
+                    📸 Resim yükleyin ve blog yazısının içeriğinde görüntülensin.
+                    <br />
+                    ⚡ Resimler otomatik olarak sıkıştırılır ve boyutları küçültülür (600x400px, %70 kalite).
+                    <br />
+                    🎯 Desteklenen formatlar: JPG, PNG, WebP, GIF (maksimum 5MB).
+                  </p>
+                  
+                  {/* İçerik Resimleri Önizleme */}
+                  {contentImages.length > 0 && (
+                    <div className="mt-4">
+                      <h5 className="text-white font-medium mb-2">İçerik Resimleri ({contentImages.length})</h5>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        {contentImages.map((image, index) => (
+                          <div key={index} className="relative">
+                            <img 
+                              src={image} 
+                              alt={`İçerik resmi ${index + 1}`}
+                              className="w-full h-20 object-cover rounded border border-white/20"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newImages = contentImages.filter((_, i) => i !== index)
+                                setContentImages(newImages)
+                              }}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                            >
+                              ×
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({...formData, content: e.target.value})}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                   rows={15}
-                  placeholder="# Başlık&#10;&#10;Yazınızın içeriğini buraya yazın...&#10;&#10;## Alt Başlık&#10;&#10;Paragraf metni..."
+                  placeholder="# Başlık&#10;&#10;Yazınızın içeriğini buraya yazın...&#10;&#10;## Alt Başlık&#10;&#10;Paragraf metni...&#10;&#10;![Resim açıklaması](resim-url)&#10;&#10;Resim eklemek için yukarıdaki 'İçerik Resmi Ekle' butonunu kullanın."
                   required
                 />
+                
+                {/* Markdown Preview */}
+                {formData.content && (
+                  <div className="mt-4">
+                    <h4 className="text-white font-medium mb-2">Önizleme:</h4>
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 max-h-64 overflow-y-auto">
+                      <div className="prose-custom text-sm">
+                        {formData.content.split('\n').slice(0, 10).map((line, index) => (
+                          <div key={index} className="text-gray-300 mb-1">
+                            {line.startsWith('#') ? (
+                              <span className="text-white font-bold">{line}</span>
+                            ) : line.startsWith('![') ? (
+                              <span className="text-blue-400">{line}</span>
+                            ) : (
+                              line
+                            )}
+                          </div>
+                        ))}
+                        {formData.content.split('\n').length > 10 && (
+                          <div className="text-gray-500 text-xs">... ve {formData.content.split('\n').length - 10} satır daha</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               <div className="flex space-x-4">
@@ -288,25 +322,10 @@ export default function AdminPage() {
                   <div key={post.id} className="bg-white/5 rounded-lg p-4 border border-white/10">
                     <div className="flex justify-between items-start">
                       <div className="flex space-x-4 flex-1">
-                        {/* Image Preview */}
-                        {post.image && (
-                          <div className="flex-shrink-0">
-                            <img 
-                              src={post.image} 
-                              alt={post.title}
-                              className="w-16 h-16 object-cover rounded-lg border border-white/20"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none'
-                              }}
-                            />
-                          </div>
-                        )}
-                        
                         <div className="flex-1">
                           <h3 className="text-lg font-semibold text-white mb-2">{post.title}</h3>
                           <p className="text-gray-300 text-sm mb-2">{post.excerpt}</p>
                           <div className="flex items-center space-x-4 text-xs text-gray-400">
-                            <span>{post.category}</span>
                             <span>{post.readTime}</span>
                             <span>{new Date(post.createdAt).toLocaleDateString('tr-TR')}</span>
                           </div>

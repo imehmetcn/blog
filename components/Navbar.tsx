@@ -33,7 +33,7 @@ export default function Navbar() {
                 <span>Ana Sayfa</span>
               </Link>
               <Link 
-                href="/blog" 
+                href="/#blog" 
                 className="flex items-center space-x-2 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium"
               >
                 <BookOpen className="w-5 h-5" />
@@ -50,7 +50,7 @@ export default function Navbar() {
                 Admin
               </Link>
               <Link 
-                href="/blog" 
+                href="/#blog" 
                 className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
               >
                 Yazıları Keşfet
@@ -60,32 +60,40 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Navigation - Always Visible Bottom Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-        <div className="bg-black/20 backdrop-blur-md rounded-t-3xl mx-4 mb-4 shadow-2xl border border-white/10">
-          <div className="px-4 py-4">
-            <nav className="flex justify-center items-center space-x-4">
-              {/* Ana Sayfa - Active */}
+      {/* Mobile Navigation - Top Bar */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div className="px-4 py-3">
+          <div className="flex justify-between items-center">
+            {/* Logo */}
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-sm">B</span>
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-white">BiomysticY</h1>
+              </div>
+            </Link>
+
+            {/* Mobile Navigation */}
+            <nav className="flex items-center space-x-2">
               <Link 
                 href="/" 
-                className="flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                className="flex items-center space-x-1 bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-2 rounded-lg text-white text-sm font-medium"
               >
-                <Home className="w-5 h-5 text-white" />
-                <span className="text-white text-sm font-medium">Ana Sayfa</span>
+                <Home className="w-4 h-4" />
+                <span>Ana Sayfa</span>
               </Link>
-              
-              {/* Keşfet */}
               <Link 
-                href="/blog" 
-                className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 border border-white/20"
+                href="/#blog" 
+                className="flex items-center space-x-1 px-3 py-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 text-sm font-medium"
               >
-                <BookOpen className="w-5 h-5 text-white" />
-                <span className="text-white text-sm font-medium">Keşfet</span>
+                <BookOpen className="w-4 h-4" />
+                <span>Blog</span>
               </Link>
             </nav>
           </div>
         </div>
-      </div>
+      </header>
     </>
   )
 }

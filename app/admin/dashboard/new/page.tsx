@@ -2,14 +2,17 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Save, Eye, Home } from 'lucide-react'
+import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon } from 'lucide-react'
 
 export default function NewPostPage() {
   const [formData, setFormData] = useState({
     title: '',
     excerpt: '',
     content: '',
-    status: 'draft'
+    status: 'draft',
+    author: 'BiomysticY',
+    readTime: '5 dk',
+    contentImages: [] as string[] // İçerik resimleri
   })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -17,8 +20,45 @@ export default function NewPostPage() {
     e.preventDefault()
     setIsLoading(true)
     
-    // Burada API'ye post edilecek
-    console.log('Yeni yazı:', formData)
+    // Slug oluştur
+    const slug = formData.title.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .trim()
+
+    // Blog post objesi oluştur
+    const newPost = {
+      id: Date.now(),
+      title: formData.title,
+      excerpt: formData.excerpt,
+      content: formData.content,
+      createdAt: new Date(),
+      author: formData.author,
+      slug: slug,
+      category: 'Genel',
+      tags: [],
+      readTime: formData.readTime,
+      contentImages: formData.contentImages
+    }
+
+    // localStorage'a kaydet
+    const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]')
+    existingPosts.push(newPost)
+    
+    try {
+      localStorage.setItem('blogPosts', JSON.stringify(existingPosts))
+      console.log('Yeni yazı kaydedildi:', {
+        id: newPost.id,
+        title: newPost.title,
+        contentImagesCount: newPost.contentImages.length,
+        totalSize: JSON.stringify(existingPosts).length
+      })
+    } catch (error) {
+      console.error('localStorage kaydetme hatası:', error)
+      alert('Yazı kaydedilemedi! Resimler çok büyük olabilir.')
+      setIsLoading(false)
+      return
+    }
     
     // Simüle edilmiş kaydetme
     setTimeout(() => {
@@ -33,6 +73,46 @@ export default function NewPostPage() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+    })
+  }
+
+  // Resim yükleme fonksiyonu
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      // Dosya boyutu kontrolü (5MB = 5 * 1024 * 1024 bytes)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Dosya boyutu 5MB\'dan büyük olamaz!')
+        return
+      }
+
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        const result = event.target?.result as string
+        
+        // Base64 boyutu kontrolü (yaklaşık 1.5MB sınırı)
+        if (result.length > 2 * 1024 * 1024) {
+          alert('Resim çok büyük! Lütfen daha küçük bir resim seçin.')
+          return
+        }
+
+        console.log(`İçerik resmi yüklendi - Boyut: ${Math.round(result.length / 1024)} KB`)
+        
+        setFormData({
+          ...formData,
+          contentImages: [...formData.contentImages, result]
+        })
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  // İçerik resmini kaldırma
+  const removeContentImage = (index: number) => {
+    const newImages = formData.contentImages.filter((_, i) => i !== index)
+    setFormData({
+      ...formData,
+      contentImages: newImages
     })
   }
 
@@ -98,6 +178,56 @@ export default function NewPostPage() {
               placeholder="Yazınızın kısa bir özetini girin..."
               required
             />
+          </div>
+
+
+
+          {/* Content Images */}
+          <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              İçerik Resimleri
+            </label>
+            <div className="space-y-4">
+              <div className="flex items-center justify-center w-full">
+                <label htmlFor="content-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <ImageIcon className="w-8 h-8 mb-4 text-gray-500" />
+                    <p className="mb-2 text-sm text-gray-500">
+                      <span className="font-semibold">İçerik resmi eklemek için tıklayın</span>
+                    </p>
+                    <p className="text-xs text-gray-500">PNG, JPG veya JPEG (MAX. 5MB)</p>
+                  </div>
+                  <input
+                    id="content-upload"
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                </label>
+              </div>
+              
+              {formData.contentImages.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {formData.contentImages.map((image, index) => (
+                    <div key={index} className="relative">
+                      <img
+                        src={image}
+                        alt={`İçerik resmi ${index + 1}`}
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeContentImage(index)}
+                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Content */}

@@ -10,60 +10,11 @@ export interface BlogPost {
   tags: string[]
   readTime: string
   image?: string // Banner resmi için
+  contentImages?: string[] // İçerik resimleri için
 }
 
-// Eski Blogspot sitenizden aktarılan blog yazıları
-export const blogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Blog Sitemize Hoş Geldiniz",
-    excerpt: "Yeni blog sitemizde sizlerle düşüncelerimi, deneyimlerimi ve ilginç konuları paylaşacağım.",
-    content: `# Blog Sitemize Hoş Geldiniz
-
-Merhaba değerli okuyucular! Bu yeni blog sitesinde sizlerle düşüncelerimi, deneyimlerimi ve ilginç bulduğum konuları paylaşacağım.
-
-## Neler Bulacaksınız?
-
-Bu blogda şu konularda yazılar bulabilirsiniz:
-
-- **Teknoloji**: Güncel teknoloji haberleri ve yorumları
-- **Yaşam**: Günlük yaşamdan deneyimler ve öneriler  
-- **Kişisel Gelişim**: Kendimi geliştirme yolculuğum
-- **Düşünceler**: Hayat hakkında düşüncelerim
-
-## Hedefim
-
-Amacım, okuduğunuz her yazıdan bir şeyler öğrenmenizi sağlamak ve belki de sizin de benzer deneyimler yaşadığınızı hissettirmek.
-
-Yorumlarınızı ve geri bildirimlerinizi bekliyorum!`,
-    createdAt: new Date('2024-01-15'),
-    author: "BiomysticY",
-    slug: "blog-sitemize-hos-geldiniz",
-    category: "Genel",
-    tags: ["hoşgeldin", "blog", "yeni"],
-    readTime: "3 dk",
-    image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop"
-  },
-  
-  // Buraya eski Blogspot yazılarınızı ekleyeceğiz
-  // Örnek format:
-  /*
-  {
-    id: 2,
-    title: "Yazı Başlığı",
-    excerpt: "Yazının kısa özeti...",
-    content: `# Yazı Başlığı
-    
-Yazının tam içeriği buraya gelecek...`,
-    createdAt: new Date('2023-12-01'),
-    author: "BiomysticY",
-    slug: "yazi-basligi",
-    category: "Kategori",
-    tags: ["etiket1", "etiket2"],
-    readTime: "5 dk"
-  },
-  */
-]
+// Statik blog yazıları (şimdilik boş, sadece dinamik yazılar kullanılacak)
+export const blogPosts: BlogPost[] = []
 
 export function getBlogPosts() {
   // Client-side'da localStorage'dan veri al

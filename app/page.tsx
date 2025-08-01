@@ -1,17 +1,43 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { tr } from 'date-fns/locale'
-import { Calendar, ArrowRight, Star, TrendingUp, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
-import { getBlogPosts } from '../lib/blog-data'
+import { Calendar, ArrowRight, Star, Github, Twitter, Mail, MapPin, Heart } from 'lucide-react'
+import { getBlogPosts, BlogPost } from '../lib/blog-data'
 
 export default function HomePage() {
-  const mockPosts = getBlogPosts().slice(0, 6) // Daha fazla post gösterelim
+  const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadPosts = () => {
+      const allPosts = getBlogPosts().slice(0, 6)
+      setPosts(allPosts)
+      setLoading(false)
+    }
+
+    loadPosts()
+
+    // localStorage değişikliklerini dinle
+    const handleStorageChange = () => {
+      loadPosts()
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+
+    // Component mount olduğunda da kontrol et
+    const interval = setInterval(loadPosts, 1000) // Her saniye kontrol et
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(interval)
+    }
+  }, [])
 
   return (
     <div className="min-h-screen">
-
       {/* Hero & About Combined Section */}
       <section id="hakkimda" className="relative min-h-screen overflow-hidden md:pt-20">
         {/* Animated Background */}
@@ -75,8 +101,6 @@ export default function HomePage() {
               <span className="text-pink-300 font-semibold"> kişisel deneyimlerimi</span> sizlerle paylaşıyorum.
             </p>
 
-
-
             <div className="flex flex-wrap justify-center gap-4 mb-8">
               <div className="flex items-center px-4 py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20">
                 <MapPin className="w-4 h-4 mr-2" />
@@ -91,11 +115,7 @@ export default function HomePage() {
                 Yazmayı seviyorum
               </div>
             </div>
-
-
           </div>
-
-
 
           {/* Scroll Indicator */}
           <div className="flex justify-center mt-12 absolute bottom-8 left-1/2 transform -translate-x-1/2">
@@ -107,6 +127,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
       {/* Featured Section */}
       <section id="blog" className="bg-gradient-to-b from-slate-900 to-gray-900 py-16 md:py-24 relative overflow-hidden">
         {/* Background Pattern */}
@@ -118,10 +139,7 @@ export default function HomePage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md text-white rounded-full text-sm font-medium mb-6 border border-white/20">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Öne Çıkan İçerikler
-            </div>
+
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Son Yazılar</h3>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
               En güncel düşüncelerim ve deneyimlerim burada
@@ -129,77 +147,103 @@ export default function HomePage() {
           </div>
 
           <div className="grid gap-6 sm:gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {mockPosts.map((post, index) => (
-              <article
-                key={post.id}
-                className="group bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden card-hover border border-white/10 hover:border-white/20 animate-fade-in-up transition-all duration-300"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {/* Banner Image */}
-                <div className="h-40 sm:h-48 relative overflow-hidden">
-                  {post.image ? (
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary-500 to-blue-600"></div>
-                  )}
-                  <div className="absolute inset-0 bg-black/30"></div>
-                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
-                    <span className="px-2 sm:px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium rounded-full border border-white/30">
-                      {post.category}
-                    </span>
-                  </div>
-                  <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
-                    <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+            {loading ? (
+              // Loading skeleton
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10 animate-pulse">
+                  <div className="h-40 sm:h-48 bg-gray-700"></div>
+                  <div className="p-4 sm:p-6 md:p-8">
+                    <div className="h-6 bg-gray-700 rounded mb-3"></div>
+                    <div className="h-4 bg-gray-700 rounded mb-2"></div>
+                    <div className="h-4 bg-gray-700 rounded w-3/4"></div>
                   </div>
                 </div>
+              ))
+            ) : posts.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-gray-400 text-lg">Henüz blog yazısı yok.</p>
+                <Link href="/admin" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
+                  İlk yazınızı oluşturun
+                </Link>
+              </div>
+            ) : (
+              posts.map((post, index) => (
+                <article
+                  key={post.id}
+                  className="group bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl hover:shadow-3xl overflow-hidden card-hover border border-white/10 hover:border-white/20 animate-fade-in-up transition-all duration-300"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  {/* Banner Image */}
+                  <div className="h-40 sm:h-48 relative overflow-hidden">
+                    {(post.image || (post.contentImages && post.contentImages.length > 0)) ? (
+                      <img
+                        src={post.image || post.contentImages?.[0] || ''}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                        onError={(e) => {
+                          console.error('Banner resmi yüklenemedi:', post.image || post.contentImages?.[0]);
+                          // Fallback gradient göster
+                          const target = e.currentTarget;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback && fallback.classList.contains('fallback-gradient')) {
+                            fallback.style.display = 'block';
+                          }
+                        }}
+                      />
+                    ) : null}
+                    <div
+                      className={`w-full h-full bg-gradient-to-br from-primary-500 to-blue-600 fallback-gradient ${(post.image || (post.contentImages && post.contentImages.length > 0)) ? 'hidden' : 'block'
+                        }`}
+                    ></div>
+                    <div className="absolute inset-0 bg-black/30"></div>
+                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
+                      <span className="px-2 sm:px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs sm:text-sm font-medium rounded-full border border-white/30">
+                        {post.category}
+                      </span>
+                    </div>
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+                      <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                    </div>
+                  </div>
 
-                <div className="p-4 sm:p-6 md:p-8">
-                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight">
-                    {post.title}
-                  </h4>
+                  <div className="p-4 sm:p-6 md:p-8">
+                    <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors leading-tight">
+                      {post.title}
+                    </h4>
 
-                  <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed line-clamp-3 text-sm sm:text-base">
-                    {post.excerpt}
-                  </p>
+                    <p className="text-gray-300 mb-4 sm:mb-6 leading-relaxed line-clamp-3 text-sm sm:text-base">
+                      {post.excerpt}
+                    </p>
 
-                  <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 space-y-2 sm:space-y-0 sm:space-x-4">
-                    <div className="flex items-center">
-                      <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-white text-xs font-bold">B</span>
+                    <div className="flex flex-col sm:flex-row sm:items-center text-xs sm:text-sm text-gray-400 mb-4 sm:mb-6 space-y-2 sm:space-y-0 sm:space-x-4">
+                      <div className="flex items-center">
+                        <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-blue-500 rounded-full flex items-center justify-center mr-3">
+                          <span className="text-white text-xs font-bold">B</span>
+                        </div>
+                        <span className="font-medium text-white">{post.author}</span>
                       </div>
-                      <span className="font-medium text-white">{post.author}</span>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 mr-2 text-blue-400" />
+                        {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2 text-blue-400" />
-                      {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
-                    </div>
+
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group/link transition-all duration-200 hover:gap-3"
+                    >
+                      Devamını Oku
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
                   </div>
-
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold group/link transition-all duration-200 hover:gap-3"
-                  >
-                    Devamını Oku
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </article>
-            ))}
+                </article>
+              ))
+            )}
           </div>
-
-
         </div>
       </section>
-
-
-
-
-
-
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white">
@@ -228,7 +272,7 @@ export default function HomePage() {
 
             {/* Copyright */}
             <p className="text-gray-400 text-sm text-center md:text-right">
-              &copy; 2024 BiomysticY
+              &copy; 2025 BiomysticY
             </p>
           </div>
         </div>

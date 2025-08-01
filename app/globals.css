@@ -15,11 +15,93 @@
 
 @layer components {
   .prose-custom {
-    @apply prose prose-lg max-w-none;
-    @apply prose-headings:text-gray-900 prose-p:text-gray-700;
-    @apply prose-a:text-primary-600 hover:prose-a:text-primary-700;
-    @apply prose-strong:text-gray-900 prose-code:text-primary-600;
-    @apply prose-pre:bg-gray-900 prose-pre:text-gray-100;
+    @apply prose prose-lg max-w-none prose-invert;
+    @apply prose-headings:text-white prose-p:text-gray-200;
+    @apply prose-a:text-blue-400 hover:prose-a:text-blue-300;
+    @apply prose-strong:text-white prose-code:text-blue-300;
+    @apply prose-pre:bg-gray-800 prose-pre:text-gray-100;
+    @apply prose-blockquote:text-gray-300 prose-blockquote:border-blue-500;
+    @apply prose-li:text-gray-200 prose-ul:text-gray-200 prose-ol:text-gray-200;
+    @apply prose-hr:border-gray-600;
+    @apply prose-table:text-gray-200 prose-th:text-white prose-td:text-gray-200;
+  }
+  
+  .prose-custom img {
+    @apply rounded-lg shadow-lg border border-white/20 mx-auto my-6;
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    image-rendering: -webkit-optimize-contrast;
+    display: block;
+  }
+  
+  .prose-custom img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Resim yükleme animasyonu */
+  .prose-custom img[loading="lazy"] {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .prose-custom img[loading="lazy"].loaded {
+    opacity: 1;
+  }
+  
+  /* Resim placeholder */
+  .image-placeholder {
+    @apply bg-white/10 border border-white/20 rounded-lg p-8 text-center text-gray-400 animate-pulse;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Resim error fallback */
+  .image-error {
+    @apply bg-white/10 border-2 border-dashed border-white/30 rounded-lg p-8 text-center text-gray-400;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Mobil cihazlarda resim optimizasyonu */
+  @media (max-width: 640px) {
+    .prose-custom img {
+      @apply my-4;
+      max-width: calc(100vw - 2rem);
+      max-height: 300px;
+    }
+    
+    .prose-custom img:hover {
+      transform: none;
+    }
+    
+    .image-placeholder,
+    .image-error {
+      min-height: 150px;
+    }
+  }
+  
+  /* Tablet optimizasyonu */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .prose-custom img {
+      max-height: 400px;
+    }
+  }
+  
+  /* Yüksek çözünürlüklü ekranlar için */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .prose-custom img {
+      image-rendering: -webkit-optimize-contrast;
+    }
   }
   
   .btn-primary {
