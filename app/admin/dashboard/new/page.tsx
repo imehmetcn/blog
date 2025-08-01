@@ -45,47 +45,41 @@ export default function NewPostPage() {
       .replace(/\s+/g, '-')
       .trim()
 
-    // Blog post objesi oluştur
-    const newPost = {
-      id: Date.now(),
+    // API'ye gönderilecek veri
+    const postData = {
       title: formData.title,
       excerpt: formData.excerpt,
       content: formData.content,
-      createdAt: new Date(),
-      author: formData.author,
-      slug: slug,
       category: 'Genel',
       tags: [],
       readTime: formData.readTime,
-      contentImages: formData.contentImages
+      contentImages: formData.contentImages,
+      status: formData.status
     }
 
-    // localStorage'a kaydet
-    const existingPosts = JSON.parse(localStorage.getItem('blogPosts') || '[]')
-    existingPosts.push(newPost)
-    
     try {
-      localStorage.setItem('blogPosts', JSON.stringify(existingPosts))
-      console.log('Yeni yazı kaydedildi:', {
-        id: newPost.id,
-        title: newPost.title,
-        contentImagesCount: newPost.contentImages.length,
-        totalSize: JSON.stringify(existingPosts).length
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
       })
+
+      if (response.ok) {
+        const newPost = await response.json()
+        console.log('Yeni yazı kaydedildi:', newPost)
+        alert('Yazı başarıyla kaydedildi!')
+        window.location.href = '/admin/dashboard'
+      } else {
+        const error = await response.json()
+        alert('Yazı kaydedilemedi: ' + (error.error || 'Bilinmeyen hata'))
+      }
     } catch (error) {
-      console.error('localStorage kaydetme hatası:', error)
-      alert('Yazı kaydedilemedi! Resimler çok büyük olabilir.')
-      setIsLoading(false)
-      return
+      console.error('API hatası:', error)
+      alert('Bir hata oluştu! Lütfen tekrar deneyin.')
     }
-    
-    // Simüle edilmiş kaydetme
-    setTimeout(() => {
-      setIsLoading(false)
-      alert('Yazı başarıyla kaydedildi!')
-      // Dashboard'a yönlendir
-      window.location.href = '/admin/dashboard'
-    }, 1000)
+    setIsLoading(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

@@ -18,9 +18,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const foundPost = getBlogPost(params.slug)
-    setPost(foundPost)
-    setLoading(false)
+    const loadPost = async () => {
+      try {
+        const foundPost = await getBlogPost(params.slug)
+        setPost(foundPost)
+      } catch (error) {
+        console.error('Blog post yüklenemedi:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadPost()
   }, [params.slug])
 
   if (loading) {

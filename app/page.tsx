@@ -12,28 +12,18 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const loadPosts = () => {
-      const allPosts = getBlogPosts().slice(0, 6)
-      setPosts(allPosts)
-      setLoading(false)
+    const loadPosts = async () => {
+      try {
+        const allPosts = await getBlogPosts()
+        setPosts(allPosts.slice(0, 6))
+      } catch (error) {
+        console.error('Blog posts yüklenemedi:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadPosts()
-
-    // localStorage değişikliklerini dinle
-    const handleStorageChange = () => {
-      loadPosts()
-    }
-
-    window.addEventListener('storage', handleStorageChange)
-
-    // Component mount olduğunda da kontrol et
-    const interval = setInterval(loadPosts, 1000) // Her saniye kontrol et
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      clearInterval(interval)
-    }
   }, [])
 
   return (

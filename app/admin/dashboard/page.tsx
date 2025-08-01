@@ -20,16 +20,28 @@ export default function AdminDashboard() {
     }
     setIsAuthenticated(true)
 
-    // localStorage'dan blog postlarını yükle
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      const parsedPosts = JSON.parse(savedPosts).map((post: any) => ({
-        ...post,
-        createdAt: new Date(post.createdAt)
-      }))
-      setPosts(parsedPosts.sort((a: any, b: any) => b.createdAt.getTime() - a.createdAt.getTime()))
+    // API'den blog postlarını yükle
+    const loadPosts = async () => {
+      try {
+        const response = await fetch('/api/posts')
+        if (response.ok) {
+          const postsData = await response.json()
+          const parsedPosts = postsData.map((post: any) => ({
+            ...post,
+            createdAt: new Date(post.createdAt)
+          }))
+          setPosts(parsedPosts)
+        } else {
+          console.error('Posts yüklenemedi')
+        }
+      } catch (error) {
+        console.error('API hatası:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-    setLoading(false)
+
+    loadPosts()
   }, [])
 
   if (!isAuthenticated) {
@@ -46,11 +58,27 @@ export default function AdminDashboard() {
     return post.status === filter
   })
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
-      const updatedPosts = posts.filter(post => post.id !== id)
-      setPosts(updatedPosts)
-      localStorage.setItem('blogPosts', JSON.stringify(updatedPosts))
+      try {
+        const postToDelete = posts.find(post => post.id === id)
+        if (!postToDelete) return
+
+        const response = await fetch(`/api/posts/${postToDelete.slug}`, {
+          method: 'DELETE'
+        })
+
+        if (response.ok) {
+          const updatedPosts = posts.filter(post => post.id !== id)
+          setPosts(updatedPosts)
+          alert('Blog yazısı başarıyla silindi!')
+        } else {
+          alert('Blog yazısı silinemedi!')
+        }
+      } catch (error) {
+        console.error('Silme hatası:', error)
+        alert('Bir hata oluştu!')
+      }
     }
   }
 
