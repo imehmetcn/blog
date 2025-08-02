@@ -31,8 +31,22 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         if (foundPost) {
           setPost(foundPost)
           
-          // Markdown içeriği doğrudan HTML'e çevir
-          const htmlContent = await marked(foundPost.content)
+          // İçeriği işle ve placeholder'ları resimlere çevir
+          let content = foundPost.content
+          
+          // [RESIM-X] placeholder'larını gerçek resimlerle değiştir
+          if (foundPost.contentImages && foundPost.contentImages.length > 0) {
+            foundPost.contentImages.forEach((image, index) => {
+              const placeholder = `[RESIM-${index + 1}]`
+              const imageMarkdown = `![Resim ${index + 1}](${image})`
+              // Köşeli parantezleri escape et - doğru şekilde
+              const escapedPlaceholder = placeholder.replace(/[[\]]/g, '\\$&')
+              content = content.replace(new RegExp(escapedPlaceholder, 'g'), imageMarkdown)
+            })
+          }
+          
+          // Markdown'ı HTML'e çevir
+          const htmlContent = await marked(content)
           setProcessedContent(htmlContent)
         }
       } catch (error) {
