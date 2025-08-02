@@ -17,7 +17,7 @@ export default function AdminPanel() {
 
   useEffect(() => {
     setMounted(true)
-    
+
     // Authentication kontrolü
     const authStatus = localStorage.getItem('isAuthenticated')
     if (authStatus !== 'true') {
@@ -58,10 +58,7 @@ export default function AdminPanel() {
   const handleDelete = async (id: number) => {
     if (confirm('Bu yazıyı silmek istediğinizden emin misiniz?')) {
       try {
-        const postToDelete = posts.find(post => post.id === id)
-        if (!postToDelete) return
-
-        const response = await fetch(`/api/posts/${postToDelete.slug}`, {
+        const response = await fetch(`/api/posts/${id}`, {
           method: 'DELETE'
         })
 
@@ -70,7 +67,8 @@ export default function AdminPanel() {
           setPosts(updatedPosts)
           showSuccess('Başarılı!', 'Blog yazısı başarıyla silindi')
         } else {
-          showError('Hata!', 'Blog yazısı silinemedi!')
+          const errorData = await response.json()
+          showError('Hata!', errorData.error || 'Blog yazısı silinemedi!')
         }
       } catch (error) {
         console.error('Silme hatası:', error)
@@ -93,12 +91,12 @@ export default function AdminPanel() {
       published: 'bg-green-100 text-green-800',
       draft: 'bg-yellow-100 text-yellow-800'
     }
-    
+
     const labels = {
       published: 'Yayında',
       draft: 'Taslak'
     }
-    
+
     return (
       <span className={`px-3 py-1 rounded-full text-xs font-medium ${styles[status as keyof typeof styles]}`}>
         {labels[status as keyof typeof labels]}
@@ -129,7 +127,7 @@ export default function AdminPanel() {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-shift"></div>
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 via-transparent to-indigo-900/50 animate-gradient-shift-reverse"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+
         {/* Floating Particles */}
         <div className="absolute inset-0 hidden sm:block">
           <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
@@ -151,22 +149,22 @@ export default function AdminPanel() {
               <p className="text-gray-300 mt-2">Blog yazılarınızı yönetin ve düzenleyin</p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center shadow-lg hover:shadow-xl"
               >
                 <Home className="w-4 h-4 mr-2" />
                 Ana Sayfa
               </Link>
-              <Link 
-                href="/panel/new" 
+              <Link
+                href="/panel/new"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Yeni Yazı
               </Link>
-              <button 
-                onClick={handleLogout} 
+              <button
+                onClick={handleLogout}
                 className="bg-red-600/20 backdrop-blur-md text-red-300 px-4 py-2 rounded-xl font-medium hover:bg-red-600/30 transition-all duration-300 border border-red-500/30 flex items-center shadow-lg hover:shadow-xl"
               >
                 <LogOut className="w-4 h-4 mr-2" />
@@ -188,9 +186,9 @@ export default function AdminPanel() {
             {/* Welcome Message */}
             <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 text-white p-6 mb-8 animate-fade-in-up card-hover">
               <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Hoş Geldiniz! 👋
+                Hoş Geldin Elif Hanım (:
               </h2>
-              <p className="text-gray-300">Blog yönetim panelinize hoş geldiniz. Buradan yazılarınızı oluşturabilir, düzenleyebilir ve yönetebilirsiniz.</p>
+              <p className="text-gray-300">Buradan yazılarınızı oluşturabilir düzenleyebilir ve yönetebilirsiniz</p>
             </div>
 
             {/* Stats */}
@@ -206,7 +204,7 @@ export default function AdminPanel() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="flex items-center justify-between">
                   <div>
@@ -220,7 +218,7 @@ export default function AdminPanel() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between">
                   <div>
@@ -241,31 +239,28 @@ export default function AdminPanel() {
               <div className="flex flex-wrap gap-4">
                 <button
                   onClick={() => setFilter('all')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
-                    filter === 'all' 
-                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform hover:-translate-y-0.5' 
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'all'
+                      ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
-                  }`}
+                    }`}
                 >
                   Tümü ({posts.length})
                 </button>
                 <button
                   onClick={() => setFilter('published')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
-                    filter === 'published' 
-                      ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg transform hover:-translate-y-0.5' 
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'published'
+                      ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
-                  }`}
+                    }`}
                 >
                   Yayında ({posts.filter(p => p.status === 'published').length})
                 </button>
                 <button
                   onClick={() => setFilter('draft')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${
-                    filter === 'draft' 
-                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg transform hover:-translate-y-0.5' 
+                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'draft'
+                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
-                  }`}
+                    }`}
                 >
                   Taslak ({posts.filter(p => p.status === 'draft').length})
                 </button>
@@ -293,11 +288,10 @@ export default function AdminPanel() {
                           </div>
                         </td>
                         <td className="py-4 px-6">
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            post.status === 'published' 
-                              ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${post.status === 'published'
+                              ? 'bg-green-500/20 text-green-300 border border-green-500/30'
                               : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
-                          }`}>
+                            }`}>
                             {post.status === 'published' ? 'Yayında' : 'Taslak'}
                           </span>
                         </td>
@@ -349,8 +343,8 @@ export default function AdminPanel() {
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">Henüz yazı bulunmuyor</h3>
                   <p className="text-gray-300 mb-6">İlk blog yazınızı oluşturarak başlayın.</p>
-                  <Link 
-                    href="/panel/new" 
+                  <Link
+                    href="/panel/new"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   >
                     <Plus className="w-4 h-4 mr-2" />
