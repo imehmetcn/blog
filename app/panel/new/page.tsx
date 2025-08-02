@@ -118,8 +118,8 @@ export default function NewPostPage() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    if (file.size > 5 * 1024 * 1024) {
-      showError('Dosya Çok Büyük', 'Dosya boyutu 5MB\'dan büyük olamaz!')
+    if (file.size > 50 * 1024 * 1024) {
+      showError('Dosya Çok Büyük', 'Dosya boyutu 50MB\'dan büyük olamaz!')
       return
     }
 
@@ -127,7 +127,7 @@ export default function NewPostPage() {
     reader.onload = (event) => {
       const result = event.target?.result as string
       
-      if (result.length > 2 * 1024 * 1024) {
+      if (result.length > 70 * 1024 * 1024) {
         showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
         return
       }
