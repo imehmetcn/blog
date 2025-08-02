@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon, Trash2 } from 'lucide-react'
@@ -8,6 +8,7 @@ import { useToast } from '../../../../components/ToastContainer'
 
 export default function EditPostPage() {
   const { showSuccess, showError } = useToast()
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const params = useParams()
   const router = useRouter()
   const postId = params.id as string
@@ -149,13 +150,9 @@ export default function EditPostPage() {
 
         console.log(`İçerik resmi yüklendi - Boyut: ${Math.round(result.length / 1024)} KB`)
         
-        const newImages = [...formData.contentImages, result]
-        const imageMarkdown = `\n\n![İçerik resmi ${newImages.length}](${result})\n\n`
-        
         setFormData({
           ...formData,
-          contentImages: newImages,
-          content: formData.content + imageMarkdown
+          contentImages: [...formData.contentImages, result]
         })
       }
       reader.readAsDataURL(file)
@@ -169,6 +166,78 @@ export default function EditPostPage() {
       ...formData,
       contentImages: newImages
     })
+  }
+
+  // Metin ekleme fonksiyonu
+  const insertText = (before: string, after: string) => {
+    const textarea = textareaRef.current
+    if (!textarea) return
+
+    const start = textarea.selectionStart
+    const end = textarea.selectionEnd
+    const selectedText = formData.content.substring(start, end)
+    const newText = before + selectedText + after
+    
+    const newContent = 
+      formData.content.substring(0, start) + 
+      newText + 
+      formData.content.substring(end)
+    
+    setFormData({ ...formData, content: newContent })
+    
+    // İmleci doğru yere yerleştir
+    setTimeout(() => {
+      textarea.focus()
+      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length)
+    }, 0)
+  }
+
+  // Hızlı resim yükleme
+  const handleQuickImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    if (file.size > 5 * 1024 * 1024) {
+      showError('Dosya Çok Büyük', 'Dosya boyutu 5MB\'dan büyük olamaz!')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = (event) => {
+      const result = event.target?.result as string
+      
+      if (result.length > 2 * 1024 * 1024) {
+        showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
+        return
+      }
+
+      const textarea = textareaRef.current
+      if (!textarea) return
+
+      const cursorPos = textarea.selectionStart
+      const imageText = `\n\n![Resim](${result})\n\n`
+      
+      const newContent = 
+        formData.content.substring(0, cursorPos) + 
+        imageText + 
+        formData.content.substring(cursorPos)
+      
+      setFormData({
+        ...formData,
+        content: newContent,
+        contentImages: [...formData.contentImages, result]
+      })
+
+      // İmleci resimden sonraya yerleştir
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(cursorPos + imageText.length, cursorPos + imageText.length)
+      }, 0)
+    }
+    reader.readAsDataURL(file)
+    
+    // Input'u temizle
+    e.target.value = ''
   }
 
   if (!mounted) {
@@ -350,25 +419,58 @@ export default function EditPostPage() {
             <label htmlFor="content" className="block text-sm font-medium text-white mb-2">
               İçerik
             </label>
-            <div className="mb-4 p-4 bg-blue-900/20 rounded-xl border border-blue-500/30">
-              <h4 className="text-white font-medium mb-2">📝 Markdown Kullanım Kılavuzu:</h4>
-              <div className="text-sm text-gray-300 space-y-1">
-                <p><code className="bg-white/10 px-1 rounded"># Başlık</code> - Ana başlık</p>
-                <p><code className="bg-white/10 px-1 rounded">## Alt Başlık</code> - Alt başlık</p>
-                <p><code className="bg-white/10 px-1 rounded">**kalın**</code> - <strong>Kalın metin</strong></p>
-                <p><code className="bg-white/10 px-1 rounded">*italik*</code> - <em>İtalik metin</em></p>
-                <p><code className="bg-white/10 px-1 rounded">![Açıklama](resim-url)</code> - Resim ekleme</p>
-                <p><code className="bg-white/10 px-1 rounded">- Liste öğesi</code> - Madde işareti</p>
-              </div>
+            
+            {/* Basit Araç Çubuğu */}
+            <div className="mb-4 flex flex-wrap gap-2 p-3 bg-white/5 rounded-xl border border-white/10">
+              <button
+                type="button"
+                onClick={() => insertText('**', '**')}
+                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
+                title="Kalın metin"
+              >
+                <strong>B</strong>
+              </button>
+              <button
+                type="button"
+                onClick={() => insertText('*', '*')}
+                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm italic"
+                title="İtalik metin"
+              >
+                I
+              </button>
+              <button
+                type="button"
+                onClick={() => insertText('\n## ', '')}
+                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
+                title="Başlık"
+              >
+                H
+              </button>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleQuickImageUpload}
+                className="hidden"
+                id="quick-image-upload"
+              />
+              <label
+                htmlFor="quick-image-upload"
+                className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm cursor-pointer flex items-center"
+                title="Resim ekle"
+              >
+                📷 Resim
+              </label>
             </div>
+
             <textarea
+              ref={textareaRef}
               id="content"
               name="content"
               value={formData.content}
               onChange={handleChange}
               rows={15}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="# Blog Yazım Başlığı&#10;&#10;Bu bir paragraf. **Kalın metin** ve *italik metin* kullanabilirsiniz.&#10;&#10;## Alt Başlık&#10;&#10;Resim eklemek için yukarıdan resim yükleyin, sonra:&#10;![Resim açıklaması](resim-url)&#10;&#10;- Liste öğesi 1&#10;- Liste öğesi 2&#10;&#10;> Bu bir alıntı&#10;&#10;Daha fazla paragraf..."
+              placeholder="Yazınızı buraya yazın...&#10;&#10;Araç çubuğundaki butonları kullanarak metin formatı ekleyebilir ve resim yükleyebilirsiniz."
               required
             />
           </div>
