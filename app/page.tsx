@@ -248,9 +248,9 @@ export default function HomePage() {
             {/* Logo & Name */}
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">E</span>
+                <span className="text-white font-bold text-sm">B</span>
               </div>
-              <h5 className="text-xl font-bold">Elif</h5>
+              <h5 className="text-xl font-bold">Biomysticy</h5>
             </div>
 
             {/* Social Links */}
