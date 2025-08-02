@@ -341,7 +341,7 @@ export default function AdminPanel() {
                     <Edit className="w-8 h-8 text-gray-400" />
                   </div>
                   <h3 className="text-lg font-semibold text-white mb-2">Henüz yazı bulunmuyor</h3>
-                  <p className="text-gray-300 mb-6">İlk blog yazınızı oluşturarak başlayın.</p>
+                  <p className="text-gray-300 mb-6">İlk blog yazınızı oluşturarak başlayın</p>
                   <Link
                     href="/panel/new"
                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
