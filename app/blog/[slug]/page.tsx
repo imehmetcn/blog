@@ -31,22 +31,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         if (foundPost) {
           setPost(foundPost)
           
-          // İçeriği işle ve placeholder'ları resimlere çevir
-          let content = foundPost.content
-          
-          // [RESIM-X] placeholder'larını gerçek resimlerle değiştir
-          if (foundPost.contentImages && foundPost.contentImages.length > 0) {
-            foundPost.contentImages.forEach((image, index) => {
-              const placeholder = `[RESIM-${index + 1}]`
-              const imageMarkdown = `![Resim ${index + 1}](${image})`
-              // Köşeli parantezleri escape et
-              const escapedPlaceholder = placeholder.replace(/[[\]]/g, '\\$&')
-              content = content.replace(new RegExp(escapedPlaceholder, 'g'), imageMarkdown)
-            })
-          }
-          
-          // Markdown'ı HTML'e çevir
-          const htmlContent = await marked(content)
+          // Markdown içeriği doğrudan HTML'e çevir
+          const htmlContent = await marked(foundPost.content)
           setProcessedContent(htmlContent)
         }
       } catch (error) {
@@ -93,8 +79,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             Tüm Yazılara Dön
           </Link>
 
-
-
           <h1 className="text-4xl font-bold text-white mb-6 leading-tight">
             {post.title}
           </h1>
@@ -130,14 +114,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               </Link>
             )}
           </div>
-
-
         </div>
       </div>
-
-
-
-
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 py-12">
@@ -151,8 +129,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               }}
             />
           </article>
-
-
         </div>
       </div>
     </div>
