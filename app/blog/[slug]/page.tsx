@@ -39,7 +39,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             foundPost.contentImages.forEach((image, index) => {
               const placeholder = `[RESIM-${index + 1}]`
               const imageMarkdown = `![Resim ${index + 1}](${image})`
-              content = content.replace(new RegExp(placeholder, 'g'), imageMarkdown)
+              // Köşeli parantezleri escape et
+              const escapedPlaceholder = placeholder.replace(/[[\]]/g, '\\$&')
+              content = content.replace(new RegExp(escapedPlaceholder, 'g'), imageMarkdown)
             })
           }
           
