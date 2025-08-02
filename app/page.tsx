@@ -155,9 +155,9 @@ export default function HomePage() {
               ))
             ) : posts.length === 0 ? (
               <div className="col-span-full text-center py-12">
-                <p className="text-gray-400 text-lg">Henüz blog yazısı yok.</p>
+                <p className="text-gray-400 text-lg">Henüz blog yazısı yok</p>
                 <Link href="/login" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
-                  Giriş yaparak ilk yazınızı oluşturun
+                  Giriş yaparak ilk yazınızı oluşturun elif hanım
                 </Link>
               </div>
             ) : (
@@ -248,9 +248,9 @@ export default function HomePage() {
             {/* Logo & Name */}
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <div className="w-8 h-8 bg-gradient-to-br from-primary-600 to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">B</span>
+                <span className="text-white font-bold text-sm">E</span>
               </div>
-              <h5 className="text-xl font-bold">BiomysticY</h5>
+              <h5 className="text-xl font-bold">Elif</h5>
             </div>
 
             {/* Social Links */}
@@ -268,7 +268,7 @@ export default function HomePage() {
 
             {/* Copyright */}
             <p className="text-gray-400 text-sm text-center md:text-right">
-              &copy; 2025 BiomysticY
+              &copy; 2021 ∞ M/E
             </p>
           </div>
         </div>

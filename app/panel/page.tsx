@@ -146,7 +146,6 @@ export default function AdminPanel() {
               <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
                 Blog Yönetim Paneli
               </h1>
-              <p className="text-gray-300 mt-2">Blog yazılarınızı yönetin ve düzenleyin</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Link
