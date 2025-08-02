@@ -15,11 +15,11 @@ export default function HomePage() {
 
   useEffect(() => {
     setMounted(true)
-    
+
     // Authentication durumunu kontrol et
     const authStatus = localStorage.getItem('isAuthenticated')
     setIsAuthenticated(authStatus === 'true')
-    
+
     const loadPosts = async () => {
       try {
         const allPosts = await getBlogPosts()

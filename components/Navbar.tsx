@@ -49,8 +49,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                <span className="text-white font-bold text-lg">E</span>
-                <p>Biomysticy</p>
+                <span className="text-white font-bold text-lg">B</span>
               </div>
             </Link>
 
