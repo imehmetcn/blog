@@ -81,45 +81,7 @@ export default function NewPostPage() {
     })
   }
 
-  // Resim yükleme fonksiyonu
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      // Dosya boyutu kontrolü (5MB = 5 * 1024 * 1024 bytes)
-      if (file.size > 5 * 1024 * 1024) {
-        showError('Dosya Çok Büyük', 'Dosya boyutu 5MB\'dan büyük olamaz!')
-        return
-      }
 
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const result = event.target?.result as string
-        
-        // Base64 boyutu kontrolü (yaklaşık 1.5MB sınırı)
-        if (result.length > 2 * 1024 * 1024) {
-          showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
-          return
-        }
-
-        console.log(`İçerik resmi yüklendi - Boyut: ${Math.round(result.length / 1024)} KB`)
-        
-        setFormData({
-          ...formData,
-          contentImages: [...formData.contentImages, result]
-        })
-      }
-      reader.readAsDataURL(file)
-    }
-  }
-
-  // İçerik resmini kaldırma
-  const removeContentImage = (index: number) => {
-    const newImages = formData.contentImages.filter((_, i) => i !== index)
-    setFormData({
-      ...formData,
-      contentImages: newImages
-    })
-  }
 
   // Metin ekleme fonksiyonu
   const insertText = (before: string, after: string) => {
@@ -280,56 +242,10 @@ export default function NewPostPage() {
 
 
 
-          {/* Content Images */}
-          <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <label className="block text-sm font-medium text-white mb-2">
-              İçerik Resimleri
-            </label>
-            <div className="space-y-4">
-              <div className="flex items-center justify-center w-full">
-                <label htmlFor="content-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-white/30 border-dashed rounded-xl cursor-pointer bg-white/5 hover:bg-white/10 transition-all duration-200">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    <ImageIcon className="w-8 h-8 mb-4 text-gray-300" />
-                    <p className="mb-2 text-sm text-gray-300">
-                      <span className="font-semibold">İçerik resmi eklemek için tıklayın</span>
-                    </p>
-                    <p className="text-xs text-gray-400">PNG, JPG veya JPEG (MAX. 5MB)</p>
-                  </div>
-                  <input
-                    id="content-upload"
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                  />
-                </label>
-              </div>
-              
-              {formData.contentImages.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {formData.contentImages.map((image, index) => (
-                    <div key={index} className="relative group">
-                      <img
-                        src={image}
-                        alt={`İçerik resmi ${index + 1}`}
-                        className="w-full h-32 object-cover rounded-xl border border-white/20"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeContentImage(index)}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+
 
           {/* Content */}
-          <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <label htmlFor="content" className="block text-sm font-medium text-white mb-2">
               İçerik
             </label>
@@ -395,7 +311,7 @@ export default function NewPostPage() {
           </div>
 
           {/* Status and Actions */}
-          <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+          <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <label htmlFor="status" className="block text-sm font-medium text-white mb-2">
@@ -444,7 +360,7 @@ export default function NewPostPage() {
 
         {/* Preview Section */}
         {formData.title && (
-          <div className="mt-8 bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+          <div className="mt-8 bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
             <h3 className="text-lg font-semibold text-white mb-4 flex items-center">
               <Eye className="w-5 h-5 mr-2 text-blue-400" />
               Önizleme
