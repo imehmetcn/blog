@@ -82,7 +82,7 @@ export default function HomePage() {
             {/* Main Heading */}
             <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-tight px-2 sm:px-4">
               <span className="bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-                Merhaba Ben BiomysticY
+                Merhaba Ben Elif
               </span>
               <br />
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -92,7 +92,7 @@ export default function HomePage() {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-200 max-w-4xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed font-light px-2 sm:px-4">
-              Blogumda <span className="text-blue-300 font-semibold">kişisel deneyimlerimi</span> paylaşıyorum.
+              Blogumda <span className="text-blue-300 font-semibold">kişisel yazılarımı</span> paylaşıyorum
             </p>
 
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 px-2">
@@ -102,7 +102,7 @@ export default function HomePage() {
               </div>
               <div className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 text-xs sm:text-sm">
                 <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
-                2024'ten beri
+                2023'ten beri
               </div>
               <div className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-white/10 backdrop-blur-md rounded-full text-white border border-white/20 text-xs sm:text-sm">
                 <Heart className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
@@ -136,7 +136,7 @@ export default function HomePage() {
 
             <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">Son Yazılar</h3>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              En güncel düşüncelerim ve deneyimlerim burada
+              Tüm blogum burada
             </p>
           </div>
 
