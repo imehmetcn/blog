@@ -112,9 +112,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 <Calendar className="w-4 h-4 mr-2" />
                 <span>{format(post.createdAt, 'dd MMMM yyyy', { locale: tr })}</span>
               </div>
-              <div>
-                <span className="text-sm">{post.readTime} okuma</span>
-              </div>
             </div>
             
             {isAuthenticated && (

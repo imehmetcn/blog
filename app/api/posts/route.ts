@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
         content: data.content,
         category: data.category || 'Genel',
         tags: data.tags || [],
-        readTime: data.readTime || '5 dk',
+        readTime: Math.ceil(data.content.split(' ').length / 200) + ' dk',
         image: data.image,
         contentImages: data.contentImages || [],
         status: data.status || 'draft',

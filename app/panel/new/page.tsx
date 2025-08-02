@@ -13,7 +13,6 @@ export default function NewPostPage() {
     content: '',
     status: 'draft',
     author: 'BiomysticY',
-    readTime: '5 dk',
     contentImages: [] as string[]
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -42,7 +41,6 @@ export default function NewPostPage() {
       content: formData.content,
       category: 'Genel',
       tags: [],
-      readTime: formData.readTime,
       contentImages: formData.contentImages,
       status: formData.status
     }

@@ -18,7 +18,6 @@ export default function EditPostPage() {
     content: '',
     status: 'draft',
     author: 'BiomysticY',
-    readTime: '5 dk',
     contentImages: [] as string[]
   })
   const [isLoading, setIsLoading] = useState(false)
@@ -52,7 +51,6 @@ export default function EditPostPage() {
           content: post.content,
           status: post.status || 'draft',
           author: post.author || 'BiomysticY',
-          readTime: post.readTime || '5 dk',
           contentImages: post.contentImages || []
         })
         setPostFound(true)
