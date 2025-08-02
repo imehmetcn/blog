@@ -10,27 +10,27 @@ export default function Navbar() {
 
   useEffect(() => {
     setMounted(true)
-    
+
     // Authentication durumunu kontrol et
     const authStatus = localStorage.getItem('isAuthenticated')
     setIsAuthenticated(authStatus === 'true')
-    
+
     // Storage değişikliklerini dinle
     const handleStorageChange = () => {
       const authStatus = localStorage.getItem('isAuthenticated')
       setIsAuthenticated(authStatus === 'true')
     }
-    
+
     window.addEventListener('storage', handleStorageChange)
-    
+
     // Login/logout işlemlerini dinlemek için custom event
     const handleAuthChange = () => {
       const authStatus = localStorage.getItem('isAuthenticated')
       setIsAuthenticated(authStatus === 'true')
     }
-    
+
     window.addEventListener('authChange', handleAuthChange)
-    
+
     return () => {
       window.removeEventListener('storage', handleStorageChange)
       window.removeEventListener('authChange', handleAuthChange)
@@ -55,15 +55,15 @@ export default function Navbar() {
 
             {/* Desktop Navigation */}
             <nav className="flex items-center space-x-2">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 rounded-2xl text-white font-medium shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <Home className="w-5 h-5" />
                 <span>Ana Sayfa</span>
               </Link>
-              <Link 
-                href="/#blog" 
+              <Link
+                href="/#blog"
                 className="flex items-center space-x-2 px-4 py-3 rounded-xl text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200 font-medium"
               >
                 <BookOpen className="w-5 h-5" />
@@ -74,16 +74,16 @@ export default function Navbar() {
             {/* Auth Button */}
             <div className="flex items-center space-x-4">
               {isAuthenticated ? (
-                <Link 
-                  href="/panel" 
+                <Link
+                  href="/panel"
                   className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-6 py-3 rounded-2xl font-medium hover:shadow-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center space-x-2"
                 >
                   <Settings className="w-5 h-5" />
                   <span>Panel</span>
                 </Link>
               ) : (
-                <Link 
-                  href="/login" 
+                <Link
+                  href="/login"
                   className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-2xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
                 >
                   Giriş Yap
@@ -107,23 +107,23 @@ export default function Navbar() {
 
             {/* Mobile Navigation */}
             <nav className="flex items-center space-x-2">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="p-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 title="Ana Sayfa"
               >
                 <Home className="w-4 h-4" />
               </Link>
-              <Link 
-                href="/#blog" 
+              <Link
+                href="/#blog"
                 className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-all duration-200"
                 title="Blog"
               >
                 <BookOpen className="w-4 h-4" />
               </Link>
               {isAuthenticated && (
-                <Link 
-                  href="/panel" 
+                <Link
+                  href="/panel"
                   className="flex items-center space-x-1 bg-gradient-to-r from-green-600 to-emerald-600 px-3 py-2 rounded-lg text-white text-sm font-medium hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
                   <Settings className="w-4 h-4" />

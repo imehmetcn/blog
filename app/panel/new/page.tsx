@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Save, Eye, Home, X, Image as ImageIcon } from 'lucide-react'
+import { ArrowLeft, Save, Eye, Home } from 'lucide-react'
 import { useToast } from '../../../components/ToastContainer'
 
 export default function NewPostPage() {
@@ -85,13 +85,19 @@ export default function NewPostPage() {
 
   // Metin ekleme fonksiyonu
   const insertText = (before: string, after: string) => {
+    console.log('insertText çağrıldı:', { before, after })
     const textarea = textareaRef.current
-    if (!textarea) return
+    if (!textarea) {
+      console.log('Textarea bulunamadı!')
+      return
+    }
 
     const start = textarea.selectionStart
     const end = textarea.selectionEnd
     const selectedText = formData.content.substring(start, end)
     const newText = before + selectedText + after
+    
+    console.log('Metin işleme:', { start, end, selectedText, newText })
     
     const newContent = 
       formData.content.substring(0, start) + 
@@ -255,7 +261,10 @@ export default function NewPostPage() {
               <div className="flex flex-wrap gap-2 mb-3">
                 <button
                   type="button"
-                  onClick={() => insertText('**', '**')}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    insertText('**', '**')
+                  }}
                   className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
                   title="Kalın metin"
                 >
@@ -263,7 +272,10 @@ export default function NewPostPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => insertText('*', '*')}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    insertText('*', '*')
+                  }}
                   className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm italic"
                   title="İtalik metin"
                 >
@@ -271,7 +283,10 @@ export default function NewPostPage() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => insertText('\n## ', '')}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    insertText('\n## ', '')
+                  }}
                   className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
                   title="Başlık"
                 >
