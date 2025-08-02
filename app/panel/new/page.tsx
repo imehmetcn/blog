@@ -22,7 +22,7 @@ export default function NewPostPage() {
 
   useEffect(() => {
     setMounted(true)
-    
+
     // Authentication kontrolü
     const authStatus = localStorage.getItem('isAuthenticated')
     if (authStatus !== 'true') {
@@ -96,16 +96,16 @@ export default function NewPostPage() {
     const end = textarea.selectionEnd
     const selectedText = formData.content.substring(start, end)
     const newText = before + selectedText + after
-    
+
     console.log('Metin işleme:', { start, end, selectedText, newText })
-    
-    const newContent = 
-      formData.content.substring(0, start) + 
-      newText + 
+
+    const newContent =
+      formData.content.substring(0, start) +
+      newText +
       formData.content.substring(end)
-    
+
     setFormData({ ...formData, content: newContent })
-    
+
     // İmleci doğru yere yerleştir
     setTimeout(() => {
       textarea.focus()
@@ -126,7 +126,7 @@ export default function NewPostPage() {
     const reader = new FileReader()
     reader.onload = (event) => {
       const result = event.target?.result as string
-      
+
       if (result.length > 70 * 1024 * 1024) {
         showError('Resim Çok Büyük', 'Lütfen daha küçük bir resim seçin.')
         return
@@ -138,12 +138,12 @@ export default function NewPostPage() {
       const cursorPos = textarea.selectionStart
       const imageIndex = formData.contentImages.length + 1
       const imageText = `\n\n[RESIM-${imageIndex}]\n\n`
-      
-      const newContent = 
-        formData.content.substring(0, cursorPos) + 
-        imageText + 
+
+      const newContent =
+        formData.content.substring(0, cursorPos) +
+        imageText +
         formData.content.substring(cursorPos)
-      
+
       setFormData({
         ...formData,
         content: newContent,
@@ -157,7 +157,7 @@ export default function NewPostPage() {
       }, 0)
     }
     reader.readAsDataURL(file)
-    
+
     // Input'u temizle
     e.target.value = ''
   }
@@ -185,7 +185,7 @@ export default function NewPostPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-gradient-shift"></div>
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 via-transparent to-indigo-900/50 animate-gradient-shift-reverse"></div>
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
+
         {/* Floating Particles */}
         <div className="absolute inset-0 hidden sm:block">
           <div className="absolute top-20 left-10 w-2 h-2 bg-white rounded-full opacity-60 animate-float"></div>
@@ -201,8 +201,8 @@ export default function NewPostPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <div className="flex items-center space-x-4 animate-fade-in-up">
-              <Link 
-                href="/panel" 
+              <Link
+                href="/panel"
                 className="p-2 text-gray-300 hover:text-white transition-colors rounded-xl hover:bg-white/10"
               >
                 <ArrowLeft className="w-5 h-5" />
@@ -215,8 +215,8 @@ export default function NewPostPage() {
               </div>
             </div>
             <div className="flex space-x-4">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center shadow-lg hover:shadow-xl"
               >
                 <Home className="w-4 h-4 mr-2" />
@@ -255,7 +255,7 @@ export default function NewPostPage() {
             <label htmlFor="content" className="block text-sm font-medium text-white mb-2">
               İçerik
             </label>
-            
+
             {/* Basit Araç Çubuğu */}
             <div className="mb-4 p-3 bg-white/5 rounded-xl border border-white/10">
               <div className="flex flex-wrap gap-2 mb-3">
@@ -345,8 +345,8 @@ export default function NewPostPage() {
               </div>
 
               <div className="flex space-x-4">
-                <Link 
-                  href="/panel" 
+                <Link
+                  href="/panel"
                   className="bg-white/10 backdrop-blur-md text-white px-6 py-3 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20"
                 >
                   İptal
@@ -384,9 +384,57 @@ export default function NewPostPage() {
               <h1 className="text-white text-2xl font-bold mb-4">{formData.title}</h1>
               {formData.content && (
                 <div className="mt-4">
-                  {formData.content.split('\n').map((paragraph, index) => (
-                    <p key={index} className="mb-4 text-gray-200">{paragraph}</p>
-                  ))}
+                  {(() => {
+                    let previewContent = formData.content
+
+                    // [RESIM-X] placeholder'larını gerçek resimlerle değiştir
+                    if (formData.contentImages && formData.contentImages.length > 0) {
+                      formData.contentImages.forEach((image, index) => {
+                        const placeholder = `[RESIM-${index + 1}]`
+                        const imageHtml = `<img src="${image}" alt="Resim ${index + 1}" class="max-w-full h-auto rounded-lg border border-white/20 my-4" />`
+                        previewContent = previewContent.replace(new RegExp(placeholder.replace(/[[\]]/g, '\\$&'), 'g'), imageHtml)
+                      })
+                    }
+
+                    return (
+                      <div
+                        className="text-gray-200"
+                        dangerouslySetInnerHTML={{
+                          __html: previewContent
+                            .split('\n')
+                            .map(line => {
+                              // Markdown formatını basit HTML'e çevir
+                              let formattedLine = line
+
+                              // Başlıklar
+                              if (line.startsWith('## ')) {
+                                formattedLine = `<h2 class="text-xl font-bold text-white mt-6 mb-3">${line.substring(3)}</h2>`
+                              } else if (line.startsWith('# ')) {
+                                formattedLine = `<h1 class="text-2xl font-bold text-white mt-6 mb-4">${line.substring(2)}</h1>`
+                              }
+                              // Kalın metin
+                              else if (line.includes('**')) {
+                                formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>')
+                              }
+                              // İtalik metin
+                              else if (line.includes('*')) {
+                                formattedLine = formattedLine.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+                              }
+
+                              // Boş satırlar için br, diğerleri için p
+                              if (formattedLine.trim() === '') {
+                                return '<br />'
+                              } else if (!formattedLine.startsWith('<h') && !formattedLine.startsWith('<img')) {
+                                return `<p class="mb-4">${formattedLine}</p>`
+                              }
+
+                              return formattedLine
+                            })
+                            .join('')
+                        }}
+                      />
+                    )
+                  })()}
                 </div>
               )}
             </div>

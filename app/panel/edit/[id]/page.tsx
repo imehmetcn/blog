@@ -456,9 +456,57 @@ export default function EditPostPage() {
               <h1 className="text-white text-2xl font-bold mb-4">{formData.title}</h1>
               {formData.content && (
                 <div className="mt-4">
-                  {formData.content.split('\n').map((paragraph, index) => (
-                    <p key={index} className="mb-4 text-gray-200">{paragraph}</p>
-                  ))}
+                  {(() => {
+                    let previewContent = formData.content
+                    
+                    // [RESIM-X] placeholder'larını gerçek resimlerle değiştir
+                    if (formData.contentImages && formData.contentImages.length > 0) {
+                      formData.contentImages.forEach((image, index) => {
+                        const placeholder = `[RESIM-${index + 1}]`
+                        const imageHtml = `<img src="${image}" alt="Resim ${index + 1}" class="max-w-full h-auto rounded-lg border border-white/20 my-4" />`
+                        previewContent = previewContent.replace(new RegExp(placeholder.replace(/[[\]]/g, '\\$&'), 'g'), imageHtml)
+                      })
+                    }
+                    
+                    return (
+                      <div 
+                        className="text-gray-200"
+                        dangerouslySetInnerHTML={{
+                          __html: previewContent
+                            .split('\n')
+                            .map(line => {
+                              // Markdown formatını basit HTML'e çevir
+                              let formattedLine = line
+                              
+                              // Başlıklar
+                              if (line.startsWith('## ')) {
+                                formattedLine = `<h2 class="text-xl font-bold text-white mt-6 mb-3">${line.substring(3)}</h2>`
+                              } else if (line.startsWith('# ')) {
+                                formattedLine = `<h1 class="text-2xl font-bold text-white mt-6 mb-4">${line.substring(2)}</h1>`
+                              }
+                              // Kalın metin
+                              else if (line.includes('**')) {
+                                formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-white">$1</strong>')
+                              }
+                              // İtalik metin
+                              else if (line.includes('*')) {
+                                formattedLine = formattedLine.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+                              }
+                              
+                              // Boş satırlar için br, diğerleri için p
+                              if (formattedLine.trim() === '') {
+                                return '<br />'
+                              } else if (!formattedLine.startsWith('<h') && !formattedLine.startsWith('<img')) {
+                                return `<p class="mb-4">${formattedLine}</p>`
+                              }
+                              
+                              return formattedLine
+                            })
+                            .join('')
+                        }}
+                      />
+                    )
+                  })()}
                 </div>
               )}
             </div>
