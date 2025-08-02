@@ -31,21 +31,15 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         if (foundPost) {
           setPost(foundPost)
           
-          // Markdown içeriğini işle ve resimleri entegre et
+          // İçeriği işle ve placeholder'ları resimlere çevir
           let content = foundPost.content
           
-          // İçerik resimlerini Markdown içine entegre et
+          // [RESIM-X] placeholder'larını gerçek resimlerle değiştir
           if (foundPost.contentImages && foundPost.contentImages.length > 0) {
             foundPost.contentImages.forEach((image, index) => {
-              const placeholder = `![İçerik resmi ${index + 1}](${image})`
-              // Eğer içerikte bu resim referansı yoksa, otomatik ekle
-              if (!content.includes(`![`) || !content.includes(image)) {
-                // İçeriği paragraflara böl ve resimleri araya serpiştir
-                const paragraphs = content.split('\n\n')
-                const insertIndex = Math.min(index + 1, paragraphs.length)
-                paragraphs.splice(insertIndex, 0, placeholder)
-                content = paragraphs.join('\n\n')
-              }
+              const placeholder = `[RESIM-${index + 1}]`
+              const imageMarkdown = `![Resim ${index + 1}](${image})`
+              content = content.replace(new RegExp(placeholder, 'g'), imageMarkdown)
             })
           }
           

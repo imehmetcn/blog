@@ -168,7 +168,8 @@ export default function NewPostPage() {
       if (!textarea) return
 
       const cursorPos = textarea.selectionStart
-      const imageText = `\n\n![Resim](${result})\n\n`
+      const imageIndex = formData.contentImages.length + 1
+      const imageText = `\n\n[RESIM-${imageIndex}]\n\n`
       
       const newContent = 
         formData.content.substring(0, cursorPos) + 
@@ -334,45 +335,50 @@ export default function NewPostPage() {
             </label>
             
             {/* Basit Araç Çubuğu */}
-            <div className="mb-4 flex flex-wrap gap-2 p-3 bg-white/5 rounded-xl border border-white/10">
-              <button
-                type="button"
-                onClick={() => insertText('**', '**')}
-                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
-                title="Kalın metin"
-              >
-                <strong>B</strong>
-              </button>
-              <button
-                type="button"
-                onClick={() => insertText('*', '*')}
-                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm italic"
-                title="İtalik metin"
-              >
-                I
-              </button>
-              <button
-                type="button"
-                onClick={() => insertText('\n## ', '')}
-                className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
-                title="Başlık"
-              >
-                H
-              </button>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleQuickImageUpload}
-                className="hidden"
-                id="quick-image-upload"
-              />
-              <label
-                htmlFor="quick-image-upload"
-                className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm cursor-pointer flex items-center"
-                title="Resim ekle"
-              >
-                📷 Resim
-              </label>
+            <div className="mb-4 p-3 bg-white/5 rounded-xl border border-white/10">
+              <div className="flex flex-wrap gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => insertText('**', '**')}
+                  className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
+                  title="Kalın metin"
+                >
+                  <strong>B</strong>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertText('*', '*')}
+                  className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm italic"
+                  title="İtalik metin"
+                >
+                  I
+                </button>
+                <button
+                  type="button"
+                  onClick={() => insertText('\n## ', '')}
+                  className="px-3 py-1 bg-white/10 text-white rounded-lg hover:bg-white/20 transition-colors text-sm"
+                  title="Başlık"
+                >
+                  H
+                </button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleQuickImageUpload}
+                  className="hidden"
+                  id="quick-image-upload"
+                />
+                <label
+                  htmlFor="quick-image-upload"
+                  className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm cursor-pointer flex items-center"
+                  title="Resim ekle"
+                >
+                  📷 Resim
+                </label>
+              </div>
+              <div className="text-xs text-gray-400">
+                💡 <strong>İpucu:</strong> Resim yüklendiğinde <code className="bg-white/10 px-1 rounded">[RESIM-1]</code> şeklinde kısa bir kod eklenir. Bu kodu istediğiniz yere taşıyabilirsiniz.
+              </div>
             </div>
 
             <textarea
