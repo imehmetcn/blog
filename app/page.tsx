@@ -157,7 +157,7 @@ export default function HomePage() {
               <div className="col-span-full text-center py-12">
                 <p className="text-gray-400 text-lg">Henüz blog yazısı yok</p>
                 <Link href="/login" className="text-blue-400 hover:text-blue-300 mt-2 inline-block">
-                  Giriş yaparak ilk yazınızı oluşturun elif hanım
+                  Giriş yaparak ilk yazınızı oluşturun
                 </Link>
               </div>
             ) : (

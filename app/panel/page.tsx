@@ -139,35 +139,36 @@ export default function AdminPanel() {
       </div>
 
       {/* Header */}
-      <header className="relative z-10 bg-black/20 backdrop-blur-md border-b border-white/10 pt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <header className="relative z-10 bg-black/20 backdrop-blur-md border-b border-white/10 pt-16 sm:pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col gap-4">
             <div className="animate-fade-in-up">
-              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-200 to-purple-200 bg-clip-text text-transparent">
                 Blog Yönetim Paneli
               </h1>
+              <p className="text-gray-300 mt-1 sm:mt-2 text-sm sm:text-base">Blog yazılarınızı yönetin ve düzenleyin</p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2 sm:gap-3">
               <Link
                 href="/"
-                className="bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center shadow-lg hover:shadow-xl"
+                className="bg-white/10 backdrop-blur-md text-white px-3 sm:px-4 py-2 rounded-xl font-medium hover:bg-white/20 transition-all duration-300 border border-white/20 flex items-center shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
-                <Home className="w-4 h-4 mr-2" />
-                Ana Sayfa
+                <Home className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Ana Sayfa</span>
               </Link>
               <Link
                 href="/panel/new"
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-medium hover:shadow-lg transition-all duration-300 flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm sm:text-base"
               >
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4 mr-1 sm:mr-2" />
                 Yeni Yazı
               </Link>
               <button
                 onClick={handleLogout}
-                className="bg-red-600/20 backdrop-blur-md text-red-300 px-4 py-2 rounded-xl font-medium hover:bg-red-600/30 transition-all duration-300 border border-red-500/30 flex items-center shadow-lg hover:shadow-xl"
+                className="bg-red-600/20 backdrop-blur-md text-red-300 px-3 sm:px-4 py-2 rounded-xl font-medium hover:bg-red-600/30 transition-all duration-300 border border-red-500/30 flex items-center shadow-lg hover:shadow-xl text-sm sm:text-base"
               >
-                <LogOut className="w-4 h-4 mr-2" />
-                Çıkış
+                <LogOut className="w-4 h-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Çıkış</span>
               </button>
             </div>
           </div>
@@ -183,91 +184,94 @@ export default function AdminPanel() {
         ) : (
           <>
             {/* Welcome Message */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 text-white p-6 mb-8 animate-fade-in-up card-hover">
-              <h2 className="text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Hoş Geldin Elif Hanım (:
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 text-white p-4 sm:p-6 mb-6 sm:mb-8 animate-fade-in-up card-hover">
+              <h2 className="text-xl sm:text-2xl font-bold mb-2 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Hoş Geldiniz! 👋
               </h2>
-              <p className="text-gray-300">Buradan yazılarınızı oluşturabilir düzenleyebilir ve yönetebilirsiniz</p>
+              <p className="text-gray-300 text-sm sm:text-base">Buradan yazılarınızı oluşturabilir, düzenleyebilir ve yönetebilirsiniz</p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              <div className="bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Toplam Yazı</h3>
-                    <p className="text-3xl font-bold text-blue-400">{posts.length}</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Toplam Yazı</h3>
+                    <p className="text-2xl sm:text-3xl font-bold text-blue-400">{posts.length}</p>
                   </div>
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                    <Edit className="w-6 h-6 text-blue-400" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                    <Edit className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Yayında</h3>
-                    <p className="text-3xl font-bold text-green-400">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Yayında</h3>
+                    <p className="text-2xl sm:text-3xl font-bold text-green-400">
                       {posts.filter(p => p.status === 'published').length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                    <Eye className="w-6 h-6 text-green-400" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
+                    <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-green-400" />
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+              <div className="bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-2xl border border-white/10 hover:border-white/20 transition-all duration-300 card-hover animate-fade-in-up sm:col-span-2 lg:col-span-1" style={{ animationDelay: '0.3s' }}>
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Taslak</h3>
-                    <p className="text-3xl font-bold text-yellow-400">
+                    <h3 className="text-base sm:text-lg font-semibold text-white mb-2">Taslak</h3>
+                    <p className="text-2xl sm:text-3xl font-bold text-yellow-400">
                       {posts.filter(p => p.status === 'draft').length}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
-                    <Calendar className="w-6 h-6 text-yellow-400" />
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                    <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" />
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Filters */}
-            <div className="bg-white/5 backdrop-blur-md p-6 rounded-2xl shadow-2xl border border-white/10 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="flex flex-wrap gap-4">
+            <div className="bg-white/5 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-2xl border border-white/10 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="flex flex-wrap gap-2 sm:gap-4">
                 <button
                   onClick={() => setFilter('all')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'all'
+                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-xl transition-all duration-200 font-medium text-sm sm:text-base ${filter === 'all'
                       ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                     }`}
                 >
-                  Tümü ({posts.length})
+                  <span className="hidden sm:inline">Tümü ({posts.length})</span>
+                  <span className="sm:hidden">Tümü</span>
                 </button>
                 <button
                   onClick={() => setFilter('published')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'published'
+                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-xl transition-all duration-200 font-medium text-sm sm:text-base ${filter === 'published'
                       ? 'bg-gradient-to-r from-green-600 to-green-700 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                     }`}
                 >
-                  Yayında ({posts.filter(p => p.status === 'published').length})
+                  <span className="hidden sm:inline">Yayında ({posts.filter(p => p.status === 'published').length})</span>
+                  <span className="sm:hidden">Yayında</span>
                 </button>
                 <button
                   onClick={() => setFilter('draft')}
-                  className={`px-6 py-3 rounded-xl transition-all duration-200 font-medium ${filter === 'draft'
+                  className={`px-3 sm:px-6 py-2 sm:py-3 rounded-xl transition-all duration-200 font-medium text-sm sm:text-base ${filter === 'draft'
                       ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white shadow-lg transform hover:-translate-y-0.5'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white border border-white/20'
                     }`}
                 >
-                  Taslak ({posts.filter(p => p.status === 'draft').length})
+                  <span className="hidden sm:inline">Taslak ({posts.filter(p => p.status === 'draft').length})</span>
+                  <span className="sm:hidden">Taslak</span>
                 </button>
               </div>
             </div>
 
-            {/* Posts List */}
-            <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            {/* Posts List - Desktop Table */}
+            <div className="hidden md:block bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-white/10 border-b border-white/20">
@@ -279,7 +283,7 @@ export default function AdminPanel() {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredPosts.map((post, index) => (
+                    {filteredPosts.map((post) => (
                       <tr key={post.id} className="border-b border-white/10 hover:bg-white/5 transition-colors">
                         <td className="py-4 px-6">
                           <div>
@@ -332,6 +336,54 @@ export default function AdminPanel() {
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Posts List - Mobile Cards */}
+            <div className="md:hidden space-y-4 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+              {filteredPosts.map((post) => (
+                <div key={post.id} className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl border border-white/10 p-4 hover:bg-white/10 transition-all duration-300">
+                  <div className="flex justify-between items-start mb-3">
+                    <h4 className="font-semibold text-white text-lg flex-1 pr-2">{post.title}</h4>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${post.status === 'published'
+                        ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                        : 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30'
+                      }`}>
+                      {post.status === 'published' ? 'Yayında' : 'Taslak'}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-center text-sm text-gray-300 mb-4">
+                    <Calendar className="w-4 h-4 mr-2 text-blue-400" />
+                    {formatDistanceToNow(post.createdAt, { addSuffix: true, locale: tr })}
+                  </div>
+
+                  <div className="flex justify-end space-x-2">
+                    {post.status === 'published' && (
+                      <Link
+                        href={`/blog/${post.slug}`}
+                        className="flex items-center space-x-1 px-3 py-2 text-gray-300 hover:text-blue-400 transition-colors rounded-lg hover:bg-blue-500/20 text-sm"
+                      >
+                        <Eye className="w-4 h-4" />
+                        <span>Görüntüle</span>
+                      </Link>
+                    )}
+                    <Link
+                      href={`/panel/edit/${post.id}`}
+                      className="flex items-center space-x-1 px-3 py-2 text-gray-300 hover:text-green-400 transition-colors rounded-lg hover:bg-green-500/20 text-sm"
+                    >
+                      <Edit className="w-4 h-4" />
+                      <span>Düzenle</span>
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(post.id)}
+                      className="flex items-center space-x-1 px-3 py-2 text-gray-300 hover:text-red-400 transition-colors rounded-lg hover:bg-red-500/20 text-sm"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Sil</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {!loading && filteredPosts.length === 0 && (
