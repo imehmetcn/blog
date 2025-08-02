@@ -102,9 +102,13 @@ export default function NewPostPage() {
 
         console.log(`İçerik resmi yüklendi - Boyut: ${Math.round(result.length / 1024)} KB`)
         
+        const newImages = [...formData.contentImages, result]
+        const imageMarkdown = `\n\n![İçerik resmi ${newImages.length}](${result})\n\n`
+        
         setFormData({
           ...formData,
-          contentImages: [...formData.contentImages, result]
+          contentImages: newImages,
+          content: formData.content + imageMarkdown
         })
       }
       reader.readAsDataURL(file)
@@ -259,6 +263,17 @@ export default function NewPostPage() {
             <label htmlFor="content" className="block text-sm font-medium text-white mb-2">
               İçerik
             </label>
+            <div className="mb-4 p-4 bg-blue-900/20 rounded-xl border border-blue-500/30">
+              <h4 className="text-white font-medium mb-2">📝 Markdown Kullanım Kılavuzu:</h4>
+              <div className="text-sm text-gray-300 space-y-1">
+                <p><code className="bg-white/10 px-1 rounded"># Başlık</code> - Ana başlık</p>
+                <p><code className="bg-white/10 px-1 rounded">## Alt Başlık</code> - Alt başlık</p>
+                <p><code className="bg-white/10 px-1 rounded">**kalın**</code> - <strong>Kalın metin</strong></p>
+                <p><code className="bg-white/10 px-1 rounded">*italik*</code> - <em>İtalik metin</em></p>
+                <p><code className="bg-white/10 px-1 rounded">![Açıklama](resim-url)</code> - Resim ekleme</p>
+                <p><code className="bg-white/10 px-1 rounded">- Liste öğesi</code> - Madde işareti</p>
+              </div>
+            </div>
             <textarea
               id="content"
               name="content"
@@ -266,7 +281,7 @@ export default function NewPostPage() {
               onChange={handleChange}
               rows={15}
               className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="Yazınızın içeriğini buraya yazın... (Markdown desteklenir)"
+              placeholder="# Blog Yazım Başlığı&#10;&#10;Bu bir paragraf. **Kalın metin** ve *italik metin* kullanabilirsiniz.&#10;&#10;## Alt Başlık&#10;&#10;Resim eklemek için yukarıdan resim yükleyin, sonra:&#10;![Resim açıklaması](resim-url)&#10;&#10;- Liste öğesi 1&#10;- Liste öğesi 2&#10;&#10;> Bu bir alıntı&#10;&#10;Daha fazla paragraf..."
               required
             />
           </div>

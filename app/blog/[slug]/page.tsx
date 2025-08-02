@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 import { tr } from 'date-fns/locale'
 import { Calendar, ArrowLeft, Edit } from 'lucide-react'
 import { getBlogPost, BlogPost } from '../../../lib/blog-data'
+import { marked } from 'marked'
 
 interface BlogPostPageProps {
   params: {
@@ -17,6 +18,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const [post, setPost] = useState<BlogPost | null>(null)
   const [loading, setLoading] = useState(true)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [processedContent, setProcessedContent] = useState('')
 
   useEffect(() => {
     // Authentication durumunu kontrol et
@@ -26,7 +28,31 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     const loadPost = async () => {
       try {
         const foundPost = await getBlogPost(params.slug)
-        setPost(foundPost)
+        if (foundPost) {
+          setPost(foundPost)
+          
+          // Markdown içeriğini işle ve resimleri entegre et
+          let content = foundPost.content
+          
+          // İçerik resimlerini Markdown içine entegre et
+          if (foundPost.contentImages && foundPost.contentImages.length > 0) {
+            foundPost.contentImages.forEach((image, index) => {
+              const placeholder = `![İçerik resmi ${index + 1}](${image})`
+              // Eğer içerikte bu resim referansı yoksa, otomatik ekle
+              if (!content.includes(`![`) || !content.includes(image)) {
+                // İçeriği paragraflara böl ve resimleri araya serpiştir
+                const paragraphs = content.split('\n\n')
+                const insertIndex = Math.min(index + 1, paragraphs.length)
+                paragraphs.splice(insertIndex, 0, placeholder)
+                content = paragraphs.join('\n\n')
+              }
+            })
+          }
+          
+          // Markdown'ı HTML'e çevir
+          const htmlContent = await marked(content)
+          setProcessedContent(htmlContent)
+        }
       } catch (error) {
         console.error('Blog post yüklenemedi:', error)
       } finally {
@@ -121,38 +147,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden border border-white/10">
           <article className="p-8 md:p-12">
-            {/* İçerik */}
+            {/* Markdown İçerik */}
             <div
-              className="prose prose-lg max-w-none text-gray-200"
+              className="prose-custom"
               dangerouslySetInnerHTML={{
-                __html: post.content
-                  .replace(/^### (.*$)/gim, '<h3 class="text-xl font-semibold text-white mt-8 mb-4">$1</h3>')
-                  .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold text-white mt-10 mb-6">$1</h2>')
-                  .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold text-white mt-12 mb-8">$1</h1>')
-                  .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
-                  .replace(/\*(.*?)\*/g, '<em class="italic text-gray-300">$1</em>')
-                  .replace(/\n\n/g, '</p><p class="text-gray-200 leading-relaxed mb-4">')
-                  .replace(/\n/g, '<br>')
+                __html: processedContent
               }}
             />
-
-            {/* İçerik Resimleri */}
-            {post.contentImages && post.contentImages.length > 0 && (
-              <div className="mt-12">
-                <div className="grid gap-6">
-                  {post.contentImages.map((image, index) => (
-                    <div key={index} className="text-center">
-                      <img
-                        src={image}
-                        alt={`İçerik resmi ${index + 1}`}
-                        className="rounded-lg shadow-lg border border-white/20 mx-auto max-w-full h-auto"
-                        style={{ maxHeight: '500px' }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
           </article>
 
 
